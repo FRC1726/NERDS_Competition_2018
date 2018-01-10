@@ -9,6 +9,7 @@ public:
 	DriveTrain();
 	void InitDefaultCommand();
 	void arcadeDrive(double, double);
+	void Stop();
 private:
 	RobotDrive driveTrain;
 };

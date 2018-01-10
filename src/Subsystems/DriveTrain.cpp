@@ -15,3 +15,7 @@ void DriveTrain::InitDefaultCommand() {
 void DriveTrain::arcadeDrive(double speed, double turn){
 	driveTrain.ArcadeDrive(speed, turn);
 }
+
+void DriveTrain::Stop(){
+	arcadeDrive(0,0);
+}
