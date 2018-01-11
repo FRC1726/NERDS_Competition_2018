@@ -16,4 +16,10 @@ constexpr int RIGHT_Y = 5;
 constexpr int LEFT_TRIG = 2;
 constexpr int RIGHT_TRIG = 3;
 
+//encoder channels
+constexpr int LA_CHANNEL = 0;
+constexpr int LB_CHANNEL = 1;
+constexpr int RA_CHANNEL = 2;
+constexpr int RB_CHANNEL = 4;
+
 #endif  // ROBOTMAP_H
