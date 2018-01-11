@@ -8,7 +8,9 @@
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
 	rightController(DRIVE_RIGHT),
-	driveTrain(leftController, rightController)
+	driveTrain(leftController, rightController),
+	Lencoder(LA_CHANNEL, LB_CHANNEL),
+	Rencoder(RA_CHANNEL, RB_CHANNEL)
 {
 
 }

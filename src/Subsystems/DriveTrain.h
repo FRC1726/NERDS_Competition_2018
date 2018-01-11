@@ -4,6 +4,7 @@
 #include <Commands/Subsystem.h>
 #include <Drive/DifferentialDrive.h>
 #include <Talon.h>
+#include <Encoder.h>
 
 class DriveTrain : public Subsystem {
 public:
@@ -15,6 +16,8 @@ private:
 	Talon leftController;
 	Talon rightController;
 	DifferentialDrive driveTrain;
+	Encoder Lencoder;
+	Encoder Rencoder;
 };
 
 #endif  // DriveTrain_H
