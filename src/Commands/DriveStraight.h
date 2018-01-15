@@ -5,7 +5,7 @@
 
 class DriveStraight : public CommandBase {
 public:
-	DriveStraight(double, double);
+	DriveStraight(double, double, double);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -14,8 +14,10 @@ public:
 
 private:
 	double speed;
+	double Leftintial;
+	double Rightinitial;
 	double target;
-	double position;
+	double distance;
 };
 
 #endif  // DriveStraight_H

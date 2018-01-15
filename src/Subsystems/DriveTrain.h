@@ -8,10 +8,15 @@
 
 class DriveTrain : public Subsystem {
 public:
+	enum encoderSide{
+		kLeft,
+		kRight
+	};
 	DriveTrain();
 	void InitDefaultCommand();
 	void arcadeDrive(double, double);
 	void Stop();
+	double getEncoderValue(encoderSide);
 private:
 	Talon leftController;
 	Talon rightController;
