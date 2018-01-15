@@ -15,6 +15,7 @@ private:
 	Talon leftController;
 	Talon rightController;
 	DifferentialDrive driveTrain;
+	double driveProfile(double);
 };
 
 #endif  // DriveTrain_H

@@ -1,6 +1,6 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-
+#include <math.h>
 #include "../Commands/ArcadeDriveWithJoysticks.h"
 
 
@@ -20,9 +20,19 @@ void DriveTrain::InitDefaultCommand() {
 }
 
 void DriveTrain::arcadeDrive(double speed, double turn){
-	driveTrain.ArcadeDrive(speed, turn);
+	driveTrain.ArcadeDrive(driveProfile(speed), driveProfile(turn));
 }
 
 void DriveTrain::Stop(){
 	arcadeDrive(0,0);
+}
+
+double DriveTrain::driveProfile(double input){
+	if(abs(input) <= DEADZONE){
+		return 0;
+	}
+	if(input > 0)
+		return (FULLSPEED - INITIALSPEED) * abs(input) + INITIALSPEED;
+	if(input < 0)
+		return -((FULLSPEED - INITIALSPEED) * abs(input) + INITIALSPEED);
 }
