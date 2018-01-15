@@ -2,6 +2,7 @@
 #define OI_H
 
 #include <Joystick.h>
+#include <Buttons/JoystickButton.h>
 
 class OI {
 public:
@@ -9,6 +10,7 @@ public:
 	double getAxis(int);
 private:
 	Joystick driver;
+	JoystickButton driverB;
 };
 
 #endif  // OI_H

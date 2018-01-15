@@ -8,6 +8,11 @@ constexpr int DRIVE_RIGHT = 1;
 //Joystick Ports
 constexpr int JOY_DRIVER = 0;
 
+//joystick buttons
+constexpr int BUTTON_A = 1;
+constexpr int BUTTON_B = 2;
+constexpr int BUTTON_X = 3;
+constexpr int BUTTON_Y = 4;
 //Axis Values
 constexpr int LEFT_X = 0;
 constexpr int LEFT_Y = 1;

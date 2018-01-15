@@ -11,7 +11,18 @@
 
 #include "CommandBase.h"
 
+//static unique_ptr for each subsystem
+std::unique_ptr<OI> Robot::oi = std::make_unique<OI>();
+std::unique_ptr<DriveTrain> Robot::drivetrain = std::make_unique<DriveTrain>();
+
+Robot::Robot(){
+	Robot::oi.reset(new OI);
+	Robot::drivetrain.reset(new DriveTrain);
+}
+
 void Robot::RobotInit(){
+	Robot::oi.reset(new OI());
+	Robot::drivetrain.reset(new DriveTrain());
 	// chooser.AddObject("My Auto", new MyAutoCommand());
 	frc::SmartDashboard::PutData("Auto Modes", &chooser);
 }

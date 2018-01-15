@@ -14,10 +14,9 @@ public:
 
 private:
 	double speed;
-	double Leftintial;
+	double Leftinitial;
 	double Rightinitial;
 	double target;
-	double distance;
 };
 
 #endif  // DriveStraight_H
