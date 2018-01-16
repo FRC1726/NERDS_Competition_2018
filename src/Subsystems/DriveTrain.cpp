@@ -3,8 +3,12 @@
 
 #include "../Commands/ArcadeDriveWithJoysticks.h"
 
+
+
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
-	driveTrain(DRIVE_LEFT, DRIVE_RIGHT)
+	leftController(DRIVE_LEFT),
+	rightController(DRIVE_RIGHT),
+	driveTrain(leftController, rightController)
 {
 
 }

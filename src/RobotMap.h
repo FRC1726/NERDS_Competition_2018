@@ -11,7 +11,9 @@ constexpr int JOY_DRIVER = 0;
 //Axis Values
 constexpr int LEFT_X = 0;
 constexpr int LEFT_Y = 1;
-constexpr int RIGHT_X = 2;
-constexpr int RIGHT_Y = 3;
+constexpr int RIGHT_X = 4;
+constexpr int RIGHT_Y = 5;
+constexpr int LEFT_TRIG = 2;
+constexpr int RIGHT_TRIG = 3;
 
 #endif  // ROBOTMAP_H

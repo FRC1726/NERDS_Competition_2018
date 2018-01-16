@@ -2,7 +2,8 @@
 #define DriveTrain_H
 
 #include <Commands/Subsystem.h>
-#include <RobotDrive.h>
+#include <Drive/DifferentialDrive.h>
+#include <Talon.h>
 
 class DriveTrain : public Subsystem {
 public:
@@ -11,7 +12,9 @@ public:
 	void arcadeDrive(double, double);
 	void Stop();
 private:
-	RobotDrive driveTrain;
+	Talon leftController;
+	Talon rightController;
+	DifferentialDrive driveTrain;
 };
 
 #endif  // DriveTrain_H
