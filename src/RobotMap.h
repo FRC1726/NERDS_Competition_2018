@@ -19,5 +19,6 @@ constexpr int RIGHT_TRIG = 3;
 //Drive Values
 constexpr double DEADZONE = 0.025;
 constexpr double INITIALSPEED = 0.1;
-constexpr double FULLSPEED = 1
+constexpr double FULLSPEED = 1;
+
 #endif  // ROBOTMAP_H
