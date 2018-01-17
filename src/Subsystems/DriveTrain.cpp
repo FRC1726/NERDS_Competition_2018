@@ -10,7 +10,8 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	rightController(DRIVE_RIGHT),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
-	Rencoder(RA_CHANNEL, RB_CHANNEL)
+	Rencoder(RA_CHANNEL, RB_CHANNEL),
+	gyro(SPI::Port::kOnboardCS0)
 {
 
 }
@@ -29,10 +30,16 @@ void DriveTrain::Stop(){
 	arcadeDrive(0,0);
 }
 
+<<<<<<< HEAD
 double DriveTrain::getEncoderValue(encoderSide choice){
 	if (choice == kLeft){
 		return Lencoder.GetDistance();
 	}else if(choice == kRight){
 		return Rencoder.GetDistance();
 	}
+=======
+double DriveTrain::getAngle(){
+	return gyro.GetAngle();
+
+>>>>>>> Added Gyro to DriveTrain
 }
