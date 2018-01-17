@@ -16,4 +16,7 @@ constexpr int RIGHT_Y = 5;
 constexpr int LEFT_TRIG = 2;
 constexpr int RIGHT_TRIG = 3;
 
+//Pneumatic Ports
+constexpr int PNEU_GRABBER = 0;
+
 #endif  // ROBOTMAP_H
