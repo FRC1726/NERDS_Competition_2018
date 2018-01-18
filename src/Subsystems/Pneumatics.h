@@ -8,6 +8,9 @@ class Pneumatics : public Subsystem {
 public:
 	Pneumatics();
 	void InitDefaultCommand();
+	void GrabberOn();
+	void GrabberOff();
+	void GetGrabberState();
 private:
 	Solenoid Grabber;
 };
