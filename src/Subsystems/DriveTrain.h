@@ -17,21 +17,15 @@ public:
 	void InitDefaultCommand();
 	void arcadeDrive(double, double);
 	void Stop();
-<<<<<<< HEAD
 	double getEncoderValue(encoderSide);
-=======
 	double getAngle();
->>>>>>> Added Gyro to DriveTrain
 private:
 	Talon leftController;
 	Talon rightController;
 	DifferentialDrive driveTrain;
-<<<<<<< HEAD
 	Encoder Lencoder;
 	Encoder Rencoder;
-=======
 	AHRS gyro;
->>>>>>> Added Gyro to DriveTrain
 };
 
 #endif  // DriveTrain_H

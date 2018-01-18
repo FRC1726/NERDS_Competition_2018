@@ -2,8 +2,7 @@
 #include "../RobotMap.h"
 
 #include "../Commands/ArcadeDriveWithJoysticks.h"
-
-
+#include <I2C.h>
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
@@ -11,7 +10,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(SPI::Port::kOnboardCS0)
+	gyro(I2C::Port::kOnboard)
 {
 
 }
@@ -30,16 +29,15 @@ void DriveTrain::Stop(){
 	arcadeDrive(0,0);
 }
 
-<<<<<<< HEAD
 double DriveTrain::getEncoderValue(encoderSide choice){
 	if (choice == kLeft){
 		return Lencoder.GetDistance();
 	}else if(choice == kRight){
 		return Rencoder.GetDistance();
 	}
-=======
+}
+
 double DriveTrain::getAngle(){
 	return gyro.GetAngle();
 
->>>>>>> Added Gyro to DriveTrain
 }
