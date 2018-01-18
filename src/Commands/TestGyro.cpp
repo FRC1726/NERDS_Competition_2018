@@ -1,6 +1,6 @@
 #include "TestGyro.h"
 #include "../Subsystems/DriveTrain.h"
-#include <networktables/NetworkTable.h>
+#include <networktables/NetworkTableInstance.h>
 
 
 TestGyro::TestGyro() {
@@ -11,8 +11,9 @@ TestGyro::TestGyro() {
 
 // Called just before this Command runs the first time
 void TestGyro::Initialize() {
-	NetworkTable::GetInstance()->PutNumber("Gyro Value", drivetrain->getAngle());
+	networkTable->GetEntry("Gyro").SetDouble(drivetrain->getAngle());
 }
+
 
 // Called repeatedly when this Command is scheduled to run
 void TestGyro::Execute() {
@@ -21,7 +22,7 @@ void TestGyro::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool TestGyro::IsFinished() {
-	return false;
+	return true;
 }
 
 // Called once after isFinished returns true

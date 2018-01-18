@@ -1,5 +1,7 @@
 #include <memory>
 
+#include <networktables/NetworkTableInstance.h>
+
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>
 #include <IterativeRobot.h>
@@ -16,6 +18,7 @@ Robot::Robot(){
 }
 
 void Robot::RobotInit(){
+	CommandBase::networkTable->StartServer();
 	// chooser.AddObject("My Auto", new MyAutoCommand());
 	frc::SmartDashboard::PutData("Auto Modes", &chooser);
 }

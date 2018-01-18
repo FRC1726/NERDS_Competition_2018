@@ -11,6 +11,8 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+private:
+
 };
 
 #endif  // TestGyro_H
