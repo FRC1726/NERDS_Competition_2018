@@ -21,6 +21,6 @@ void Pneumatics::GrabberOn(){
 void Pneumatics::GrabberOff(){
 	Grabber.Set(false);
 }
-void Pneumatics::GetGrabberState(){
-	Grabber.Get();
+bool Pneumatics::GetGrabberState(){
+	return Grabber.Get();
 }
