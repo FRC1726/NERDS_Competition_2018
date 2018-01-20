@@ -4,7 +4,6 @@
 #include <Joystick.h>
 #include <Buttons/JoystickButton.h>
 
-
 class OI {
 public:
 	OI();

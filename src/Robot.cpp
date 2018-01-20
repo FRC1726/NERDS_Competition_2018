@@ -11,6 +11,10 @@
 
 #include "CommandBase.h"
 
+Robot::Robot(){
+
+}
+
 void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
 	frc::SmartDashboard::PutData("Auto Modes", &chooser);

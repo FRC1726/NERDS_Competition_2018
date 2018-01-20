@@ -2,10 +2,8 @@
 
 #include <Commands/Scheduler.h>
 
-// Initialize a single static instance of all of your subsystems. The following
-// line should be repeated for each subsystem in the project.
 std::unique_ptr<OI> CommandBase::oi = std::make_unique<OI>();
-std::unique_ptr<DriveTrain> CommandBase::drivetrain = std::make_unique<DriveTrain>();
+DriveTrain CommandBase::drivetrain;
 std::unique_ptr<Pneumatics> CommandBase::pneumatics = std::make_unique<Pneumatics>();
 nt::NetworkTableInstance CommandBase::networktables = nt::NetworkTableInstance::GetDefault();
 

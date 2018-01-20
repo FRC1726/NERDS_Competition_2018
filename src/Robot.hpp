@@ -16,8 +16,19 @@
 
 #include "CommandBase.h"
 
+class RSub {
+public:
+	static RSub* GetInstance();
+	std::unique_ptr<OI> r_oi;
+	std::unique_ptr<DriveTrain> r_drivetrain;
+private:
+	RSub();
+	static RSub* instance;
+};
+
 class Robot: public frc::IterativeRobot {
 public:
+	Robot();
 	void RobotInit() override;
 	void DisabledInit() override;
 	void DisabledPeriodic() override;

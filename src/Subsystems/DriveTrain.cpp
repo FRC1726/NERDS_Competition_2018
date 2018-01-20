@@ -8,7 +8,9 @@
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
 	rightController(DRIVE_RIGHT),
-	driveTrain(leftController, rightController)
+	driveTrain(leftController, rightController),
+	Lencoder(LA_CHANNEL, LB_CHANNEL),
+	Rencoder(RA_CHANNEL, RB_CHANNEL)
 {
 
 }
@@ -25,4 +27,12 @@ void DriveTrain::arcadeDrive(double speed, double turn){
 
 void DriveTrain::Stop(){
 	arcadeDrive(0,0);
+}
+
+double DriveTrain::getEncoderValue(encoderSide choice){
+	if (choice == kLeft){
+		return Lencoder.GetDistance();
+	}else if(choice == kRight){
+		return Rencoder.GetDistance();
+	}
 }
