@@ -10,7 +10,6 @@ public:
 	double getAxis(int);
 private:
 	Joystick driver;
-	JoystickButton driverB;
 };
 
 #endif  // OI_H

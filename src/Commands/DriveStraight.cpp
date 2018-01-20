@@ -35,7 +35,7 @@ bool DriveStraight::IsFinished() {
 
 	double currentLeft =drivetrain.getEncoderValue(DriveTrain::kLeft);
 	double currentRight = drivetrain.getEncoderValue(DriveTrain::kRight);
-	if (currentLeft == (Leftinitial + target)){
+	if (currentLeft > (Leftinitial + target) - 4 && currentLeft < (Leftinitial + target) + 4){
 		return true;
 	}
 
