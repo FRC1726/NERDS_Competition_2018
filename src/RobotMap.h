@@ -18,6 +18,7 @@ constexpr int RIGHT_TRIG = 3;
 
 //BUTTONS
 constexpr int BUTTON_A = 1;
+constexpr int BUTTON_B = 2;
 
 //Pneumatic Ports
 constexpr int PNEU_GRABBER = 0;
