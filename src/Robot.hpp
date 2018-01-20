@@ -27,10 +27,6 @@ public:
 	void TeleopInit() override;
 	void TeleopPeriodic() override;
 	void TestPeriodic() override;
-
-	//static pointers to subsystems
-	static std::unique_ptr<OI> oi;
-	static std::unique_ptr<DriveTrain> drivetrain;
 private:
 	std::unique_ptr<frc::Command> autonomousCommand;
 	frc::SendableChooser<frc::Command*> chooser;

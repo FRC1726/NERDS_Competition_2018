@@ -20,6 +20,8 @@ public:
 	CommandBase() = default;
 
 	// Create a single static instance of all of your subsystems
+	static std::unique_ptr<OI> oi;
+	static std::unique_ptr<DriveTrain> drivetrain;
 };
 
 #endif  // COMMAND_BASE_H

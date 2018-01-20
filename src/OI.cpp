@@ -9,7 +9,7 @@ OI::OI() :
 	driverB(&driver, BUTTON_B)
 {
 	// Process operator interface input here.
-	driverB.WhenPressed(new DriveStraight(.26, 5, 3));
+	driverB.WhenPressed(new DriveStraight(.4, 500, 0));
 }
 
 double OI::getAxis(int axis){
