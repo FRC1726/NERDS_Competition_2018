@@ -11,8 +11,6 @@
 
 #include "CommandBase.h"
 
-//static unique_ptr for each subsystem
-
 Robot::Robot(){
 
 }

@@ -21,7 +21,7 @@ public:
 
 	// Create a single static instance of all of your subsystems
 	static std::unique_ptr<OI> oi;
-	static std::unique_ptr<DriveTrain> drivetrain;
+	static DriveTrain drivetrain;
 };
 
 #endif  // COMMAND_BASE_H

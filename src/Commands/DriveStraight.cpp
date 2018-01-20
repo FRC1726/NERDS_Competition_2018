@@ -1,30 +1,29 @@
 #include "DriveStraight.h"
-#include "Robot.hpp"
 
-DriveStraight::DriveStraight(double speed_in, double target_in, double TimeOut = 0) {
+DriveStraight::DriveStraight(double speed_in, double target_in, double TimeOut = 0) : CommandBase("DriveStraight") {
 	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(Robot::chassis.get());
+	// eg. Requires(chassis.get());
 	if (TimeOut > 0){
 		SetTimeout(TimeOut);
 	}
-	Requires(drivetrain.get());
+	Requires(&drivetrain);
 	speed = speed_in;
 	target = target_in;
 }
 
 // Called just before this Command runs the first time
 void DriveStraight::Initialize() {
-	Leftinitial = drivetrain->getEncoderValue(DriveTrain::kLeft);
-	Rightinitial = drivetrain->getEncoderValue(DriveTrain::kRight);
+	Leftinitial = drivetrain.getEncoderValue(DriveTrain::kLeft);
+	Rightinitial = drivetrain.getEncoderValue(DriveTrain::kRight);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveStraight::Execute() {
-	double currentLeft = drivetrain->getEncoderValue(DriveTrain::kLeft);
+	double currentLeft = drivetrain.getEncoderValue(DriveTrain::kLeft);
 	if (currentLeft > (Leftinitial + target)){
-		drivetrain->arcadeDrive(-speed, 0);
+		drivetrain.arcadeDrive(-speed, 0);
 	}else if (currentLeft < (Leftinitial + target)){
-		drivetrain->arcadeDrive(speed, 0);
+		drivetrain.arcadeDrive(speed, 0);
 	}
 }
 
@@ -34,8 +33,8 @@ bool DriveStraight::IsFinished() {
 		return true;
 	}
 
-	double currentLeft = drivetrain->getEncoderValue(DriveTrain::kLeft);
-	double currentRight = drivetrain->getEncoderValue(DriveTrain::kRight);
+	double currentLeft =drivetrain.getEncoderValue(DriveTrain::kLeft);
+	double currentRight = drivetrain.getEncoderValue(DriveTrain::kRight);
 	if (currentLeft == (Leftinitial + target)){
 		return true;
 	}
@@ -45,11 +44,11 @@ bool DriveStraight::IsFinished() {
 
 // Called once after isFinished returns true
 void DriveStraight::End() {
-	drivetrain->Stop();
+	drivetrain.Stop();
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void DriveStraight::Interrupted() {
-	drivetrain->Stop();
+	drivetrain.Stop();
 }
