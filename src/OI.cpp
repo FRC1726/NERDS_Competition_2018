@@ -5,7 +5,8 @@
 
 OI::OI() :
 	driver(JOY_DRIVER),
-	driver_a(&driver, BUTTON_A)
+	driver_a(&driver, BUTTON_A),
+	driver_b(&driver, BUTTON_B)
 {
 	// Process operator interface input here.
 	driver_a.WhenPressed(new ToggleGrabber);

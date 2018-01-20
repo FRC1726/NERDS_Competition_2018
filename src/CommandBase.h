@@ -26,7 +26,7 @@ public:
 	static std::unique_ptr<OI> oi;
 	static std::unique_ptr<DriveTrain> drivetrain;
 	static std::unique_ptr<Pneumatics> pneumatics;
-	static std::unique_ptr<nt::NetworkTableInstance> networktables;
+	static nt::NetworkTableInstance networktables;
 };
 
 #endif  // COMMAND_BASE_H
