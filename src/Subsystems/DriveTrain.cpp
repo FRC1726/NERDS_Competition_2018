@@ -2,7 +2,7 @@
 #include "../RobotMap.h"
 #include <math.h>
 #include "../Commands/ArcadeDriveWithJoysticks.h"
-
+#include <Preferences.h>
 
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
@@ -28,11 +28,11 @@ void DriveTrain::Stop(){
 }
 
 double DriveTrain::driveProfile(double input){
-	if(abs(input) <= DEADZONE){
+	if(fabs(input) <= Preferences::GetInstance()->GetDouble("Dead Zone", .025)){
 		return 0;
 	}
 	if(input > 0)
-		return (FULLSPEED - INITIALSPEED) * abs(input) + INITIALSPEED;
+		return (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
 	if(input < 0)
-		return -((FULLSPEED - INITIALSPEED) * abs(input) + INITIALSPEED);
+		return -((Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0));
 }
