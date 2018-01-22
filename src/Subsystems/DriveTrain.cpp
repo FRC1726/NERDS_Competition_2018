@@ -8,7 +8,9 @@
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
 	rightController(DRIVE_RIGHT),
-	driveTrain(leftController, rightController)
+	driveTrain(leftController, rightController),
+	Lencoder(LA_CHANNEL, LB_CHANNEL),
+	Rencoder(RA_CHANNEL, RB_CHANNEL)
 {
 
 }
@@ -35,4 +37,12 @@ double DriveTrain::driveProfile(double input){
 		return (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
 	if(input < 0)
 		return -((Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0));
+}
+
+double DriveTrain::getEncoderValue(encoderSide choice){
+	if (choice == kLeft){
+		return Lencoder.GetDistance();
+	}else if(choice == kRight){
+		return Rencoder.GetDistance();
+	}
 }
