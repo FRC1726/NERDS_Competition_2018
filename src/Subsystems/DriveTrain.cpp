@@ -2,7 +2,8 @@
 #include "../RobotMap.h"
 
 #include "../Commands/ArcadeDriveWithJoysticks.h"
-#include <I2C.h>
+#include <SerialPort.h>
+#include <iostream>
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
@@ -10,7 +11,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(I2C::Port::kOnboard)
+	gyro(SerialPort::Port::kMXP)
 {
 
 }
@@ -38,6 +39,9 @@ double DriveTrain::getEncoderValue(encoderSide choice){
 }
 
 double DriveTrain::getAngle(){
-	return gyro.GetAngle();
+	if(gyro.IsConnected())
+		std::cout << "Connected!" << std::endl;
+	std::cout << gyro.GetYaw() << std::endl;
+	return gyro.GetYaw();
 
 }

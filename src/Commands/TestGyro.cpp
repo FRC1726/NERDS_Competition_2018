@@ -1,6 +1,5 @@
 #include "TestGyro.h"
 #include "../Subsystems/DriveTrain.h"
-#include <networktables/NetworkTableInstance.h>
 
 
 TestGyro::TestGyro() {
@@ -11,7 +10,7 @@ TestGyro::TestGyro() {
 
 // Called just before this Command runs the first time
 void TestGyro::Initialize() {
-	networkTable->GetEntry("Gyro").SetDouble(drivetrain->getAngle());
+	SmartDashboard::PutNumber("Gyro", drivetrain.getAngle());
 }
 
 
