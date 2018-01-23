@@ -21,8 +21,10 @@ private:
 	Talon leftController;
 	Talon rightController;
 	DifferentialDrive driveTrain;
+
 	Encoder Lencoder;
 	Encoder Rencoder;
+  double driveProfile(double);
 };
 
 #endif  // DriveTrain_H
