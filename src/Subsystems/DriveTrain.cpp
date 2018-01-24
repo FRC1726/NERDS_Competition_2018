@@ -12,7 +12,8 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
 	Rencoder(RA_CHANNEL, RB_CHANNEL)
 {
-
+	leftController.SetInverted(true);
+	rightController.SetInverted(true);
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -22,7 +23,7 @@ void DriveTrain::InitDefaultCommand() {
 }
 
 void DriveTrain::arcadeDrive(double speed, double turn){
-	driveTrain.ArcadeDrive(driveProfile(speed), driveProfile(turn));
+	driveTrain.ArcadeDrive(-driveProfile(speed), driveProfile(turn));
 }
 
 void DriveTrain::Stop(){
