@@ -11,7 +11,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(SerialPort::Port::kMXP)
+	gyro(SerialPort::Port::kUSB1)
 {
 
 }

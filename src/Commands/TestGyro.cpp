@@ -1,6 +1,8 @@
 #include "TestGyro.h"
 #include "../Subsystems/DriveTrain.h"
 
+#include <iostream>
+
 
 TestGyro::TestGyro() {
 	// Use Requires() here to declare subsystem dependencies
@@ -10,6 +12,7 @@ TestGyro::TestGyro() {
 
 // Called just before this Command runs the first time
 void TestGyro::Initialize() {
+
 	SmartDashboard::PutNumber("Gyro", drivetrain.getAngle());
 }
 

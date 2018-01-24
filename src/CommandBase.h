@@ -10,6 +10,7 @@
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Pneumatics.h"
 #include "networktables/NetworkTableInstance.h"
+#include <AHRS.h>
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
