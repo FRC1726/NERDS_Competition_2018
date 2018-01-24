@@ -1,9 +1,12 @@
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-
+#include <math.h>
 #include "../Commands/ArcadeDriveWithJoysticks.h"
+
 #include <SerialPort.h>
 #include <iostream>
+#include <Preferences.h>
+
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
@@ -13,7 +16,8 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
 	gyro(SerialPort::Port::kUSB1)
 {
-
+	leftController.SetInverted(true);
+	rightController.SetInverted(true);
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -23,11 +27,21 @@ void DriveTrain::InitDefaultCommand() {
 }
 
 void DriveTrain::arcadeDrive(double speed, double turn){
-	driveTrain.ArcadeDrive(speed, turn);
+	driveTrain.ArcadeDrive(-driveProfile(speed), driveProfile(turn));
 }
 
 void DriveTrain::Stop(){
 	arcadeDrive(0,0);
+}
+
+double DriveTrain::driveProfile(double input){
+	if(fabs(input) <= Preferences::GetInstance()->GetDouble("Dead Zone", .025)){
+		return 0;
+	}
+	if(input > 0)
+		return (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
+	if(input < 0)
+		return -((Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0));
 }
 
 double DriveTrain::getEncoderValue(encoderSide choice){
