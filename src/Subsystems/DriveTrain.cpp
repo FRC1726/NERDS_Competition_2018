@@ -2,6 +2,9 @@
 #include "../RobotMap.h"
 #include <math.h>
 #include "../Commands/ArcadeDriveWithJoysticks.h"
+
+#include <SerialPort.h>
+#include <iostream>
 #include <Preferences.h>
 
 
@@ -10,7 +13,8 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	rightController(DRIVE_RIGHT),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
-	Rencoder(RA_CHANNEL, RB_CHANNEL)
+	Rencoder(RA_CHANNEL, RB_CHANNEL),
+	gyro(SerialPort::Port::kUSB1)
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
@@ -46,4 +50,12 @@ double DriveTrain::getEncoderValue(encoderSide choice){
 	}else if(choice == kRight){
 		return Rencoder.GetDistance();
 	}
+}
+
+double DriveTrain::getAngle(){
+	if(gyro.IsConnected())
+		std::cout << "Connected!" << std::endl;
+	std::cout << gyro.GetYaw() << std::endl;
+	return gyro.GetYaw();
+
 }

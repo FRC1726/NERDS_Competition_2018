@@ -1,5 +1,7 @@
 #include <memory>
 
+#include <networktables/NetworkTableInstance.h>
+
 #include <Commands/Command.h>
 #include <Commands/Scheduler.h>
 #include <IterativeRobot.h>

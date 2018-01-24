@@ -1,6 +1,7 @@
 #include "CommandBase.h"
 
 #include <Commands/Scheduler.h>
+#include <networktables/NetworkTableInstance.h>
 
 std::unique_ptr<OI> CommandBase::oi = std::make_unique<OI>();
 DriveTrain CommandBase::drivetrain;
