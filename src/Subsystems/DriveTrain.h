@@ -5,6 +5,7 @@
 #include <Drive/DifferentialDrive.h>
 #include <Talon.h>
 #include <Encoder.h>
+#include <VictorSP.h>
 
 class DriveTrain : public Subsystem {
 public:
@@ -18,8 +19,8 @@ public:
 	void Stop();
 	double getEncoderValue(encoderSide);
 private:
-	Talon leftController;
-	Talon rightController;
+	VictorSP leftController;
+	VictorSP rightController;
 	DifferentialDrive driveTrain;
 
 	Encoder Lencoder;

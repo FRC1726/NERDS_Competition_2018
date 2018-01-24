@@ -29,5 +29,6 @@ constexpr int RB_CHANNEL = 4;
 
 //Pneumatic Ports
 constexpr int PNEU_GRABBER = 0;
+constexpr int CLAW = 1;
 
 #endif  // ROBOTMAP_H
