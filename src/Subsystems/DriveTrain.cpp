@@ -18,6 +18,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
+	Lencoder.SetReverseDirection(true);
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -53,9 +54,12 @@ double DriveTrain::getEncoderValue(encoderSide choice){
 }
 
 double DriveTrain::getAngle(){
-	if(gyro.IsConnected())
-		std::cout << "Connected!" << std::endl;
-	std::cout << gyro.GetYaw() << std::endl;
-	return gyro.GetYaw();
+	return gyro.GetAngle();
 
+}
+
+void DriveTrain::updatSmartdashboard(){
+	SmartDashboard::PutNumber("Gyro", gyro.GetYaw());
+	SmartDashboard::PutNumber("LeftEncoder", Lencoder.GetDistance());
+	SmartDashboard::PutNumber("RightEncoder", Rencoder.GetDistance());
 }
