@@ -17,6 +17,7 @@ void AutoTurn::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void AutoTurn::Execute() {
 	double pidOut = drivetrain.getPidOut();
+	SmartDashboard::PutNumber("PidOut", pidOut);
 	if (pidOut > maxSpeed){
 		pidOut = maxSpeed;
 	}

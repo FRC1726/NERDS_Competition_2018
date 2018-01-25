@@ -15,7 +15,7 @@ OI::OI() :
 	// Process operator interface input here.
 	driver_a.WhenPressed(new ToggleGrabber);
 	driver_b.WhenPressed(new TestGyro);
-	driver_x.WhenPressed(new AutoTurn(50,0.35));
+	driver_x.WhenPressed(new AutoTurn(50,0.5));
 }
 
 double OI::getAxis(int axis){
