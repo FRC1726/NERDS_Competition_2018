@@ -13,17 +13,19 @@ DriveStraight::DriveStraight(double speed_in, double target_in, double TimeOut =
 
 // Called just before this Command runs the first time
 void DriveStraight::Initialize() {
+	drivetrain.setPoint(drivetrain.getAngle() );
 	Leftinitial = drivetrain.getEncoderValue(DriveTrain::kLeft);
 	Rightinitial = drivetrain.getEncoderValue(DriveTrain::kRight);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveStraight::Execute() {
+	SmartDashboard::PutNumber("TurnValue", drivetrain.getPIDOutput());
 	double currentLeft = drivetrain.getEncoderValue(DriveTrain::kLeft);
 	if (currentLeft > (Leftinitial + target)){
-		drivetrain.arcadeDrive(-speed, 0);
+		drivetrain.arcadeDrive(-speed, drivetrain.getPIDOutput());
 	}else if (currentLeft < (Leftinitial + target)){
-		drivetrain.arcadeDrive(speed, 0);
+		drivetrain.arcadeDrive(speed, drivetrain.getPIDOutput());
 	}
 }
 

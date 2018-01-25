@@ -22,6 +22,8 @@ public:
 	void Stop();
 	double getEncoderValue(encoderSide);
 	double getAngle();
+	double getPIDOutput();
+	void setPoint(double);
 private:
 	VictorSP leftController;
 	VictorSP rightController;

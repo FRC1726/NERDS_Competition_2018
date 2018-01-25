@@ -55,9 +55,14 @@ double DriveTrain::getEncoderValue(encoderSide choice){
 }
 
 double DriveTrain::getAngle(){
-	if(gyro.IsConnected())
-		std::cout << "Connected!" << std::endl;
-	std::cout << gyro.GetYaw() << std::endl;
-	return gyro.GetYaw();
+	return gyro.GetAngle();
 
+}
+
+double DriveTrain::getPIDOutput(){
+	return pidcontroller.Get();
+}
+
+void DriveTrain::setPoint(double target){
+	pidcontroller.SetSetpoint(target);
 }
