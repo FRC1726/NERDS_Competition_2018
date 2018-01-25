@@ -10,7 +10,7 @@ public:
 	void InitDefaultCommand();
 	void GrabberOn();
 	void GrabberOff();
-	bool GetGrabberState();
+	bool GetGrabberState(); // display this
 private:
 	Solenoid Grabber;
 };

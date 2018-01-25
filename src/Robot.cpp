@@ -12,14 +12,22 @@
 #include "Robot.hpp"
 
 #include "CommandBase.h"
+#include "Commands/UpdateSmartdashboard.h"
 
-Robot::Robot(){
+
+
+Robot::Robot() :
+	updateValues(new UpdateSmartdashboard)
+{
 
 }
 
 void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
 	frc::SmartDashboard::PutData("Auto Modes", &chooser);
+	if(!updateValues->IsRunning()){
+			updateValues->Start();
+		}
 }
 
 /**
@@ -28,7 +36,9 @@ void Robot::RobotInit(){
  * the robot is disabled.
  */
 void Robot::DisabledInit(){
-
+	if(!updateValues->IsRunning()){
+		updateValues->Start();
+	}
 }
 
 void Robot::DisabledPeriodic(){
@@ -55,6 +65,10 @@ void Robot::AutonomousInit(){
 		autonomousCommand.reset(new ExampleCommand());
 	} */
 
+	if(!updateValues->IsRunning()){
+			updateValues->Start();
+		}
+
 	autonomousCommand.reset(chooser.GetSelected());
 
 	if (autonomousCommand.get() != nullptr) {
@@ -74,6 +88,9 @@ void Robot::TeleopInit(){
 	if (autonomousCommand != nullptr) {
 		autonomousCommand->Cancel();
 	}
+	if(!updateValues->IsRunning()){
+			updateValues->Start();
+		}
 }
 
 void Robot::TeleopPeriodic(){

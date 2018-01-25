@@ -20,14 +20,15 @@ public:
 	void Stop();
 	double getEncoderValue(encoderSide);
 	double getAngle();
+	void updatSmartdashboard();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
 	DifferentialDrive driveTrain;
 
-	Encoder Lencoder;
-	Encoder Rencoder;
-	AHRS gyro;
+	Encoder Lencoder; // display this
+	Encoder Rencoder; // display this
+	AHRS gyro; // display this
   double driveProfile(double);
 
 };
