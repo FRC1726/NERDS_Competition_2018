@@ -14,7 +14,9 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(SerialPort::Port::kUSB1)
+	gyro(SerialPort::Port::kUSB1),
+	pidWrite(),
+	pidcontroller(1, 0, 0, &gyro, &pidWrite)
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);

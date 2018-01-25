@@ -6,6 +6,8 @@
 #include <Encoder.h>
 #include <AHRS.h>
 #include <VictorSP.h>
+#include <PIDController.h>
+#include "NERDS/PidOut.h"
 
 
 class DriveTrain : public Subsystem {
@@ -27,8 +29,13 @@ private:
 
 	Encoder Lencoder;
 	Encoder Rencoder;
+
 	AHRS gyro;
-  double driveProfile(double);
+
+	PidOut pidWrite;
+	PIDController pidcontroller;
+
+	double driveProfile(double);
 
 };
 
