@@ -38,6 +38,7 @@ public:
 	void TeleopPeriodic() override;
 	void TestPeriodic() override;
 private:
+	std::unique_ptr<frc::Command> updateValues;
 	std::unique_ptr<frc::Command> autonomousCommand;
 	frc::SendableChooser<frc::Command*> chooser;
 };

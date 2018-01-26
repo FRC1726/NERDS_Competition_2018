@@ -25,6 +25,7 @@ public:
 	double getPIDOutput();
 	void setPoint(double);
 	void setPID(double, double, double);
+	void updatSmartdashboard();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
@@ -34,12 +35,11 @@ private:
 	Encoder Rencoder;
 
 	AHRS gyro;
-
+  
 	PidOut pidWrite;
 	PIDController pidcontroller;
 
 	double driveProfile(double);
-
 };
 
 #endif  // DriveTrain_H
