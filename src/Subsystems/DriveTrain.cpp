@@ -16,10 +16,11 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
 	gyro(SerialPort::Port::kUSB1),
 	pidWrite(),
-	pidcontroller(1, 0, 0, &gyro, &pidWrite)
+	pidcontroller(0, 0, 0, &gyro, &pidWrite)
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
+	pidcontroller.Enable();
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -66,3 +67,8 @@ double DriveTrain::getPIDOutput(){
 void DriveTrain::setPoint(double target){
 	pidcontroller.SetSetpoint(target);
 }
+
+void DriveTrain::setPID(double p,double i,double d){
+	pidcontroller.SetPID(p, i, d);
+}
+

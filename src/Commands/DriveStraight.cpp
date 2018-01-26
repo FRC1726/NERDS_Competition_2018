@@ -13,6 +13,10 @@ DriveStraight::DriveStraight(double speed_in, double target_in, double TimeOut =
 
 // Called just before this Command runs the first time
 void DriveStraight::Initialize() {
+	double p = Preferences::GetInstance()->GetDouble("p", 0.1);
+	double i = Preferences::GetInstance()->GetDouble("i", 0.0);
+	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
+	drivetrain.setPID(p, i, d);
 	drivetrain.setPoint(drivetrain.getAngle() );
 	Leftinitial = drivetrain.getEncoderValue(DriveTrain::kLeft);
 	Rightinitial = drivetrain.getEncoderValue(DriveTrain::kRight);
