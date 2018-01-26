@@ -14,11 +14,14 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	driveTrain(leftController, rightController),
 	Lencoder(LA_CHANNEL, LB_CHANNEL),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(SerialPort::Port::kUSB1)
+	gyro(SerialPort::Port::kUSB1),
+	pidWrite(),
+	pidcontroller(0, 0, 0, &gyro, &pidWrite)
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
 	Lencoder.SetReverseDirection(true);
+  pidcontroller.Enable();
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -56,6 +59,18 @@ double DriveTrain::getEncoderValue(encoderSide choice){
 double DriveTrain::getAngle(){
 	return gyro.GetAngle();
 
+}
+
+double DriveTrain::getPIDOutput(){
+	return pidcontroller.Get();
+}
+
+void DriveTrain::setPoint(double target){
+	pidcontroller.SetSetpoint(target);
+}
+
+void DriveTrain::setPID(double p,double i,double d){
+	pidcontroller.SetPID(p, i, d);
 }
 
 void DriveTrain::updatSmartdashboard(){
