@@ -7,7 +7,6 @@
 #include <AHRS.h>
 #include <VictorSP.h>
 #include <PIDController.h>
-
 #include "NERDS/PidOut.h"
 
 
@@ -23,9 +22,10 @@ public:
 	void Stop();
 	double getEncoderValue(encoderSide);
 	double getAngle();
-	double getPidOut();
-	void setPidTarget(double);
+	double getPIDOutput();
+	void setPoint(double);
 	void setPID(double, double, double);
+	void updatSmartdashboard();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
@@ -33,11 +33,13 @@ private:
 
 	Encoder Lencoder;
 	Encoder Rencoder;
-	AHRS gyro;
-	PidOut pidWrite;
-	PIDController pid;
-  double driveProfile(double);
 
+	AHRS gyro;
+
+	PidOut pidWrite;
+	PIDController pidcontroller;
+
+	double driveProfile(double);
 };
 
 #endif  // DriveTrain_H

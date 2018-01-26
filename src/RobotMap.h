@@ -25,7 +25,7 @@ constexpr int RIGHT_TRIG = 3;
 constexpr int LA_CHANNEL = 0;
 constexpr int LB_CHANNEL = 1;
 constexpr int RA_CHANNEL = 2;
-constexpr int RB_CHANNEL = 4;
+constexpr int RB_CHANNEL = 3;
 
 //Pneumatic Ports
 constexpr int PNEU_GRABBER = 0;

@@ -16,11 +16,12 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	Rencoder(RA_CHANNEL, RB_CHANNEL),
 	gyro(SerialPort::Port::kUSB1),
 	pidWrite(),
-	pid(1.0 ,0.0 ,0.0 , &gyro, &pidWrite)
+	pidcontroller(0, 0, 0, &gyro, &pidWrite)
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
-	pid.Enable();
+	Lencoder.SetReverseDirection(true);
+  pidcontroller.Enable();
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -60,14 +61,20 @@ double DriveTrain::getAngle(){
 
 }
 
-double DriveTrain::getPidOut(){
-	return pidWrite.getPid();
-}
-void DriveTrain::setPidTarget(double target){
-	pid.SetSetpoint(target);
-
+double DriveTrain::getPIDOutput(){
+	return pidcontroller.Get();
 }
 
-void DriveTrain::setPID(double p, double i, double d){
-	pid.SetPID(p, i, d);
+void DriveTrain::setPoint(double target){
+	pidcontroller.SetSetpoint(target);
+}
+
+void DriveTrain::setPID(double p,double i,double d){
+	pidcontroller.SetPID(p, i, d);
+}
+
+void DriveTrain::updatSmartdashboard(){
+	SmartDashboard::PutNumber("Gyro", gyro.GetYaw());
+	SmartDashboard::PutNumber("LeftEncoder", Lencoder.GetDistance());
+	SmartDashboard::PutNumber("RightEncoder", Rencoder.GetDistance());
 }

@@ -2,6 +2,8 @@
 #define DriveStraight_H
 
 #include "../CommandBase.h"
+#include <Preferences.h>
+
 
 class DriveStraight : public CommandBase {
 public:
