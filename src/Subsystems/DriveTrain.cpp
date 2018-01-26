@@ -20,6 +20,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
+	pid.Enable();
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -67,3 +68,6 @@ void DriveTrain::setPidTarget(double target){
 
 }
 
+void DriveTrain::setPID(double p, double i, double d){
+	pid.SetPID(p, i, d);
+}

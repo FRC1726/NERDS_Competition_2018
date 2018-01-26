@@ -25,6 +25,7 @@ public:
 	double getAngle();
 	double getPidOut();
 	void setPidTarget(double);
+	void setPID(double, double, double);
 private:
 	VictorSP leftController;
 	VictorSP rightController;

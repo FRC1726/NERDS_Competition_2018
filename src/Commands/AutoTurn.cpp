@@ -1,4 +1,5 @@
 #include "AutoTurn.h"
+#include <Preferences.h>
 
 AutoTurn::AutoTurn(double angle, double speed) {
 	// Use Requires() here to declare subsystem dependencies
@@ -10,6 +11,10 @@ AutoTurn::AutoTurn(double angle, double speed) {
 
 // Called just before this Command runs the first time
 void AutoTurn::Initialize() {
+	double p = Preferences::GetInstance()->GetDouble("p", 0.1);
+	double i = Preferences::GetInstance()->GetDouble("i", 0.0);
+	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
+	drivetrain.setPID(p, i, d);
 	targetAngle = drivetrain.getAngle() + turnAngle;
 	drivetrain.setPidTarget(targetAngle);
 }
@@ -20,6 +25,8 @@ void AutoTurn::Execute() {
 	SmartDashboard::PutNumber("PidOut", pidOut);
 	if (pidOut > maxSpeed){
 		pidOut = maxSpeed;
+	} else if(pidOut < -maxSpeed) {
+		pidOut = -maxSpeed;
 	}
 	drivetrain.arcadeDrive(0,pidOut);
 }
