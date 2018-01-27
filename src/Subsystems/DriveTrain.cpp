@@ -36,21 +36,11 @@ void DriveTrain::InitDefaultCommand() {
 }
 
 void DriveTrain::arcadeDrive(double speed, double turn){
-	driveTrain.ArcadeDrive(-driveProfile(speed), driveProfile(turn));
+	driveTrain.ArcadeDrive(-speed,turn);
 }
 
 void DriveTrain::Stop(){
 	arcadeDrive(0,0);
-}
-
-double DriveTrain::driveProfile(double input){
-	if(fabs(input) <= Preferences::GetInstance()->GetDouble("Dead Zone", .025)){
-		return 0;
-	}
-	if(input > 0)
-		return (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
-	if(input < 0)
-		return -((Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0));
 }
 
 double DriveTrain::getEncoderValue(encoderSide choice){
