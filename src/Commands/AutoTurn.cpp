@@ -33,7 +33,7 @@ void AutoTurn::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool AutoTurn::IsFinished() {
-	if (drivetrain.getAngle() == targetAngle)
+	if (drivetrain.getAngle() > targetAngle -  1 && drivetrain.getAngle() < targetAngle + 1)
 		return true;
 	else
 		return false;
