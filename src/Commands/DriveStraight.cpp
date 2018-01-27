@@ -28,9 +28,9 @@ void DriveStraight::Execute() {
 	SmartDashboard::PutNumber("TurnValue", drivetrain.getPIDOutput());
 	double currentLeft = drivetrain.getEncoderValue(DriveTrain::kLeft);
 	if (currentLeft > (Leftinitial + target)){
-		drivetrain.arcadeDrive(-speed, drivetrain.getPIDOutput());
-	}else if (currentLeft < (Leftinitial + target)){
 		drivetrain.arcadeDrive(speed, drivetrain.getPIDOutput());
+	}else if (currentLeft < (Leftinitial + target)){
+		drivetrain.arcadeDrive(-speed, drivetrain.getPIDOutput());
 	}
 }
 

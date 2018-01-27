@@ -17,6 +17,7 @@ void AutoTurn::Initialize() {
 	drivetrain.setPID(p, i, d);
 	targetAngle = drivetrain.getAngle() + turnAngle;
 	drivetrain.setPoint(targetAngle);
+	drivetrain.setEnabled(true);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -42,10 +43,12 @@ bool AutoTurn::IsFinished() {
 // Called once after isFinished returns true
 void AutoTurn::End() {
 	drivetrain.Stop();
+	drivetrain.setEnabled(false);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void AutoTurn::Interrupted() {
 	drivetrain.Stop();
+	drivetrain.setEnabled(false);
 }
