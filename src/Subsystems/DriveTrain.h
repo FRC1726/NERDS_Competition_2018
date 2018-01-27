@@ -28,7 +28,7 @@ public:
 	double getPIDOutput();
 	void setPoint(double);
 	void setPID(double, double, double);
-
+	void setEnabled(bool);
 	void updatSmartdashboard();
 private:
 	VictorSP leftController;

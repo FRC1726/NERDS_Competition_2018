@@ -7,16 +7,26 @@ AutoTurn::AutoTurn(double angle, double speed) {
 	Requires(&drivetrain);
 	turnAngle = angle;
 	maxSpeed = speed;
+	if (!Preferences::GetInstance()->ContainsKey("Turn P")) {
+		Preferences::GetInstance()->PutDouble("Turn P", 0.1);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Turn I")) {
+			Preferences::GetInstance()->PutDouble("Turn I", 0.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Turn D")) {
+			Preferences::GetInstance()->PutDouble("Turn D", 0.0);
+	}
 }
 
 // Called just before this Command runs the first time
 void AutoTurn::Initialize() {
-	double p = Preferences::GetInstance()->GetDouble("p", 0.1);
-	double i = Preferences::GetInstance()->GetDouble("i", 0.0);
-	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
+	double p = Preferences::GetInstance()->GetDouble("Turn P", 0.1);
+	double i = Preferences::GetInstance()->GetDouble("Turn I", 0.0);
+	double d = Preferences::GetInstance()->GetDouble("Turn D", 0.0);
 	drivetrain.setPID(p, i, d);
 	targetAngle = drivetrain.getAngle() + turnAngle;
 	drivetrain.setPoint(targetAngle);
+	drivetrain.setEnabled(true);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -33,7 +43,7 @@ void AutoTurn::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool AutoTurn::IsFinished() {
-	if (drivetrain.getAngle() == targetAngle)
+	if (drivetrain.getAngle() > targetAngle -  1 && drivetrain.getAngle() < targetAngle + 1)
 		return true;
 	else
 		return false;
@@ -42,10 +52,12 @@ bool AutoTurn::IsFinished() {
 // Called once after isFinished returns true
 void AutoTurn::End() {
 	drivetrain.Stop();
+	drivetrain.setEnabled(false);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void AutoTurn::Interrupted() {
 	drivetrain.Stop();
+	drivetrain.setEnabled(false);
 }
