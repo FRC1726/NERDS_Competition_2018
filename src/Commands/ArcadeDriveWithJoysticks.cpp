@@ -15,7 +15,9 @@ void ArcadeDriveWithJoysticks::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void ArcadeDriveWithJoysticks::Execute() {
-	drivetrain.arcadeDrive(oi->getAxis(LEFT_Y), oi->getAxis(RIGHT_X));
+	double speed = driveProfile(oi->getAxis(LEFT_Y));
+	double turn = driveProfile(oi->getAxis(RIGHT_X));
+	drivetrain.arcadeDrive(speed, turn);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -32,4 +34,15 @@ void ArcadeDriveWithJoysticks::End() {
 // subsystems is scheduled to run
 void ArcadeDriveWithJoysticks::Interrupted() {
 	drivetrain.Stop();
+}
+
+double ArcadeDriveWithJoysticks::driveProfile(double input) {
+	if(fabs(input) <= Preferences::GetInstance()->GetDouble("Dead Zone", .025)){
+			return 0;
+		}
+		if(input > 0)
+			return (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
+		if(input < 0)
+			return -((Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0));
+
 }

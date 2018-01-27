@@ -43,7 +43,6 @@ private:
 	PidOut pidWrite;
 	PIDController pidcontroller;
 
-	double driveProfile(double);
 };
 
 #endif  // DriveTrain_H

@@ -11,6 +11,9 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
+
+private:
+	double driveProfile(double);
 };
 
 #endif  // ArcadeDriveWithJoysticks_H
