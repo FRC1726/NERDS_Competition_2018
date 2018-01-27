@@ -18,14 +18,18 @@ public:
 	};
 	DriveTrain();
 	void InitDefaultCommand();
+
 	void arcadeDrive(double, double);
 	void Stop();
 	double getEncoderValue(encoderSide);
+
 	double getAngle();
+
 	double getPIDOutput();
 	void setPoint(double);
 	void setPID(double, double, double);
 	void setEnabled(bool);
+	void updatSmartdashboard();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
@@ -40,7 +44,6 @@ private:
 	PIDController pidcontroller;
 
 	double driveProfile(double);
-
 };
 
 #endif  // DriveTrain_H

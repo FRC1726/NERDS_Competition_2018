@@ -12,8 +12,8 @@ private:
 	Joystick driver;
 	JoystickButton driver_a;
 	JoystickButton driver_b;
+	JoystickButton driver_x;
 	JoystickButton driver_y;
-
 };
 
 #endif  // OI_H

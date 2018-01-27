@@ -20,6 +20,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
+	Lencoder.SetReverseDirection(true);
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -75,3 +76,8 @@ void DriveTrain::setEnabled(bool enabled){
 	pidcontroller.SetEnabled(enabled);
 }
 
+void DriveTrain::updatSmartdashboard(){
+	SmartDashboard::PutNumber("Gyro", gyro.GetYaw());
+	SmartDashboard::PutNumber("LeftEncoder", Lencoder.GetDistance());
+	SmartDashboard::PutNumber("RightEncoder", Rencoder.GetDistance());
+}
