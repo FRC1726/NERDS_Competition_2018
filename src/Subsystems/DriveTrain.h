@@ -25,6 +25,7 @@ public:
 	double getPIDOutput();
 	void setPoint(double);
 	void setPID(double, double, double);
+	void setEnabled(bool);
 private:
 	VictorSP leftController;
 	VictorSP rightController;

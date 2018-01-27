@@ -18,6 +18,7 @@ void DriveStraight::Initialize() {
 	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
 	drivetrain.setPID(p, i, d);
 	drivetrain.setPoint(drivetrain.getAngle() );
+	drivetrain.setEnabled(true);
 	Leftinitial = drivetrain.getEncoderValue(DriveTrain::kLeft);
 	Rightinitial = drivetrain.getEncoderValue(DriveTrain::kRight);
 }
@@ -51,10 +52,12 @@ bool DriveStraight::IsFinished() {
 // Called once after isFinished returns true
 void DriveStraight::End() {
 	drivetrain.Stop();
+	drivetrain.setEnabled(false);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void DriveStraight::Interrupted() {
 	drivetrain.Stop();
+	drivetrain.setEnabled(false);
 }
