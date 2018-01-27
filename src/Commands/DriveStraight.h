@@ -18,7 +18,7 @@ private:
 	double speed;
 	double Leftinitial;
 	double Rightinitial;
-	double target;
+	double distance;
 	double DriveProfile(double);
 };
 

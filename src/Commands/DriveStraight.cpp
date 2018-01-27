@@ -8,7 +8,7 @@ DriveStraight::DriveStraight(double speed_in, double target_in, double TimeOut =
 	}
 	Requires(&drivetrain);
 	speed = speed_in;
-	target = target_in;
+	distance = target_in;
 }
 
 // Called just before this Command runs the first time
@@ -26,9 +26,9 @@ void DriveStraight::Initialize() {
 void DriveStraight::Execute() {
 	SmartDashboard::PutNumber("TurnValue", drivetrain.getPIDOutput());
 	double currentLeft = drivetrain.getEncoderValue(DriveTrain::kLeft);
-	if (currentLeft > (Leftinitial + target)){
+	if (currentLeft > (Leftinitial + distance)){
 		drivetrain.arcadeDrive(-speed, drivetrain.getPIDOutput());
-	}else if (currentLeft < (Leftinitial + target)){
+	}else if (currentLeft < (Leftinitial + distance)){
 		drivetrain.arcadeDrive(speed, drivetrain.getPIDOutput());
 	}
 }
@@ -41,7 +41,7 @@ bool DriveStraight::IsFinished() {
 
 	double currentLeft =drivetrain.getEncoderValue(DriveTrain::kLeft);
 	double currentRight = drivetrain.getEncoderValue(DriveTrain::kRight);
-	if (currentLeft > (Leftinitial + target) - 4 && currentLeft < (Leftinitial + target) + 4){
+	if (currentLeft > (Leftinitial + distance) - 4 && currentLeft < (Leftinitial + distance) + 4){
 		return true;
 	}
 
@@ -60,11 +60,20 @@ void DriveStraight::Interrupted() {
 }
 
 double DriveStraight::DriveProfile(double input){
-	if(fabs(input) <= Preferences::GetInstance()->GetDouble("Min Distance", .025)){
-		return 0;
+	double current = drivetrain.getEncoderValue(DriveTrain::kRight);
+	double dist = current + Preferences::GetInstance()->GetDouble("AccelDistance", 5);
+	double target = drivetrain.getEncoderValue(DriveTrain::kRight) + distance;
+	double min = Preferences::GetInstance()->GetDouble("Min Speed", 0);
+	double max = Preferences::GetInstance()->GetDouble("Max Speed", 0);
+	double out = (max - min) + current/dist + min;
+
+	if(current <= dist){
+		return out;
+	}else if(current <= target - dist){
+		return max;
+	}else if(current <= target){
+		return max;
+	}else{
+		return -max;
 	}
-	if(input > 0)
-		return (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
-	if(input < 0)
-		return -((Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0));
 }
