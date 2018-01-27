@@ -21,7 +21,6 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
 	Lencoder.SetReverseDirection(true);
-  pidcontroller.Enable();
 }
 
 void DriveTrain::InitDefaultCommand() {
@@ -71,6 +70,10 @@ void DriveTrain::setPoint(double target){
 
 void DriveTrain::setPID(double p,double i,double d){
 	pidcontroller.SetPID(p, i, d);
+}
+
+void DriveTrain::setEnabled(bool enabled){
+	pidcontroller.SetEnabled(enabled);
 }
 
 void DriveTrain::updatSmartdashboard(){
