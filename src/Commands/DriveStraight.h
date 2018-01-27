@@ -19,6 +19,7 @@ private:
 	double Leftinitial;
 	double Rightinitial;
 	double target;
+	double DriveProfile(double);
 };
 
 #endif  // DriveStraight_H
