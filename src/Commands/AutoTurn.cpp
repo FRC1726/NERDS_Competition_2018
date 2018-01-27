@@ -7,13 +7,22 @@ AutoTurn::AutoTurn(double angle, double speed) {
 	Requires(&drivetrain);
 	turnAngle = angle;
 	maxSpeed = speed;
+	if (!Preferences::GetInstance()->ContainsKey("Turn P")) {
+		Preferences::GetInstance()->PutDouble("Turn P", 0.1);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Turn I")) {
+			Preferences::GetInstance()->PutDouble("Turn I", 0.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Turn D")) {
+			Preferences::GetInstance()->PutDouble("Turn D", 0.0);
+	}
 }
 
 // Called just before this Command runs the first time
 void AutoTurn::Initialize() {
-	double p = Preferences::GetInstance()->GetDouble("p", 0.1);
-	double i = Preferences::GetInstance()->GetDouble("i", 0.0);
-	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
+	double p = Preferences::GetInstance()->GetDouble("Turn P", 0.1);
+	double i = Preferences::GetInstance()->GetDouble("Turn I", 0.0);
+	double d = Preferences::GetInstance()->GetDouble("Turn D", 0.0);
 	drivetrain.setPID(p, i, d);
 	targetAngle = drivetrain.getAngle() + turnAngle;
 	drivetrain.setPoint(targetAngle);

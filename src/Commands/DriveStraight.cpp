@@ -9,13 +9,22 @@ DriveStraight::DriveStraight(double speed_in, double target_in, double TimeOut =
 	Requires(&drivetrain);
 	speed = speed_in;
 	target = target_in;
+	if (!Preferences::GetInstance()->ContainsKey("Drive P")) {
+		Preferences::GetInstance()->PutDouble("Drive P", 0.1);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Drive I")) {
+			Preferences::GetInstance()->PutDouble("Drive I", 0.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Drive D")) {
+			Preferences::GetInstance()->PutDouble("Drive D", 0.0);
+	}
 }
 
-// Called just before this Command runs the first time
+// Called just before this Command runs the first time <3
 void DriveStraight::Initialize() {
-	double p = Preferences::GetInstance()->GetDouble("p", 0.1);
-	double i = Preferences::GetInstance()->GetDouble("i", 0.0);
-	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
+	double p = Preferences::GetInstance()->GetDouble("Drive P", 0.1);
+	double i = Preferences::GetInstance()->GetDouble("Drive I", 0.0);
+	double d = Preferences::GetInstance()->GetDouble("Drive D", 0.0);
 	drivetrain.setPID(p, i, d);
 	drivetrain.setPoint(drivetrain.getAngle() );
 	drivetrain.setEnabled(true);
