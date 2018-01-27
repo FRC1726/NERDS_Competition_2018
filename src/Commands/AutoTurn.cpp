@@ -16,12 +16,12 @@ void AutoTurn::Initialize() {
 	double d = Preferences::GetInstance()->GetDouble("d", 0.0);
 	drivetrain.setPID(p, i, d);
 	targetAngle = drivetrain.getAngle() + turnAngle;
-	drivetrain.setPidTarget(targetAngle);
+	drivetrain.setPoint(targetAngle);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void AutoTurn::Execute() {
-	double pidOut = drivetrain.getPidOut();
+	double pidOut = drivetrain.getPIDOutput();
 	SmartDashboard::PutNumber("PidOut", pidOut);
 	if (pidOut > maxSpeed){
 		pidOut = maxSpeed;

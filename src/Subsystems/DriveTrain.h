@@ -18,13 +18,17 @@ public:
 	};
 	DriveTrain();
 	void InitDefaultCommand();
+
 	void arcadeDrive(double, double);
 	void Stop();
 	double getEncoderValue(encoderSide);
+
 	double getAngle();
+
 	double getPIDOutput();
 	void setPoint(double);
 	void setPID(double, double, double);
+
 	void updatSmartdashboard();
 private:
 	VictorSP leftController;
