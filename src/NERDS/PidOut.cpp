@@ -8,6 +8,7 @@
 #include "PidOut.h"
 
 PidOut::PidOut() {
+	value = 0;
 }
 
 void PidOut::PIDWrite (double output){
