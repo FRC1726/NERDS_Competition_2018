@@ -5,11 +5,12 @@ DriveWithJoysticks::DriveWithJoysticks() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(chassis.get());
 	Requires(&drivetrain);
+	checkKeys();
 }
 
 // Called just before this Command runs the first time
 void DriveWithJoysticks::Initialize() {
-
+	getPreferences();
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -36,11 +37,11 @@ void DriveWithJoysticks::Interrupted() {
 }
 
 double DriveWithJoysticks::driveProfile(double input) {
-	if(fabs(input) <= Preferences::GetInstance()->GetDouble("Dead Zone", .025)){
+	if(fabs(input) <= deadzone){
 			return 0;
 		}
 
-	double out = (Preferences::GetInstance()->GetDouble("Max Speed", 1) - Preferences::GetInstance()->GetDouble("Min Speed", 0)) * fabs(input) + Preferences::GetInstance()->GetDouble("Min Speed", 0);
+	double out = (maxSpeed - minSpeed) * fabs(input) + minSpeed;
 
 	if(input > 0){
 		return out;
@@ -49,5 +50,25 @@ double DriveWithJoysticks::driveProfile(double input) {
 		return -out;
 	} else {
 		return 0;
+	}
+}
+
+void DriveWithJoysticks::getPreferences() {
+	//Set Drive Profile parameters
+	maxSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Max Speed", 1);
+	minSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Min Speed", 0.35);
+	deadzone = Preferences::GetInstance()->GetDouble("Joysticks/Deadzone", .025);
+}
+
+void DriveWithJoysticks::checkKeys() {
+	//Drive Profile Values
+	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Max Speed")) {
+		Preferences::GetInstance()->PutDouble("Joysticks/Max Speed", 1.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Min Speed")) {
+		Preferences::GetInstance()->PutDouble("Joysticks/Min Speed", 0.35);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Deadzone")) {
+		Preferences::GetInstance()->PutDouble("Joysticks/Deadzone", .025);
 	}
 }

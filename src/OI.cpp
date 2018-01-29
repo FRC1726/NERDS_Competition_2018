@@ -14,8 +14,8 @@ OI::OI() :
 {
 	// Process operator interface input here.
 	driver_a.WhenPressed(new ToggleGrabber);
-	driver_x.WhenPressed(new TurnByAngle(50));
-	driver_y.WhenPressed(new DriveByDistance(60));
+	driver_x.WhenPressed(new TurnByAngle(90));
+	driver_y.WhenPressed(new DriveByDistance(600));
 }
 
 double OI::getAxis(int axis){

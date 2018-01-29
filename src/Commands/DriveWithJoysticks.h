@@ -13,7 +13,12 @@ public:
 	void Interrupted();
 
 private:
+	double minSpeed;
+	double maxSpeed;
+	double deadzone;
 	double driveProfile(double);
+	void getPreferences();
+	void checkKeys();
 };
 
 #endif  // DriveWithJoysticks_H

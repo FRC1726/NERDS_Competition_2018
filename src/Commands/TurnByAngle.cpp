@@ -17,6 +17,7 @@ TurnByAngle::TurnByAngle(double angle, double timeOut) {
 
 // Called just before this Command runs the first time
 void TurnByAngle::Initialize() {
+	getPreferences();
 	targetAngle = drivetrain.getAngle() + turnAngle;
 
 	drivetrain.SetPIDTarget(targetAngle);
@@ -30,15 +31,16 @@ void TurnByAngle::Execute() {
 
 	if(fabs(pidOut) < minSpeed){
 		speed = minSpeed;
-	} else if(fabs(pidOut) > maxSpeed){
+	}else if(fabs(pidOut) > maxSpeed){
 		speed = maxSpeed;
 	}else{
 		speed = fabs(pidOut);
 	}
-
+	SmartDashboard::PutNumber("Turn Speed", speed);
+	SmartDashboard::PutNumber("Min Speed", minSpeed);
 	double angle = targetAngle - drivetrain.getAngle();
 
-	if(angle < TURN_TARGET){
+	if(fabs(angle) < TURN_TOLERANCE){
 		drivetrain.Stop();
 	}else if(angle < 0){
 		drivetrain.arcadeDrive(0, speed);
@@ -56,7 +58,7 @@ bool TurnByAngle::IsFinished() {
 
 	double angle = targetAngle - drivetrain.getAngle();
 
-	if (fabs(angle) < TURN_TARGET){
+	if (fabs(angle) < TURN_TOLERANCE){
 		return true;
 	}
 
@@ -102,9 +104,9 @@ void TurnByAngle::checkKeys() {
 
 	//Turn Speeds
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/Max Speed", 0.1);
+		Preferences::GetInstance()->PutDouble("Auto Turn/Max Speed", 1);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Min Speed")) {
-			Preferences::GetInstance()->PutDouble("Auto Turn/Min Speed", 0.0);
+			Preferences::GetInstance()->PutDouble("Auto Turn/Min Speed", 0.35);
 	}
 }

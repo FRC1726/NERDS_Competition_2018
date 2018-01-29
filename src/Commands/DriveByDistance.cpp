@@ -36,7 +36,7 @@ void DriveByDistance::Execute() {
 
 	if(averageDistance < targetDistance){
 		drivetrain.arcadeDrive(driveProfile(averageDistance), drivetrain.getPIDOutput());
-	}else if(averageDistance < targetDistance){
+	}else if(averageDistance > targetDistance){
 		drivetrain.arcadeDrive(-driveProfile(averageDistance), drivetrain.getPIDOutput());
 	}else {
 		drivetrain.Stop();
@@ -55,7 +55,7 @@ bool DriveByDistance::IsFinished() {
 
 	double distanceToTarget = targetDistance - averageDistance;
 
-	if (fabs(distanceToTarget) < DRIVE_TARGET){
+	if (fabs(distanceToTarget) < DRIVE_TOLERANCE){
 		return true;
 	}
 
@@ -80,8 +80,8 @@ double DriveByDistance::driveProfile(double distance) {
 		return maxSpeed;
 	}
 
-	double initialAccel = (maxSpeed - minSpeed) * (fabs(averageInitialDistance - distance)/accelDistance) + minSpeed;
-	double endAccel = (maxSpeed - minSpeed) * (1 - fabs(averageInitialDistance - distance)/accelDistance) + minSpeed;
+	double initialAccel = (maxSpeed - minSpeed) * (fabs(distance)/accelDistance) + minSpeed;
+	double endAccel = (maxSpeed - minSpeed) * (fabs(targetDistance - distance)/accelDistance) + minSpeed;
 
 	double speed;
 

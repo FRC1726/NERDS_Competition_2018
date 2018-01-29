@@ -33,7 +33,7 @@ constexpr int PNEU_GRABBER = 0;
 constexpr int CLAW = 1;
 
 //Autonomous Target Tolerances (+-target value)
-constexpr double TURN_TARGET = 1;
-constexpr double DRIVE_TARGET = 1.5;
+constexpr double TURN_TOLERANCE = 1;
+constexpr double DRIVE_TOLERANCE = 1.5;
 
 #endif  // ROBOTMAP_H
