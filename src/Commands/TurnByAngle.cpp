@@ -18,35 +18,22 @@ TurnByAngle::TurnByAngle(double angle, double timeOut) {
 // Called just before this Command runs the first time
 void TurnByAngle::Initialize() {
 	getPreferences();
-	targetAngle = drivetrain.getAngle() + turnAngle;
+	targetAngle = makeContinuous(drivetrain.getAngle() + turnAngle);
 
+	drivetrain.setPIDRange(minSpeed, maxSpeed);
 	drivetrain.SetPIDTarget(targetAngle);
 	drivetrain.setEnabled(true);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void TurnByAngle::Execute() {
-	double pidOut = drivetrain.getPIDOutput();
-	double speed;
+	double speed = drivetrain.getPIDOutput();
 
-	if(fabs(pidOut) < minSpeed){
-		speed = minSpeed;
-	}else if(fabs(pidOut) > maxSpeed){
-		speed = maxSpeed;
-	}else{
-		speed = fabs(pidOut);
-	}
-
-	double angle = makeContinuous(targetAngle - drivetrain.getAngle());
-
-	if(fabs(angle) < TURN_TOLERANCE){
+	if(drivetrain.onTarget()){
 		drivetrain.Stop();
-	}else if(angle < 0){
-		drivetrain.arcadeDrive(0, speed);
 	}else{
-		drivetrain.arcadeDrive(0, -speed);
+		drivetrain.arcadeDrive(0, speed);
 	}
-
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -55,13 +42,7 @@ bool TurnByAngle::IsFinished() {
 		return true;
 	}
 
-	double angle = makeContinuous(targetAngle - drivetrain.getAngle());
-
-	if (fabs(angle) < TURN_TOLERANCE){
-		return true;
-	}
-
-	return false;
+	return drivetrain.onTarget();
 }
 
 // Called once after isFinished returns true
@@ -82,7 +63,8 @@ void TurnByAngle::getPreferences() {
 	double p = Preferences::GetInstance()->GetDouble("Auto Turn/P", 0.1);
 	double i = Preferences::GetInstance()->GetDouble("Auto Turn/I", 0.0);
 	double d = Preferences::GetInstance()->GetDouble("Auto Turn/D", 0.0);
-	drivetrain.setPID(p, i, d);
+	double tolerance = Preferences::GetInstance()->GetDouble("Auto Turn/Angle Tolerance", 1.0);
+	drivetrain.setPID(p, i, d, tolerance);
 
 	//Speed Values
 	maxSpeed = Preferences::GetInstance()->GetDouble("Auto Turn/Max Speed", 1);
@@ -100,6 +82,9 @@ void TurnByAngle::checkKeys() {
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/D")) {
 			Preferences::GetInstance()->PutDouble("Auto Turn/D", 0.0);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Angle Tolerance")) {
+			Preferences::GetInstance()->PutDouble("Auto Turn/Angle Tolerance", 1.0);
+	}
 
 	//Turn Speeds
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Max Speed")) {
@@ -111,14 +96,14 @@ void TurnByAngle::checkKeys() {
 }
 
 double TurnByAngle::makeContinuous(double input){
-	double clippedInput = input % 360;
-	if (input > 180){
-		double angle = clippedInput % 180;
+	double clippedInput = std::fmod(input, 360);
+	if (clippedInput > 180){
+		double angle = std::fmod(clippedInput, 180);
 		return angle - 180;
-	}else if(input < -180){
-		double angle = clippedInput %180;
+	}else if(clippedInput < -180){
+		double angle = std::fmod(clippedInput, 180);
 		return angle + 180;
 	}else{
-		return 0;
+		return clippedInput;
 	}
 }

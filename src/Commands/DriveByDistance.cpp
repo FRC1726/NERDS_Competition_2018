@@ -20,6 +20,7 @@ DriveByDistance::DriveByDistance(double target_in, double timeOut) : CommandBase
 void DriveByDistance::Initialize() {
 	getPreferences();
 
+	drivetrain.setPIDRange(minSpeed, maxSpeed);
 	drivetrain.SetPIDTarget(drivetrain.getAngle());
 	drivetrain.setEnabled(true);
 
@@ -34,10 +35,17 @@ void DriveByDistance::Execute() {
 	double rightDistance = drivetrain.getEncoderValue(DriveTrain::kRight) - rightInitial;
 	double averageDistance = (leftDistance + rightDistance)/2;
 
-	if(averageDistance < targetDistance){
-		drivetrain.arcadeDrive(driveProfile(averageDistance), drivetrain.getPIDOutput());
-	}else if(averageDistance > targetDistance){
-		drivetrain.arcadeDrive(-driveProfile(averageDistance), drivetrain.getPIDOutput());
+	double turn;
+	if(drivetrain.onTarget()){
+		turn = 0;
+	}else{
+		turn = drivetrain.getPIDOutput();
+	}
+
+	if(averageDistance < targetDistance - tolerance){
+		drivetrain.arcadeDrive(driveProfile(averageDistance), turn);
+	}else if(averageDistance > targetDistance + tolerance){
+		drivetrain.arcadeDrive(-driveProfile(averageDistance), turn);
 	}else {
 		drivetrain.Stop();
 	}
@@ -55,7 +63,7 @@ bool DriveByDistance::IsFinished() {
 
 	double distanceToTarget = targetDistance - averageDistance;
 
-	if (fabs(distanceToTarget) < DRIVE_TOLERANCE){
+	if (fabs(distanceToTarget) < tolerance){
 		return true;
 	}
 
@@ -103,7 +111,9 @@ void DriveByDistance::getPreferences() {
 	double p = Preferences::GetInstance()->GetDouble("Auto Drive/P", 0.1);
 	double i = Preferences::GetInstance()->GetDouble("Auto Drive/I", 0.0);
 	double d = Preferences::GetInstance()->GetDouble("Auto Drive/D", 0.0);
-	drivetrain.setPID(p, i, d);
+	tolerance = Preferences::GetInstance()->GetDouble("Auto Drive/Distance Tolerance", 1.0);
+	double angle = Preferences::GetInstance()->GetDouble("Auto Drive/Angle Tolerance", 1.0);
+	drivetrain.setPID(p, i, d, angle);
 
 	//Set Drive Profile parameters
 	maxSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Max Speed", 1);
@@ -121,6 +131,12 @@ void DriveByDistance::checkKeys() {
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/D")) {
 		Preferences::GetInstance()->PutDouble("Auto Drive/D", 0.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Distance Tolerance")) {
+		Preferences::GetInstance()->PutDouble("Auto Drive/Distance Tolerance", 1.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Angle Tolerance")) {
+		Preferences::GetInstance()->PutDouble("Auto Drive/Angle Tolerance", 1.0);
 	}
 
 	//Drive Profile Values
