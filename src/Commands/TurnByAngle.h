@@ -20,6 +20,7 @@ private:
 
 	void getPreferences();
 	void checkKeys();
+	double makeContinuous(double);
 };
 
 #endif  // TurnByAngle_H

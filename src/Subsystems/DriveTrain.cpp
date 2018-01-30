@@ -19,7 +19,9 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	rightController.SetInverted(true);
 	leftEncoder.SetReverseDirection(true);
 
-	pidController.Enable();
+	pidController.SetInputRange(-180, 180);
+	pidController.SetOutputRange(0,1);
+	pidController.SetContinuous(true);
 
 	SmartDashboard::PutData("DriveTrain/DifferentialDrive", &drive);
 	SmartDashboard::PutData("DriveTrain/Gyro", &gyro);
@@ -51,7 +53,7 @@ double DriveTrain::getEncoderValue(encoderSide choice){
 }
 
 double DriveTrain::getAngle(){
-	return gyro.GetAngle();
+	return gyro.GetYaw();
 
 }
 
@@ -63,10 +65,18 @@ void DriveTrain::SetPIDTarget(double target){
 	pidController.SetSetpoint(target);
 }
 
-void DriveTrain::setPID(double p,double i,double d){
+void DriveTrain::setPID(double p,double i,double d,double tolerance){
 	pidController.SetPID(p, i, d);
+	pidController.SetAbsoluteTolerance(tolerance);
 }
 
 void DriveTrain::setEnabled(bool enabled){
 	pidController.SetEnabled(enabled);
+}
+
+void DriveTrain::setPIDRange(double min,double max){
+	pidController.SetInputRange(min, max);
+}
+bool DriveTrain::onTarget(){
+	return pidController.OnTarget();
 }

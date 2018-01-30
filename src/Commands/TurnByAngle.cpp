@@ -12,7 +12,7 @@ TurnByAngle::TurnByAngle(double angle, double timeOut) {
 	}
 
 	targetAngle = 0;
-	turnAngle = angle;
+	turnAngle = makeContinuous(angle);
 }
 
 // Called just before this Command runs the first time
@@ -36,9 +36,8 @@ void TurnByAngle::Execute() {
 	}else{
 		speed = fabs(pidOut);
 	}
-	SmartDashboard::PutNumber("Turn Speed", speed);
-	SmartDashboard::PutNumber("Min Speed", minSpeed);
-	double angle = targetAngle - drivetrain.getAngle();
+
+	double angle = makeContinuous(targetAngle - drivetrain.getAngle());
 
 	if(fabs(angle) < TURN_TOLERANCE){
 		drivetrain.Stop();
@@ -56,7 +55,7 @@ bool TurnByAngle::IsFinished() {
 		return true;
 	}
 
-	double angle = targetAngle - drivetrain.getAngle();
+	double angle = makeContinuous(targetAngle - drivetrain.getAngle());
 
 	if (fabs(angle) < TURN_TOLERANCE){
 		return true;
@@ -108,5 +107,18 @@ void TurnByAngle::checkKeys() {
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Min Speed")) {
 			Preferences::GetInstance()->PutDouble("Auto Turn/Min Speed", 0.35);
+	}
+}
+
+double TurnByAngle::makeContinuous(double input){
+	double clippedInput = input % 360;
+	if (input > 180){
+		double angle = clippedInput % 180;
+		return angle - 180;
+	}else if(input < -180){
+		double angle = clippedInput %180;
+		return angle + 180;
+	}else{
+		return 0;
 	}
 }

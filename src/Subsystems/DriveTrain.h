@@ -30,8 +30,10 @@ public:
 	//PID
 	double getPIDOutput();
 	void SetPIDTarget(double);
-	void setPID(double, double, double);
+	void setPID(double, double, double, double);
 	void setEnabled(bool);
+	void setPIDRange(double,double);
+	bool onTarget();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
