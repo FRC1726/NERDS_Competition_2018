@@ -75,7 +75,7 @@ void DriveTrain::setEnabled(bool enabled){
 }
 
 void DriveTrain::setPIDRange(double min,double max){
-	pidController.SetInputRange(min, max);
+	pidController.SetOutputRange(min, max);
 }
 bool DriveTrain::onTarget(){
 	return pidController.OnTarget();

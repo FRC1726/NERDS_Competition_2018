@@ -20,7 +20,7 @@ DriveByDistance::DriveByDistance(double target_in, double timeOut) : CommandBase
 void DriveByDistance::Initialize() {
 	getPreferences();
 
-	drivetrain.setPIDRange(minSpeed, maxSpeed);
+	drivetrain.setPIDRange(-maxSpeed, maxSpeed);
 	drivetrain.SetPIDTarget(drivetrain.getAngle());
 	drivetrain.setEnabled(true);
 
@@ -35,11 +35,14 @@ void DriveByDistance::Execute() {
 	double rightDistance = drivetrain.getEncoderValue(DriveTrain::kRight) - rightInitial;
 	double averageDistance = (leftDistance + rightDistance)/2;
 
-	double turn;
+	double turn = drivetrain.getPIDOutput();
+
 	if(drivetrain.onTarget()){
 		turn = 0;
-	}else{
-		turn = drivetrain.getPIDOutput();
+	}else if(turn < minSpeed && turn > 0){
+		turn = minSpeed;
+	}else if(turn > -minSpeed && turn < 0){
+		turn = -minSpeed;
 	}
 
 	if(averageDistance < targetDistance - tolerance){
@@ -59,7 +62,7 @@ bool DriveByDistance::IsFinished() {
 
 	double leftDistance = drivetrain.getEncoderValue(DriveTrain::kLeft) - leftInitial;
 	double rightDistance = drivetrain.getEncoderValue(DriveTrain::kRight) - rightInitial;
-	double averageDistance = (leftDistance = rightDistance)/2;
+	double averageDistance = (leftDistance + rightDistance)/2;
 
 	double distanceToTarget = targetDistance - averageDistance;
 

@@ -19,8 +19,9 @@ TurnByAngle::TurnByAngle(double angle, double timeOut) {
 void TurnByAngle::Initialize() {
 	getPreferences();
 	targetAngle = makeContinuous(drivetrain.getAngle() + turnAngle);
+	SmartDashboard::PutNumber("Target Angle", targetAngle);
 
-	drivetrain.setPIDRange(minSpeed, maxSpeed);
+	drivetrain.setPIDRange(-maxSpeed, maxSpeed);
 	drivetrain.SetPIDTarget(targetAngle);
 	drivetrain.setEnabled(true);
 }
@@ -28,6 +29,14 @@ void TurnByAngle::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void TurnByAngle::Execute() {
 	double speed = drivetrain.getPIDOutput();
+	SmartDashboard::PutNumber("Speed", speed);
+	SmartDashboard::PutBoolean("On Target", drivetrain.onTarget());
+
+	if(speed < minSpeed && speed > 0){
+		speed = minSpeed;
+	}else if(speed > -minSpeed && speed < 0){
+		speed = -minSpeed;
+	}
 
 	if(drivetrain.onTarget()){
 		drivetrain.Stop();
