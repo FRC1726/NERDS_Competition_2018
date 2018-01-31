@@ -4,15 +4,15 @@
 ToggleGrabber::ToggleGrabber() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
-	Requires(pneumatics.get());
+	Requires(&pneumatics);
 }
 
 // Called just before this Command runs the first time
 void ToggleGrabber::Initialize() {
-	if (pneumatics->GetGrabberState()) {
-		pneumatics->GrabberOff();
+	if (pneumatics.GetGrabberState()) {
+		pneumatics.GrabberOff();
 	}else{
-		 pneumatics->GrabberOn();
+		 pneumatics.GrabberOn();
 	}
 
 }

@@ -19,30 +19,33 @@ public:
 	DriveTrain();
 	void InitDefaultCommand();
 
+	//Driving
 	void arcadeDrive(double, double);
 	void Stop();
 	double getEncoderValue(encoderSide);
 
+	//Gyro
 	double getAngle();
 
+	//PID
 	double getPIDOutput();
-	void setPoint(double);
-	void setPID(double, double, double);
+	void SetPIDTarget(double);
+	void setPID(double, double, double, double);
 	void setEnabled(bool);
-	void updatSmartdashboard();
+	void setPIDRange(double,double);
+	bool onTarget();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
-	DifferentialDrive driveTrain;
+	DifferentialDrive drive;
 
-	Encoder Lencoder;
-	Encoder Rencoder;
+	Encoder leftEncoder;
+	Encoder rightEncoder;
 
 	AHRS gyro;
 
 	PidOut pidWrite;
-	PIDController pidcontroller;
-
+	PIDController pidController;
 };
 
 #endif  // DriveTrain_H

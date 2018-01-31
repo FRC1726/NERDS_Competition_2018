@@ -1,42 +1,41 @@
+#include <Commands/DriveWithJoysticks.h>
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-#include <math.h>
-#include "../Commands/ArcadeDriveWithJoysticks.h"
-
 #include <SerialPort.h>
-#include <iostream>
-#include <Preferences.h>
+#include <SmartDashboard/SmartDashboard.h>
 
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
 	rightController(DRIVE_RIGHT),
-	driveTrain(leftController, rightController),
-	Lencoder(LA_CHANNEL, LB_CHANNEL),
-	Rencoder(RA_CHANNEL, RB_CHANNEL),
+	drive(leftController, rightController),
+	leftEncoder(LA_CHANNEL, LB_CHANNEL),
+	rightEncoder(RA_CHANNEL, RB_CHANNEL),
 	gyro(SerialPort::Port::kUSB1),
 	pidWrite(),
-	pidcontroller(0, 0, 0, &gyro, &pidWrite)
+	pidController(0, 0, 0, &gyro, &pidWrite)
 {
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
-	Lencoder.SetReverseDirection(true);
+	leftEncoder.SetReverseDirection(true);
 
-	pidcontroller.Enable();
-	SmartDashboard::PutData("Gyro", &gyro);
-	SmartDashboard::PutData("LeftEncoder", &Lencoder);
-	SmartDashboard::PutData("RightEncoder", &Rencoder);
-	SmartDashboard::PutData("Pid Controller", &pidcontroller);
+	pidController.SetInputRange(-180, 180);
+	pidController.SetOutputRange(0,1);
+	pidController.SetContinuous(true);
+
+	SmartDashboard::PutData("DriveTrain/DifferentialDrive", &drive);
+	SmartDashboard::PutData("DriveTrain/Gyro", &gyro);
+	SmartDashboard::PutData("DriveTrain/Left Encoder", &leftEncoder);
+	SmartDashboard::PutData("DriveTrain/Right Encoder", &rightEncoder);
+	SmartDashboard::PutData("DriveTrain/Gyro PID", &pidController);
 }
 
 void DriveTrain::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new ArcadeDriveWithJoysticks);
+	SetDefaultCommand(new DriveWithJoysticks);
 }
 
 void DriveTrain::arcadeDrive(double speed, double turn){
-	driveTrain.ArcadeDrive(-speed,turn);
+	drive.ArcadeDrive(speed,turn);
 }
 
 void DriveTrain::Stop(){
@@ -45,35 +44,39 @@ void DriveTrain::Stop(){
 
 double DriveTrain::getEncoderValue(encoderSide choice){
 	if (choice == kLeft){
-		return Lencoder.GetDistance();
+		return leftEncoder.GetDistance();
 	}else if(choice == kRight){
-		return Rencoder.GetDistance();
+		return rightEncoder.GetDistance();
 	}
+
+	return 0;
 }
 
 double DriveTrain::getAngle(){
-	return gyro.GetAngle();
+	return gyro.GetYaw();
 
 }
 
 double DriveTrain::getPIDOutput(){
-	return pidcontroller.Get();
+	return pidController.Get();
 }
 
-void DriveTrain::setPoint(double target){
-	pidcontroller.SetSetpoint(target);
+void DriveTrain::SetPIDTarget(double target){
+	pidController.SetSetpoint(target);
 }
 
-void DriveTrain::setPID(double p,double i,double d){
-	pidcontroller.SetPID(p, i, d);
+void DriveTrain::setPID(double p,double i,double d,double tolerance){
+	pidController.SetPID(p, i, d);
+	pidController.SetAbsoluteTolerance(tolerance);
 }
 
 void DriveTrain::setEnabled(bool enabled){
-	pidcontroller.SetEnabled(enabled);
+	pidController.SetEnabled(enabled);
 }
 
-void DriveTrain::updatSmartdashboard(){
-//	SmartDashboard::PutNumber("Gyro", gyro.GetYaw());
-//	SmartDashboard::PutNumber("LeftEncoder", Lencoder.GetDistance());
-//	SmartDashboard::PutNumber("RightEncoder", Rencoder.GetDistance());
+void DriveTrain::setPIDRange(double min,double max){
+	pidController.SetOutputRange(min, max);
+}
+bool DriveTrain::onTarget(){
+	return pidController.OnTarget();
 }
