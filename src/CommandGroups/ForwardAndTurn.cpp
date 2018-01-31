@@ -1,6 +1,10 @@
 #include "ForwardAndTurn.h"
 
-ForwardAndTurn::ForwardAndTurn() {
+#include "Subsystems/DriveTrain.h"
+#include "Commands/DriveByDistance.h"
+#include "Commands/TurnByAngle.h"
+
+ForwardAndTurn::ForwardAndTurn() : CommandGroup("Forward and Turn") {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -17,4 +21,6 @@ ForwardAndTurn::ForwardAndTurn() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
+	AddSequential(new DriveByDistance(1000));
+	AddSequential(new TurnByAngle(90));
 }

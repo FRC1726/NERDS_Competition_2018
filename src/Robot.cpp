@@ -3,6 +3,8 @@
 #include <Commands/Scheduler.h>
 #include <SmartDashboard/SmartDashboard.h>
 
+#include "CommandGroups/ForwardAndTurn.h"
+
 Robot::Robot(){
 
 }
@@ -45,8 +47,8 @@ void Robot::AutonomousInit(){
 		autonomousCommand.reset(new ExampleCommand());
 	} */
 
-	autonomousCommand.reset(chooser.GetSelected());
-
+	//autonomousCommand.reset(chooser.GetSelected());
+	autonomousCommand.reset(new ForwardAndTurn());
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();
 	}
