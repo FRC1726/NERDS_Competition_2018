@@ -18,6 +18,8 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController.SetInverted(true);
 	rightController.SetInverted(true);
 	leftEncoder.SetReverseDirection(true);
+	leftEncoder.SetDistancePerPulse(3.1415/60);
+	rightEncoder.SetDistancePerPulse(3.1415/60);
 
 	pidController.SetInputRange(-180, 180);
 	pidController.SetOutputRange(0,1);
