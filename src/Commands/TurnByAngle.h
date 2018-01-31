@@ -2,6 +2,9 @@
 #define TurnByAngle_H
 
 #include "../CommandBase.h"
+#include <Timer.h>
+
+
 
 class TurnByAngle : public CommandBase {
 public:
@@ -18,9 +21,13 @@ private:
 	double maxSpeed;
 	double minSpeed;
 
+	Timer targetTimer;
+	double time;
+
 	void getPreferences();
 	void checkKeys();
 	double makeContinuous(double);
+
 };
 
 #endif  // TurnByAngle_H

@@ -51,13 +51,22 @@ bool TurnByAngle::IsFinished() {
 		return true;
 	}
 
-	return drivetrain.onTarget();
+	if (drivetrain.onTarget()){
+		targetTimer.Start();
+		return targetTimer.HasPeriodPassed(time);
+	}else{
+		targetTimer.Stop();
+		targetTimer.Reset();
+		return false;
+	}
 }
 
 // Called once after isFinished returns true
 void TurnByAngle::End() {
 	drivetrain.Stop();
 	drivetrain.setEnabled(false);
+	targetTimer.Stop();
+	targetTimer.Reset();
 }
 
 // Called when another command which requires one or more of the same
@@ -65,6 +74,8 @@ void TurnByAngle::End() {
 void TurnByAngle::Interrupted() {
 	drivetrain.Stop();
 	drivetrain.setEnabled(false);
+	targetTimer.Stop();
+	targetTimer.Reset();
 }
 
 void TurnByAngle::getPreferences() {
@@ -78,6 +89,9 @@ void TurnByAngle::getPreferences() {
 	//Speed Values
 	maxSpeed = Preferences::GetInstance()->GetDouble("Auto Turn/Max Speed", 1);
 	minSpeed = Preferences::GetInstance()->GetDouble("Auto Turn/Min Speed", 0.35);
+
+	//targetTime
+	time = Preferences::GetInstance()->GetDouble("Auto Turn/Target Time", 10);
 }
 
 void TurnByAngle::checkKeys() {
@@ -86,13 +100,13 @@ void TurnByAngle::checkKeys() {
 		Preferences::GetInstance()->PutDouble("Auto Turn/P", 0.1);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/I")) {
-			Preferences::GetInstance()->PutDouble("Auto Turn/I", 0.0);
+		Preferences::GetInstance()->PutDouble("Auto Turn/I", 0.0);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/D")) {
-			Preferences::GetInstance()->PutDouble("Auto Turn/D", 0.0);
+		Preferences::GetInstance()->PutDouble("Auto Turn/D", 0.0);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Angle Tolerance")) {
-			Preferences::GetInstance()->PutDouble("Auto Turn/Angle Tolerance", 1.0);
+		Preferences::GetInstance()->PutDouble("Auto Turn/Angle Tolerance", 1.0);
 	}
 
 	//Turn Speeds
@@ -100,7 +114,10 @@ void TurnByAngle::checkKeys() {
 		Preferences::GetInstance()->PutDouble("Auto Turn/Max Speed", 1);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Min Speed")) {
-			Preferences::GetInstance()->PutDouble("Auto Turn/Min Speed", 0.35);
+		Preferences::GetInstance()->PutDouble("Auto Turn/Min Speed", 0.35);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Target Time")) {
+		Preferences::GetInstance()->PutDouble("Auto Turn/Target Time", 10);
 	}
 }
 
