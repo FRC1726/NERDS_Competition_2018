@@ -67,16 +67,21 @@ bool DriveByDistance::IsFinished() {
 	double distanceToTarget = targetDistance - averageDistance;
 
 	if (fabs(distanceToTarget) < tolerance){
-		return true;
+		targetTimer.Start();
+		return targetTimer.HasPeriodPassed(time);
+	}else{
+		targetTimer.Stop();
+		targetTimer.Reset();
+		return false;
 	}
-
-	return false;
 }
 
 // Called once after isFinished returns true
 void DriveByDistance::End() {
 	drivetrain.Stop();
 	drivetrain.setEnabled(false);
+	targetTimer.Stop();
+	targetTimer.Reset();
 }
 
 // Called when another command which requires one or more of the same
@@ -84,6 +89,8 @@ void DriveByDistance::End() {
 void DriveByDistance::Interrupted() {
 	drivetrain.Stop();
 	drivetrain.setEnabled(false);
+	targetTimer.Stop();
+	targetTimer.Reset();
 }
 
 double DriveByDistance::driveProfile(double distance) {
@@ -122,6 +129,9 @@ void DriveByDistance::getPreferences() {
 	maxSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Max Speed", 1);
 	minSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Min Speed", 0.35);
 	accelDistance = Preferences::GetInstance()->GetDouble("Auto Drive/Accel Distance", 12);
+
+	//Timer
+	time = Preferences::GetInstance()->GetDouble("Auto Drive/Target Timer", 2.0);
 }
 
 void DriveByDistance::checkKeys() {
@@ -151,5 +161,10 @@ void DriveByDistance::checkKeys() {
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Accel Distance")) {
 		Preferences::GetInstance()->PutDouble("Auto Drive/Accel Distance", 12.0);
+	}
+
+	//Timer
+	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Target Timer")) {
+		Preferences::GetInstance()->PutDouble("Auto Drive/Target Timer", 2.0);
 	}
 }

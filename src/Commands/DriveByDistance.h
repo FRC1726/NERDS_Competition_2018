@@ -1,6 +1,7 @@
 #ifndef DriveByDistance_H
 #define DriveByDistance_H
 
+#include <timer.h>
 #include "../CommandBase.h"
 
 class DriveByDistance : public CommandBase {
@@ -22,6 +23,9 @@ private:
 	double rightInitial;
 	double averageInitialDistance;
 	double targetDistance;
+
+	Timer targetTimer;
+	double time;
 
 	double driveProfile(double);
 	void getPreferences();
