@@ -4,7 +4,7 @@
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
 #include "Commands/ToggleGrabber.h"
-GrabAndReturn::GrabAndReturn() : CommandGroup("Grab and Return") {
+GrabAndReturn::GrabAndReturn() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());

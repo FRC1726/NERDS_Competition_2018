@@ -6,7 +6,7 @@
 
 #include <iostream>
 
-ForwardAndTurn::ForwardAndTurn() : CommandGroup("Forward and Turn") {
+ForwardAndTurn::ForwardAndTurn() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());

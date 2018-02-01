@@ -10,10 +10,10 @@
 
 void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
-	chooser.AddDefault("", 0);
-	chooser.AddObject("Forward and Back", 1);
-	chooser.AddObject("Grab and Return", 2);
-	frc::SmartDashboard::PutData("Auto Modes", &chooser);
+	chooser.AddDefault("ForwardBack", new ForwardAndTurn());
+	chooser.AddObject("Grab and Return", new GrabAndReturn());
+	SmartDashboard::Delete("Auto Modes");
+	SmartDashboard::PutData("Auto Modes", &chooser);
 }
 
 /**
@@ -22,7 +22,9 @@ void Robot::RobotInit(){
  * the robot is disabled.
  */
 void Robot::DisabledInit(){
-
+	if (autonomousCommand.get() != nullptr) {
+		autonomousCommand.reset(nullptr);
+	}
 }
 
 void Robot::DisabledPeriodic(){
@@ -50,13 +52,7 @@ void Robot::AutonomousInit(){
 	} */
 
 	//autonomousCommand.reset(chooser.GetSelected());
-	int command = chooser.GetSelected();
-
-	if (command == 1){
-		autonomousCommand.reset(new ForwardAndTurn());
-	}else if(command ==2){
-		autonomousCommand.reset(new GrabAndReturn());
-	}
+	autonomousCommand.reset(chooser.GetSelected());
 
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();
