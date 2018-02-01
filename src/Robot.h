@@ -8,7 +8,6 @@
 
 class Robot: public frc::IterativeRobot {
 public:
-	Robot();
 	void RobotInit() override;
 	void DisabledInit() override;
 	void DisabledPeriodic() override;
@@ -19,7 +18,7 @@ public:
 	void TestPeriodic() override;
 private:
 	std::unique_ptr<frc::Command> autonomousCommand;
-	frc::SendableChooser<frc::Command*> chooser;
+	frc::SendableChooser<int> chooser;
 };
 
 #endif //ROBOT_H

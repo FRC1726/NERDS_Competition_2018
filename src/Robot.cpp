@@ -4,13 +4,15 @@
 #include <SmartDashboard/SmartDashboard.h>
 
 #include "CommandGroups/ForwardAndTurn.h"
+#include "CommandGroups/GrabAndReturn.h"
 
-Robot::Robot(){
-
-}
+#include <iostream>
 
 void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
+	chooser.AddDefault("", 0);
+	chooser.AddObject("Forward and Back", 1);
+	chooser.AddObject("Grab and Return", 2);
 	frc::SmartDashboard::PutData("Auto Modes", &chooser);
 }
 
@@ -48,7 +50,14 @@ void Robot::AutonomousInit(){
 	} */
 
 	//autonomousCommand.reset(chooser.GetSelected());
-	autonomousCommand.reset(new ForwardAndTurn());
+	int command = chooser.GetSelected();
+
+	if (command == 1){
+		autonomousCommand.reset(new ForwardAndTurn());
+	}else if(command ==2){
+		autonomousCommand.reset(new GrabAndReturn());
+	}
+
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();
 	}

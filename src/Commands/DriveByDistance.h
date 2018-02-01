@@ -1,7 +1,7 @@
 #ifndef DriveByDistance_H
 #define DriveByDistance_H
 
-#include <timer.h>
+#include <Timer.h>
 #include "../CommandBase.h"
 
 class DriveByDistance : public CommandBase {

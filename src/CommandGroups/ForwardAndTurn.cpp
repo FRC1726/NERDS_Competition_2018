@@ -4,6 +4,8 @@
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
 
+#include <iostream>
+
 ForwardAndTurn::ForwardAndTurn() : CommandGroup("Forward and Turn") {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
