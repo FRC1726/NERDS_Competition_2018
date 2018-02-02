@@ -10,8 +10,8 @@
 
 void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
-	chooser.AddDefault("ForwardBack", new ForwardAndTurn());
-	chooser.AddObject("Grab and Return", new GrabAndReturn());
+	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
+	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
 	SmartDashboard::Delete("Auto Modes");
 	SmartDashboard::PutData("Auto Modes", &chooser);
 }
@@ -22,9 +22,7 @@ void Robot::RobotInit(){
  * the robot is disabled.
  */
 void Robot::DisabledInit(){
-	if (autonomousCommand.get() != nullptr) {
-		autonomousCommand.reset(nullptr);
-	}
+
 }
 
 void Robot::DisabledPeriodic(){
@@ -52,7 +50,7 @@ void Robot::AutonomousInit(){
 	} */
 
 	//autonomousCommand.reset(chooser.GetSelected());
-	autonomousCommand.reset(chooser.GetSelected());
+	autonomousCommand = chooser.GetSelected().lock();
 
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();

@@ -17,8 +17,8 @@ public:
 	void TeleopPeriodic() override;
 	void TestPeriodic() override;
 private:
-	std::unique_ptr<frc::Command> autonomousCommand;
-	frc::SendableChooser<frc::Command*> chooser;
+	std::shared_ptr<Command> autonomousCommand;
+	frc::SendableChooser<std::shared_ptr<Command> > chooser;
 };
 
 #endif //ROBOT_H
