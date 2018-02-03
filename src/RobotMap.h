@@ -31,9 +31,16 @@ constexpr int RB_CHANNEL = 3;
 //Pneumatics Ports
 constexpr int PNEU_GRABBER = 0;
 constexpr int CLAW = 1;
+constexpr int ELEVATOR = 2;
 
 //Autonomous Target Tolerances (+-target value)
 constexpr double TURN_TOLERANCE = 1;
 constexpr double DRIVE_TOLERANCE = 1.5;
+
+//TalonSRX ID
+constexpr int WRIST_ID = 2;
+constexpr int WRIST_SLOT = 0;
+constexpr int WRIST_LOOP = 0;
+constexpr int WRIST_TIMEOUT = 10;
 
 #endif  // ROBOTMAP_H
