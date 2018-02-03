@@ -1,12 +1,10 @@
-#include "ForwardAndTurn.h"
+#include "GrabAndReturn.h"
 
 #include "Subsystems/DriveTrain.h"
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
-
-#include <iostream>
-
-ForwardAndTurn::ForwardAndTurn() {
+#include "Commands/ToggleGrabber.h"
+GrabAndReturn::GrabAndReturn() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -23,6 +21,8 @@ ForwardAndTurn::ForwardAndTurn() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-	AddSequential(new DriveByDistance(32));
-	AddSequential(new TurnByAngle(90));
+	AddSequential(new DriveByDistance(80));
+	AddSequential(new ToggleGrabber());
+	AddSequential(new TurnByAngle(180));
+	AddSequential(new DriveByDistance(80));
 }
