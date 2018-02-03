@@ -2,11 +2,11 @@
 #include "../RobotMap.h"
 #include <SmartDashboard/smartdashboard.h>
 
-#include "Commands/WristSense.h"
-
 
 Grabber::Grabber() : Subsystem("ExampleSubsystem"),
-	wrist(WRIST_ID)
+	wrist(WRIST_ID),
+	claw(CLAW),
+	elevator(ELEVATOR)
 {
 
 //	int absolutePosition = wrist.GetSelectedSensorPosition(0) & 0xFFF;
@@ -19,7 +19,6 @@ Grabber::Grabber() : Subsystem("ExampleSubsystem"),
 void Grabber::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new WristMovement);
 }
 
 // Put methods for controlling this subsystem
@@ -33,16 +32,28 @@ void Grabber::SetPID(double f, double p, double i, double d){
 	wrist.Config_kP(WRIST_LOOP, p, WRIST_TIMEOUT);
 	wrist.Config_kI(WRIST_LOOP, i, WRIST_TIMEOUT);
 	wrist.Config_kD(WRIST_LOOP, d, WRIST_TIMEOUT);
-
 }
 
 void Grabber::SetWrist(double target){
 	target = (4096 / 360) * target;
 	SmartDashboard::PutNumber("Target", target);
 	wrist.Set(ControlMode::Position, target);
-
 }
 
-double Grabber::getSensor() {
-	return wrist.GetSelectedSensorPosition(0);
+bool Grabber::getClaw(){
+	return claw.Get();
 }
+
+void Grabber::setClaw(bool on){
+	claw.Set(on);
+}
+
+bool Grabber::getElevator(){
+	return elevator.Get();
+}
+
+void Grabber::setElevator(bool on){
+	elevator.Set(on);
+}
+
+

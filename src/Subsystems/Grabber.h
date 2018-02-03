@@ -6,6 +6,7 @@
 #include "ctre/Phoenix.h"
 #include "RobotMap.h"
 
+#include <Solenoid.h>
 
 
 class Grabber : public Subsystem {
@@ -15,9 +16,15 @@ public:
 	void SetMaxSpeed(double);
 	void SetPID(double, double, double, double);
 	void SetWrist(double);
-	double getSensor();
+	bool getClaw();
+	void setClaw(bool);
+	bool getElevator();
+	void setElevator(bool);
 private:
 	 WPI_TalonSRX wrist;
+
+	 frc::Solenoid claw;
+	 frc::Solenoid elevator;
 
 };
 
