@@ -1,13 +1,9 @@
-#include "Left.h"
+#include "MoveForward.h"
 
 #include "Subsystems/DriveTrain.h"
 #include "Commands/DriveByDistance.h"
-#include "Commands/TurnByAngle.h"
 
-#include <string>
-#include <driverstation.h>
-
-Left::Left() {
+MoveForward::MoveForward() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
 	//      AddSequential(new Command2());
@@ -24,12 +20,5 @@ Left::Left() {
 	// e.g. if Command1 requires chassis, and Command2 requires arm,
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
-	std::string gameData;
-	gameData = DriverStation::GetInstance().GetGameSpecificMessage();
-		if(gameData.at(0) == 'L')
-		{
-		//Change to a Left Code
-		} else {
-		//Change to a Right Code
-		}
+	AddSequential(new DriveByDistance(120.5));
 }
