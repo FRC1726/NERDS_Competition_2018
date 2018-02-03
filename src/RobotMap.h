@@ -36,4 +36,10 @@ constexpr int CLAW = 1;
 constexpr double TURN_TOLERANCE = 1;
 constexpr double DRIVE_TOLERANCE = 1.5;
 
+//TalonSRX ID
+constexpr int WRIST_ID = 2;
+constexpr int WRIST_SLOT = 0;
+constexpr int WRIST_LOOP = 0;
+constexpr int WRIST_TIMEOUT = 10;
+
 #endif  // ROBOTMAP_H
