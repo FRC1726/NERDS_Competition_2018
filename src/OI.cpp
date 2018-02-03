@@ -4,6 +4,8 @@
 #include "RobotMap.h"
 
 #include "Commands/ToggleGrabber.h"
+#include "Commands/WristUp.h"
+#include "Commands/WristDown.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
@@ -14,8 +16,8 @@ OI::OI() :
 {
 	// Process operator interface input here.
 	driver_a.WhenPressed(new ToggleGrabber);
-	driver_x.WhenPressed(new TurnByAngle(90));
-	driver_y.WhenPressed(new DriveByDistance(24));
+	driver_x.WhenPressed(new WristUp);
+	driver_y.WhenPressed(new WristDown);
 }
 
 double OI::getAxis(int axis){

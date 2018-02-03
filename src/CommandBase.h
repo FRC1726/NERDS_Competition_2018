@@ -7,6 +7,7 @@
 #include "OI.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Pneumatics.h"
+#include "Subsystems/Grabber.h"
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -23,6 +24,7 @@ public:
 	static OI oi;
 	static DriveTrain drivetrain;
 	static Pneumatics pneumatics;
+	static Grabber grabber;
 };
 
 #endif  // COMMAND_BASE_H
