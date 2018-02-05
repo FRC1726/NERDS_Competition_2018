@@ -1,11 +1,12 @@
 #include <Commands/DriveByDistance.h>
+#include <Commands/ToggleClaw.h>
 #include <Commands/TurnByAngle.h>
 #include "OI.h"
 #include "RobotMap.h"
 
-#include "Commands/ToggleGrabber.h"
 #include "Commands/WristUp.h"
 #include "Commands/WristDown.h"
+#include "Commands/ToggleElevator.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
@@ -15,9 +16,10 @@ OI::OI() :
 	driver_y(&driver, BUTTON_Y)
 {
 	// Process operator interface input here.
-	driver_a.WhenPressed(new ToggleGrabber);
+	driver_a.WhenPressed(new ToggleClaw);
 	driver_x.WhenPressed(new WristUp);
 	driver_y.WhenPressed(new WristDown);
+	driver_b.WhenPressed(new ToggleElevator);
 }
 
 double OI::getAxis(int axis){

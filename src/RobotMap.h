@@ -30,8 +30,10 @@ constexpr int RB_CHANNEL = 3;
 
 //Pneumatics Ports
 constexpr int PNEU_GRABBER = 0;
-constexpr int CLAW = 1;
-constexpr int ELEVATOR = 2;
+constexpr int CLAW_FORWARD = 1;
+constexpr int CLAW_BACKWARD = 2;
+constexpr int ELEVATOR_FORWARD = 3;
+constexpr int ELEVATOR_BACKWARD = 4;
 
 //Autonomous Target Tolerances (+-target value)
 constexpr double TURN_TOLERANCE = 1;
