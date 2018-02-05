@@ -12,8 +12,20 @@ void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
-	SmartDashboard::Delete("Auto Modes");
+
+	initialPosition.AddObject("Left", 1);
+	initialPosition.AddObject("Middle", 2);
+	initialPosition.AddObject("Right", 3);
+
+	target.AddObject("Scale", 3);
+	target.AddObject("Switch", 2);
+	target.AddObject("Forward", 1);
+
 	SmartDashboard::PutData("Auto Modes", &chooser);
+	SmartDashboard::PutData("Position", &initialPosition);
+	SmartDashboard::PutData("Target", &target);
+	SmartDashboard::PutBoolean("FarTarget", false);
+
 }
 
 /**
