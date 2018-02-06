@@ -4,6 +4,8 @@
 //DriveTrain PWM Pins
 constexpr int DRIVE_LEFT = 0;
 constexpr int DRIVE_RIGHT = 1;
+constexpr int WINCH_REEL = 2;
+
 
 //Joystick Ports
 constexpr int JOY_DRIVER = 0;
@@ -34,6 +36,7 @@ constexpr int CLAW_FORWARD = 1;
 constexpr int CLAW_BACKWARD = 2;
 constexpr int ELEVATOR_FORWARD = 3;
 constexpr int ELEVATOR_BACKWARD = 4;
+constexpr int WINCH_RELEASE = 5;
 
 //Autonomous Target Tolerances (+-target value)
 constexpr double TURN_TOLERANCE = 1;
