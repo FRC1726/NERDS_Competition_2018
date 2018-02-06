@@ -1,9 +1,9 @@
 #include <CommandGroups/LeftSwitchClose.h>
+#include <Commands/ToggleClaw.h>
 
 #include "Subsystems/DriveTrain.h"
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
-#include "Commands/ToggleGrabber.h"
 
 LeftSwitchClose::LeftSwitchClose() {
 	// Add Commands here:
@@ -25,5 +25,5 @@ LeftSwitchClose::LeftSwitchClose() {
 	AddSequential(new DriveByDistance(140.5));
 	AddSequential(new TurnByAngle(90));
 	AddSequential(new DriveByDistance(24));
-	AddSequential(new ToggleGrabber());
+	AddSequential(new ToggleClaw());
 }

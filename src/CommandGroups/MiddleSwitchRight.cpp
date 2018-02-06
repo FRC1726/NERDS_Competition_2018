@@ -1,9 +1,9 @@
 #include <CommandGroups/MiddleSwitchRight.h>
+#include <Commands/ToggleClaw.h>
 
 #include "Subsystems/DriveTrain.h"
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
-#include "Commands/ToggleGrabber.h"
 
 MiddleSwitchRight::MiddleSwitchRight() {
 	// Add Commands here:
@@ -28,5 +28,5 @@ MiddleSwitchRight::MiddleSwitchRight() {
 	AddSequential(new TurnByAngle(-90));
 	AddSequential(new DriveByDistance(177.75));
 	AddSequential(new TurnByAngle(-90));
-	AddSequential(new ToggleGrabber());
+	AddSequential(new ToggleClaw());
 }
