@@ -8,6 +8,7 @@
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Pneumatics.h"
 #include "Subsystems/Grabber.h"
+#include "Subsystems/Winch.h"
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -25,6 +26,7 @@ public:
 	static DriveTrain drivetrain;
 	static Pneumatics pneumatics;
 	static Grabber grabber;
+	static Winch winch;
 };
 
 #endif  // COMMAND_BASE_H
