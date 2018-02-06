@@ -1,7 +1,8 @@
 #include "Robot.h"
 
 #include <Commands/Scheduler.h>
-#include <SmartDashboard/SmartDashboard.h>
+#include <Preferences.h>
+#include<SmartDashboard/SmartDashboard.h>
 
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
@@ -17,15 +18,17 @@ void Robot::RobotInit(){
 	initialPosition.AddObject("Middle", 2);
 	initialPosition.AddObject("Right", 3);
 
-	target.AddObject("Scale", 3);
-	target.AddObject("Switch", 2);
-	target.AddObject("Forward", 1);
-
 	SmartDashboard::PutData("Auto Modes", &chooser);
 	SmartDashboard::PutData("Position", &initialPosition);
-	SmartDashboard::PutData("Target", &target);
-	SmartDashboard::PutBoolean("FarTarget", false);
-
+	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
+		Preferences::GetInstance()->PutBoolean("FarTarget", false);
+	}
+	if(!Preferences::GetInstance()->ContainsKey("Scale")){
+		Preferences::GetInstance()->PutBoolean("Scale", false);
+	}
+	if(!Preferences::GetInstance()->ContainsKey("Switch")){
+		Preferences::GetInstance()->PutBoolean("Switch", false);
+	}
 }
 
 /**

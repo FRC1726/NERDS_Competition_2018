@@ -20,7 +20,6 @@ private:
 	std::shared_ptr<Command> autonomousCommand;
 	frc::SendableChooser<std::shared_ptr<Command> > chooser;
 	frc::SendableChooser<int> initialPosition;
-	frc::SendableChooser<int> target;
 };
 
 #endif //ROBOT_H
