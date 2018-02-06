@@ -1,9 +1,9 @@
+#include <Commands/ToggleClaw.h>
 #include "LeftSwitchFar.h"
 
 #include "Subsystems/DriveTrain.h"
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
-#include "Commands/ToggleGrabber.h"
 
 LeftSwitchFar::LeftSwitchFar() {
 	// Add Commands here:
@@ -27,5 +27,5 @@ LeftSwitchFar::LeftSwitchFar() {
 	AddSequential(new DriveByDistance(198));
 	AddSequential(new TurnByAngle(-90));
 	AddSequential(new DriveByDistance(30));
-	AddSequential(new ToggleGrabber());
+	AddSequential(new ToggleClaw());
 }

@@ -1,9 +1,9 @@
+#include <Commands/ToggleClaw.h>
 #include "GrabAndReturn.h"
 
 #include "Subsystems/DriveTrain.h"
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
-#include "Commands/ToggleGrabber.h"
 GrabAndReturn::GrabAndReturn() {
 	// Add Commands here:
 	// e.g. AddSequential(new Command1());
@@ -22,7 +22,7 @@ GrabAndReturn::GrabAndReturn() {
 	// a CommandGroup containing them would require both the chassis and the
 	// arm.
 	AddSequential(new DriveByDistance(80));
-	AddSequential(new ToggleGrabber());
+	AddSequential(new ToggleClaw());
 	AddSequential(new TurnByAngle(180));
 	AddSequential(new DriveByDistance(80));
 }

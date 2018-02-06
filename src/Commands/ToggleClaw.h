@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class ToggleGrabber : public CommandBase {
+class ToggleClaw : public CommandBase {
 public:
-	ToggleGrabber();
+	ToggleClaw();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

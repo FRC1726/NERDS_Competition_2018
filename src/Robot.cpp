@@ -1,7 +1,8 @@
 #include "Robot.h"
 
 #include <Commands/Scheduler.h>
-#include <SmartDashboard/SmartDashboard.h>
+#include <Preferences.h>
+#include<SmartDashboard/SmartDashboard.h>
 
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
@@ -12,8 +13,22 @@ void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
-	SmartDashboard::Delete("Auto Modes");
+
+	initialPosition.AddObject("Left", 1);
+	initialPosition.AddObject("Middle", 2);
+	initialPosition.AddObject("Right", 3);
+
 	SmartDashboard::PutData("Auto Modes", &chooser);
+	SmartDashboard::PutData("Position", &initialPosition);
+	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
+		Preferences::GetInstance()->PutBoolean("FarTarget", false);
+	}
+	if(!Preferences::GetInstance()->ContainsKey("Scale")){
+		Preferences::GetInstance()->PutBoolean("Scale", false);
+	}
+	if(!Preferences::GetInstance()->ContainsKey("Switch")){
+		Preferences::GetInstance()->PutBoolean("Switch", false);
+	}
 }
 
 /**

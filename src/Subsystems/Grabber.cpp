@@ -5,8 +5,8 @@
 
 Grabber::Grabber() : Subsystem("ExampleSubsystem"),
 	wrist(WRIST_ID),
-	claw(CLAW),
-	elevator(ELEVATOR)
+	claw(CLAW_FORWARD, CLAW_BACKWARD),
+	elevator(ELEVATOR_FORWARD, ELEVATOR_BACKWARD)
 {
 
 //	int absolutePosition = wrist.GetSelectedSensorPosition(0) & 0xFFF;
@@ -40,20 +40,20 @@ void Grabber::SetWrist(double target){
 	wrist.Set(ControlMode::Position, target);
 }
 
-bool Grabber::getClaw(){
+DoubleSolenoid::Value Grabber::getClaw(){
 	return claw.Get();
 }
 
-void Grabber::setClaw(bool on){
-	claw.Set(on);
+void Grabber::setClaw(DoubleSolenoid::Value state){
+	claw.Set(state);
 }
 
-bool Grabber::getElevator(){
+DoubleSolenoid::Value Grabber::getElevator(){
 	return elevator.Get();
 }
 
-void Grabber::setElevator(bool on){
-	elevator.Set(on);
+void Grabber::setElevator(DoubleSolenoid::Value state){
+	elevator.Set(state);
 }
 
 
