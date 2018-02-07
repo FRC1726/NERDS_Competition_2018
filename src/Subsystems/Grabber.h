@@ -3,7 +3,7 @@
 
 #include <Commands/Subsystem.h>
 
-#include "ctre/Phoenix.h"
+#include <ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h>
 #include "RobotMap.h"
 
 #include <Solenoid.h>
@@ -21,7 +21,7 @@ public:
 	bool getElevator();
 	void setElevator(bool);
 private:
-	 WPI_TalonSRX wrist;
+	 ctre::phoenix::motorcontrol::can::WPI_TalonSRX wrist;
 
 	 frc::Solenoid claw;
 	 frc::Solenoid elevator;
