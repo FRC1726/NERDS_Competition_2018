@@ -3,11 +3,12 @@
 #include <Commands/Scheduler.h>
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
+#include <DriverStation.h>
 
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
 
-#include <iostream>
+#include <string>
 
 void Robot::RobotInit(){
 	// chooser.AddObject("My Auto", new MyAutoCommand());
@@ -29,6 +30,7 @@ void Robot::RobotInit(){
 	if(!Preferences::GetInstance()->ContainsKey("Switch")){
 		Preferences::GetInstance()->PutBoolean("Switch", false);
 	}
+
 }
 
 /**
@@ -66,6 +68,7 @@ void Robot::AutonomousInit(){
 
 	//autonomousCommand.reset(chooser.GetSelected());
 	autonomousCommand = chooser.GetSelected().lock();
+
 
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();
