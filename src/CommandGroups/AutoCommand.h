@@ -18,6 +18,10 @@ private:
 	void switchNear(int);
 	void switchFar(int);
 	void baseline(int);
+
+	void scaleMiddle(char);
+	void switchMiddle(char);
+	void baselineMiddle(char);
 };
 
 #endif  // AutoCommand_H

@@ -10,38 +10,32 @@
 #include "Commands/TurnByAngle.h"
 #include "Commands/ToggleClaw.h"
 AutoCommand::AutoCommand(int initialPosition) {
-	// Add Commands here:
-	// e.g. AddSequential(new Command1());
-	//      AddSequential(new Command2());
-	// these will run in order.
-
-	// To run multiple commands at the same time,
-	// use AddParallel()
-	// e.g. AddParallel(new Command1());
-	//      AddSequential(new Command2());
-	// Command1 and Command2 will run in parallel.
-
-	// A command group will require all of the subsystems that each member
-	// would require.
-	// e.g. if Command1 requires chassis, and Command2 requires arm,
-	// a CommandGroup containing them would require both the chassis and the
-	// arm.
 	std::string gameData;
-		gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
+
+	char far, near;
+	if(intitialPosition == 1){
+		far = 'R';
+		near = 'L';
+	}else{
+		far = 'L';
+		near = 'R';
+	}
+
 
 	if (initialPosition == 1 || initialPosition == 3){
 			if(switchTarget && !scale){
-				if(gameData[0] == 'L'){
+				if(gameData[0] == near){
 					switchNear(initialPosition);
-				}else if(gameData[0] == 'R' && farTarget){
+				}else if(gameData[0] == far && farTarget){
 					switchFar(initialPosition);
 				}else{
 					baseline(initialPosition);
 				}
 			}else if(scale){
-				if(gameData[1] == 'L'){
+				if(gameData[1] == near){
 					scaleNear(initialPosition);
-				}else if(gameData[1] == 'R' && farTarget){
+				}else if(gameData[1] == far && farTarget){
 					scaleFar(initialPosition);
 				}else{
 					baseline(initialPosition);
@@ -50,10 +44,16 @@ AutoCommand::AutoCommand(int initialPosition) {
 				baseline(initialPosition);
 			}
 	}else{
-
+		if(scale){
+			scaleMiddle(gameData[1]);
+		}else if(switchTarget){
+			switchMiddle(gameData[0]);
+		}else{
+			baselineMiddle(gameData[0]);
+		}
 	}
-
 }
+
 void AutoCommand::getPreferences(){
 	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
 	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
@@ -108,6 +108,46 @@ void AutoCommand::switchFar(int initialPosition){
 }
 
 void AutoCommand::baseline(int initialPosition){
-
+	AddSequential(new DriveByDistance(120.5));
 }
 
+void AutoCommand::scaleMiddle(char scale){
+	int sign;
+
+	if(scale == 'L'){
+		sign = 1;
+	}else{
+		sign = -1;
+	}
+
+	AddSequential(new DriveByDistance(19.5));
+	AddSequential(new TurnByAngle(sign * -90));
+	AddSequential(new DriveByDistance(91.5));
+	AddSequential(new TurnByAngle(sign * 90));
+	AddSequential(new DriveByDistance(185.97));
+	AddSequential(new TurnByAngle(sign * 90));
+	AddSequential(new DriveByDistance(12));
+	//TODO drop the cube
+}
+
+void AutoCommand::switchMiddle(char switchPos){
+	int sign;
+
+	if(switchPos == 'L'){
+		sign = 1;
+	}else{
+		sign = -1;
+	}
+
+	AddSequential(new DriveByDistance(19.5));
+	AddSequential(new TurnByAngle(sign * -90));
+	AddSequential(new DriveByDistance(91.5));
+	AddSequential(new TurnByAngle(sign * 90));
+	AddSequential(new DriveByDistance(177.75));
+	AddSequential(new TurnByAngle(sign * 90));
+	//TODO drop the cube
+}
+
+void AutoCommand::baselineMiddle(char switchPos){
+	AddSequential(new DriveByDistance(120.5));
+}
