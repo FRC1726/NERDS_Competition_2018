@@ -15,6 +15,8 @@ constexpr int BUTTON_A = 1;
 constexpr int BUTTON_B = 2;
 constexpr int BUTTON_X = 3;
 constexpr int BUTTON_Y = 4;
+constexpr int LEFT_BUM = 5;
+constexpr int RIGHT_BUM = 6;
 
 //Axis IDs
 constexpr int LEFT_X = 0;
@@ -31,16 +33,11 @@ constexpr int RA_CHANNEL = 2;
 constexpr int RB_CHANNEL = 3;
 
 //Pneumatics Ports
-constexpr int PNEU_GRABBER = 0;
-constexpr int CLAW_FORWARD = 1;
-constexpr int CLAW_BACKWARD = 2;
-constexpr int ELEVATOR_FORWARD = 3;
-constexpr int ELEVATOR_BACKWARD = 4;
-constexpr int WINCH_RELEASE = 5;
-
-//Autonomous Target Tolerances (+-target value)
-constexpr double TURN_TOLERANCE = 1;
-constexpr double DRIVE_TOLERANCE = 1.5;
+constexpr int ELEVATOR_FORWARD = 0;
+constexpr int ELEVATOR_BACKWARD = 1;
+constexpr int CLAW_FORWARD = 2;
+constexpr int CLAW_BACKWARD = 3;
+constexpr int WINCH_RELEASE = 4;
 
 //TalonSRX ID
 constexpr int WRIST_ID = 2;

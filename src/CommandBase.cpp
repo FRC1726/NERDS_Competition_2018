@@ -2,7 +2,6 @@
 
 OI CommandBase::oi;
 DriveTrain CommandBase::drivetrain;
-Pneumatics CommandBase::pneumatics;
 Grabber CommandBase::grabber;
 Winch CommandBase::winch;
 
