@@ -6,7 +6,6 @@
 
 #include "OI.h"
 #include "Subsystems/DriveTrain.h"
-#include "Subsystems/Pneumatics.h"
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Winch.h"
 
@@ -24,7 +23,6 @@ public:
 	// Create a single static instance of all of your subsystems
 	static OI oi;
 	static DriveTrain drivetrain;
-	static Pneumatics pneumatics;
 	static Grabber grabber;
 	static Winch winch;
 };

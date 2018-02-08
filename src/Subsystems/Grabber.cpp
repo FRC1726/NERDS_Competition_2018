@@ -3,15 +3,14 @@
 #include <SmartDashboard/smartdashboard.h>
 
 
-Grabber::Grabber() : Subsystem("ExampleSubsystem"),
+Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
 	claw(CLAW_FORWARD, CLAW_BACKWARD),
 	elevator(ELEVATOR_FORWARD, ELEVATOR_BACKWARD)
 {
-
-//	int absolutePosition = wrist.GetSelectedSensorPosition(0) & 0xFFF;
-//	wrist.SetSelectedSensorPosition(absolutePosition, WRIST_LOOP, WRIST_TIMEOUT);
-	wrist.ConfigSelectedFeedbackSensor(FeedbackDevice::CTRE_MagEncoder_Relative, WRIST_LOOP, WRIST_TIMEOUT);
+	claw.Set(DoubleSolenoid::kReverse);
+	elevator.Set(DoubleSolenoid::kForward);
+	wrist.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, WRIST_LOOP, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputForward(0, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputReverse(0, WRIST_TIMEOUT);
 }
@@ -35,9 +34,9 @@ void Grabber::SetPID(double f, double p, double i, double d){
 }
 
 void Grabber::SetWrist(double target){
-	target = (4096 / 360) * target;
+	target = (4096 / 120) * target;
 	SmartDashboard::PutNumber("Target", target);
-	wrist.Set(ControlMode::Position, target);
+	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
 }
 
 DoubleSolenoid::Value Grabber::getClaw(){
