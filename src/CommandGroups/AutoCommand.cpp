@@ -9,12 +9,14 @@
 #include "Commands/WristUp.h"
 #include "Commands/TurnByAngle.h"
 #include "Commands/ToggleClaw.h"
+#include "Commands/ToggleElevator.h"
+
 AutoCommand::AutoCommand(int initialPosition) {
 	std::string gameData;
 	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
 	char far, near;
-	if(intitialPosition == 1){
+	if(initialPosition == 1){
 		far = 'R';
 		near = 'L';
 	}else{
@@ -65,38 +67,57 @@ void AutoCommand::scaleNear(int initialPosition){
 	int sign = -1;
 
 	if(initialPosition == 1){
-		sign = 1
+		sign = 1;
 	}
 
+	AddSequential(new DriveByDistance(306.15));
+	AddSequential(new TurnByAngle(sign * 90));
+	AddSequential(new DriveByDistance(10));
+	AddSequential(new ToggleElevator());
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
 
 }
 
 void AutoCommand::scaleFar(int initialPosition){
+
 	int sign = -1;
 
 	if(initialPosition == 1){
-		sign = 1
+		sign = 1;
 	}
+
+	AddSequential(new DriveByDistance(250));
+	AddSequential(new TurnByAngle(sign * 90));
+	AddSequential(new DriveByDistance(192));
+	AddSequential(new TurnByAngle(sign * -90));
+	AddSequential(new DriveByDistance(69.15));
+	AddSequential(new TurnByAngle(sign * -90));
+	AddSequential(new ToggleElevator());
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
+
 }
 
 void AutoCommand::switchNear(int initialPosition){
 	int sign = -1;
 
 	if(initialPosition == 1){
-		sign = 1
+		sign = 1;
 	}
 
 	AddSequential(new DriveByDistance(140.5));
 	AddSequential(new TurnByAngle(sign * 90));
 	AddSequential(new DriveByDistance(24));
-	//TODO drop cube
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
 }
 
 void AutoCommand::switchFar(int initialPosition){
 	int sign = -1;
 
 	if(initialPosition == 1){
-		sign = 1
+		sign = 1;
 	}
 
 	AddSequential(new DriveByDistance(84));
@@ -104,7 +125,8 @@ void AutoCommand::switchFar(int initialPosition){
 	AddSequential(new DriveByDistance(198));
 	AddSequential(new TurnByAngle(sign * -90));
 	AddSequential(new DriveByDistance(30));
-	//TODO drop cube
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
 }
 
 void AutoCommand::baseline(int initialPosition){
@@ -127,7 +149,9 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new DriveByDistance(185.97));
 	AddSequential(new TurnByAngle(sign * 90));
 	AddSequential(new DriveByDistance(12));
-	//TODO drop the cube
+	AddSequential(new ToggleElevator());
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
 }
 
 void AutoCommand::switchMiddle(char switchPos){
@@ -145,7 +169,8 @@ void AutoCommand::switchMiddle(char switchPos){
 	AddSequential(new TurnByAngle(sign * 90));
 	AddSequential(new DriveByDistance(177.75));
 	AddSequential(new TurnByAngle(sign * 90));
-	//TODO drop the cube
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
 }
 
 void AutoCommand::baselineMiddle(char switchPos){
