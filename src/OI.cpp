@@ -25,7 +25,7 @@ OI::OI() :
 	driver_y.WhenPressed(new WristDown);
 	driver_b.WhenPressed(new ToggleElevator);
 	driver_RB.WhenPressed(new ReleaseWinch);
-	driver_LB.WhenPressed(new ReelWinch);
+	driver_LB.WhileHeld(new ReelWinch);
 }
 
 double OI::getAxis(int axis){

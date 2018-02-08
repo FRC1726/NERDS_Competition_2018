@@ -10,9 +10,14 @@ Grabber::Grabber() : Subsystem("Grabber"),
 {
 	claw.Set(DoubleSolenoid::kReverse);
 	elevator.Set(DoubleSolenoid::kForward);
+
+	wrist.ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_FeedbackConnector, ctre::phoenix::motorcontrol::LimitSwitchNormal_NormallyOpen, WRIST_TIMEOUT);
+	wrist.ConfigReverseLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_FeedbackConnector, ctre::phoenix::motorcontrol::LimitSwitchNormal_NormallyOpen, WRIST_TIMEOUT);
+
 	wrist.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, WRIST_LOOP, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputForward(0, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputReverse(0, WRIST_TIMEOUT);
+	wrist.ConfigSetParameter(ctre::phoenix::ParamEnum::eClearPositionOnLimitF,1,0,0,WRIST_TIMEOUT);
 }
 
 void Grabber::InitDefaultCommand() {
