@@ -6,15 +6,13 @@
 
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
-
 #include <iostream>
 
 void Robot::RobotInit(){
-	// chooser.AddObject("My Auto", new MyAutoCommand());
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
 
-	initialPosition.AddObject("Left", 1);
+	initialPosition.AddDefault("Left", 1);
 	initialPosition.AddObject("Middle", 2);
 	initialPosition.AddObject("Right", 3);
 
