@@ -4,6 +4,7 @@
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
 
+#include "CommandBase.h"
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
 #include <iostream>
