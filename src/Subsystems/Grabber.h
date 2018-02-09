@@ -17,7 +17,7 @@ public:
 	void SetMaxSpeed(double);
 	void SetPID(double, double, double, double);
 	void SetWrist(double);
-	void SimpleWristControl(double)
+	void SimpleWristControl(double);
 
 	DoubleSolenoid::Value getClaw();
 	void setClaw(DoubleSolenoid::Value);

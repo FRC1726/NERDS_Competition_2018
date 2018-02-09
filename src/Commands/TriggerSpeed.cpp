@@ -54,7 +54,7 @@ void TriggerSpeed::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
 	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Down Angle")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Down Angle", 0.0);
+	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Down Angle")) {
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Down Angle", 0.0);
 	}
 }
