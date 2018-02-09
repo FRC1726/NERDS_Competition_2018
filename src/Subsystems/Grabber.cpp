@@ -39,6 +39,10 @@ void Grabber::SetWrist(double target){
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
 }
 
+void Grabber::SimpleWristControl(double spd){
+	Wrist.Set(spd);
+}
+
 DoubleSolenoid::Value Grabber::getClaw(){
 	return claw.Get();
 }
