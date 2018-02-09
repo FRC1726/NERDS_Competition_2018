@@ -3,7 +3,7 @@
 
 #include <Commands/Subsystem.h>
 
-#include <ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h>
+#include <ctre/phoenix/MotorControl/can/WPI_TalonSRX.h>
 #include "RobotMap.h"
 
 #include <DoubleSolenoid.h>

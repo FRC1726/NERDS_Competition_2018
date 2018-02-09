@@ -34,7 +34,7 @@ void ReelDown::Interrupted() {
 }
 
 void ReelDown::getPreferences(){
-	-reelSpeed = Preferences::GetInstance()->GetDouble("Reel/Speed", 0.1);
+	reelSpeed = Preferences::GetInstance()->GetDouble("Reel/Speed", 0.1);
 }
 
 void ReelDown::checkKeys(){

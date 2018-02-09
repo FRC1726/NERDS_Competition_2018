@@ -3,7 +3,7 @@
 
 #include <Buttons/Trigger.h>
 
-class Dpad_Up : public Trigger {
+class Dpad_Up : public frc::Trigger{
 public:
 	Dpad_Up();
 	bool Get();

@@ -9,6 +9,8 @@
 #include "Commands/WristDown.h"
 #include "Commands/ToggleElevator.h"
 #include "Commands/ReleaseWinch.h"
+#include "Commands/ReelUp.h"
+#include "Commands/ReelDown.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
@@ -25,9 +27,9 @@ OI::OI() :
 	driver_y.WhenPressed(new WristDown);
 	driver_b.WhenPressed(new ToggleElevator);
 	driver_RB.WhenPressed(new ReleaseWinch);
-	driver_LB.WhenPressed(new ReelUp);
 
-	d_Down.WhenActive(new ReelUp());
+	d_Down.WhileActive(new ReelDown);
+	d_Up.WhileActive(new ReelUp);
 
 }
 
