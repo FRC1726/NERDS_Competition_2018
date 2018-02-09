@@ -1,7 +1,7 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
 #include <SmartDashboard/smartdashboard.h>
-
+#include "Commands/TriggerSpeed.h"
 
 Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
@@ -18,6 +18,7 @@ Grabber::Grabber() : Subsystem("Grabber"),
 void Grabber::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new TriggerSpeed());
 }
 
 // Put methods for controlling this subsystem
@@ -37,6 +38,10 @@ void Grabber::SetWrist(double target){
 	target = (4096 / 120) * target;
 	SmartDashboard::PutNumber("Target", target);
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
+}
+
+void Grabber::SimpleWristControl(double spd){
+	wrist.Set(spd);
 }
 
 DoubleSolenoid::Value Grabber::getClaw(){
