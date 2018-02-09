@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class ReelWinch : public CommandBase {
+class ReelUp : public CommandBase {
 public:
-	ReelWinch();
+	ReelUp();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
