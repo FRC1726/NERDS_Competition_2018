@@ -11,6 +11,10 @@ public:
 	bool IsFinished();
 	void End();
 	void Interrupted();
-};
 
+private:
+	void getPreferences();
+	void checkKeys();
+	double maxSpeed;
+};
 #endif  // In_ItClaw_H

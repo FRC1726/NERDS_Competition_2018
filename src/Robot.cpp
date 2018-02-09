@@ -7,8 +7,10 @@
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
 #include <iostream>
+#include "Commands/InitClaw.h"
 
 void Robot::RobotInit(){
+
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
 

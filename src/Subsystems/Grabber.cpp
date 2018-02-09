@@ -1,7 +1,7 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
 #include <SmartDashboard/smartdashboard.h>
-
+#include <ctre/phoenix/MotorControl/SensorCollection.h>
 
 Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
@@ -43,6 +43,15 @@ void Grabber::SetWrist(double target){
 	SmartDashboard::PutNumber("Target", target);
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
 }
+
+void Grabber::SimpleWristControl(double spd){
+	wrist.Set(spd);
+}
+
+bool Grabber::GetLimitSwitch(){
+	wrist.GetSensorCollection().IsFwdLimitSwitchClosed();
+}
+
 
 DoubleSolenoid::Value Grabber::getClaw(){
 	return claw.Get();
