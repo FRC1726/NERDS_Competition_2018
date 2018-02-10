@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include "Commands/InitClaw.h"
+#include "CommandGroups/AutoCommand.h"
 
 void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);
@@ -19,14 +20,10 @@ void Robot::RobotInit(){
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
 	camera.SetResolution(640, 480);
 
-	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
-	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
-
 	initialPosition.AddDefault("Left", 1);
 	initialPosition.AddObject("Middle", 2);
 	initialPosition.AddObject("Right", 3);
 
-	SmartDashboard::PutData("Auto Modes", &chooser);
 	SmartDashboard::PutData("Position", &initialPosition);
 	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
 		Preferences::GetInstance()->PutBoolean("FarTarget", false);
@@ -64,17 +61,7 @@ void Robot::DisabledPeriodic(){
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit(){
-	/* std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Default");
-	if (autoSelected == "My Auto") {
-		autonomousCommand.reset(new MyAutoCommand());
-	}
-	else {
-		autonomousCommand.reset(new ExampleCommand());
-	} */
-
-	//autonomousCommand.reset(chooser.GetSelected());
-	autonomousCommand = chooser.GetSelected().lock();
-
+	autonomousCommand.reset(new AutoCommand());
 
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();

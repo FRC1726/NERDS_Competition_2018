@@ -11,7 +11,7 @@
 #include "Commands/ToggleClaw.h"
 #include "Commands/ToggleElevator.h"
 
-AutoCommand::AutoCommand(int initialPosition) {
+AutoCommand::AutoCommand() {
 	std::string gameData;
 	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
@@ -60,6 +60,7 @@ void AutoCommand::getPreferences(){
 	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
 	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
 	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
+	initialPosition = dynamic_cast<frc::SendableChooser<int>* >(SmartDashboard::GetData("Position"))->GetSelected();
 }
 
 void AutoCommand::scaleNear(int initialPosition){
