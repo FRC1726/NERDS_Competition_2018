@@ -2,6 +2,7 @@
 #include "../RobotMap.h"
 #include <SmartDashboard/smartdashboard.h>
 #include <ctre/phoenix/MotorControl/SensorCollection.h>
+#include "Commands/TriggerSpeed.h"
 
 Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
@@ -24,6 +25,7 @@ Grabber::Grabber() : Subsystem("Grabber"),
 void Grabber::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new TriggerSpeed());
 }
 
 // Put methods for controlling this subsystem
@@ -52,7 +54,6 @@ void Grabber::SimpleWristControl(double spd){
 bool Grabber::GetLimitSwitch(){
 	return wrist.GetSensorCollection().IsFwdLimitSwitchClosed();
 }
-
 
 DoubleSolenoid::Value Grabber::getClaw(){
 	return claw.Get();

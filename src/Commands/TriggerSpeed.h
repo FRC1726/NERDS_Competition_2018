@@ -1,20 +1,21 @@
-#ifndef RealWinch_H
-#define RealWinch_H
+#ifndef TriggerSpeed_H
+#define TriggerSpeed_H
 
 #include "../CommandBase.h"
 
-class ReelWinch : public CommandBase {
+class TriggerSpeed : public CommandBase {
 public:
-	ReelWinch();
+	TriggerSpeed();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
 private:
+	double angle;
+	double maxSpeed;
 	void getPreferences();
 	void checkKeys();
-	double reelSpeed;
 };
 
-#endif  // RealWinch_H
+#endif  // TriggerSpeed_H
