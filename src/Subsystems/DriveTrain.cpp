@@ -15,8 +15,6 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	pidWrite(),
 	pidController(0, 0, 0, &gyro, &pidWrite)
 {
-	leftController.SetInverted(true);
-	rightController.SetInverted(true);
 	leftEncoder.SetReverseDirection(true);
 	leftEncoder.SetDistancePerPulse(3.1415/60);
 	rightEncoder.SetDistancePerPulse(3.1415/60);

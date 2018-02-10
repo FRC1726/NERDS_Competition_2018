@@ -3,22 +3,27 @@
 #include <Commands/Scheduler.h>
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
+#include <DriverStation.h>
 
+#include "CommandBase.h"
 #include "CommandGroups/ForwardAndTurn.h"
 #include "CommandGroups/GrabAndReturn.h"
-
+#include <string>
 #include <iostream>
+#include "Commands/InitClaw.h"
+#include "CommandGroups/AutoCommand.h"
 
 void Robot::RobotInit(){
-	// chooser.AddObject("My Auto", new MyAutoCommand());
-	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
-	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
+	initClaw.reset(new InitClaw);
+	initClaw->Start();
 
-	initialPosition.AddObject("Left", 1);
+	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
+	camera.SetResolution(640, 480);
+
+	initialPosition.AddDefault("Left", 1);
 	initialPosition.AddObject("Middle", 2);
 	initialPosition.AddObject("Right", 3);
 
-	SmartDashboard::PutData("Auto Modes", &chooser);
 	SmartDashboard::PutData("Position", &initialPosition);
 	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
 		Preferences::GetInstance()->PutBoolean("FarTarget", false);
@@ -29,6 +34,7 @@ void Robot::RobotInit(){
 	if(!Preferences::GetInstance()->ContainsKey("Switch")){
 		Preferences::GetInstance()->PutBoolean("Switch", false);
 	}
+
 }
 
 /**
@@ -37,7 +43,6 @@ void Robot::RobotInit(){
  * the robot is disabled.
  */
 void Robot::DisabledInit(){
-
 }
 
 void Robot::DisabledPeriodic(){
@@ -56,16 +61,7 @@ void Robot::DisabledPeriodic(){
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit(){
-	/* std::string autoSelected = frc::SmartDashboard::GetString("Auto Selector", "Default");
-	if (autoSelected == "My Auto") {
-		autonomousCommand.reset(new MyAutoCommand());
-	}
-	else {
-		autonomousCommand.reset(new ExampleCommand());
-	} */
-
-	//autonomousCommand.reset(chooser.GetSelected());
-	autonomousCommand = chooser.GetSelected().lock();
+	autonomousCommand.reset(new AutoCommand());
 
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();

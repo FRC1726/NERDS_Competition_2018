@@ -1,24 +1,33 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
 #include <SmartDashboard/smartdashboard.h>
+#include <ctre/phoenix/MotorControl/SensorCollection.h>
+#include "Commands/TriggerSpeed.h"
 
-
-Grabber::Grabber() : Subsystem("ExampleSubsystem"),
+Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
 	claw(CLAW_FORWARD, CLAW_BACKWARD),
 	elevator(ELEVATOR_FORWARD, ELEVATOR_BACKWARD)
 {
+	claw.Set(DoubleSolenoid::kReverse);
+	elevator.Set(DoubleSolenoid::kForward);
 
-//	int absolutePosition = wrist.GetSelectedSensorPosition(0) & 0xFFF;
-//	wrist.SetSelectedSensorPosition(absolutePosition, WRIST_LOOP, WRIST_TIMEOUT);
+	wrist.SetInverted(true);
+
+	wrist.ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_FeedbackConnector, ctre::phoenix::motorcontrol::LimitSwitchNormal_NormallyOpen, WRIST_TIMEOUT);
+	wrist.ConfigSetParameter(ctre::phoenix::ParamEnum::eClearPositionOnLimitF,1,0,0,WRIST_TIMEOUT);
+
 	wrist.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, WRIST_LOOP, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputForward(0, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputReverse(0, WRIST_TIMEOUT);
+
+	wrist.ConfigReverseSoftLimitEnable(true, WRIST_TIMEOUT);
 }
 
 void Grabber::InitDefaultCommand() {
 	// Set the default command for a subsystem here.
 	// SetDefaultCommand(new MySpecialCommand());
+	SetDefaultCommand(new TriggerSpeed());
 }
 
 // Put methods for controlling this subsystem
@@ -35,9 +44,17 @@ void Grabber::SetPID(double f, double p, double i, double d){
 }
 
 void Grabber::SetWrist(double target){
-	target = (4096 / 360) * target;
-	SmartDashboard::PutNumber("Target", target);
+	target = -((4096 / 120) * target);
+
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
+}
+
+void Grabber::SimpleWristControl(double spd){
+	wrist.Set(spd);
+}
+
+bool Grabber::GetLimitSwitch(){
+	return wrist.GetSensorCollection().IsFwdLimitSwitchClosed();
 }
 
 DoubleSolenoid::Value Grabber::getClaw(){
@@ -56,4 +73,8 @@ void Grabber::setElevator(DoubleSolenoid::Value state){
 	elevator.Set(state);
 }
 
+void Grabber::SetReverseLimit(int limit){
+	int target = -((4096 / 120) * limit);
+	wrist.ConfigReverseSoftLimitThreshold(target, WRIST_TIMEOUT);
+}
 

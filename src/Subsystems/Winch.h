@@ -13,7 +13,8 @@ private:
 public:
 	Winch();
 	void InitDefaultCommand();
-	void Release();
+	void setRelease(bool);
+	bool getRelease();
 	void Reel(double);
 private:
 	frc::Solenoid release;

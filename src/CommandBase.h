@@ -2,13 +2,14 @@
 #define COMMAND_BASE_H
 
 #include <string>
+#include <memory>
 #include <Commands/Command.h>
 
 #include "OI.h"
 #include "Subsystems/DriveTrain.h"
-#include "Subsystems/Pneumatics.h"
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Winch.h"
+#include <PowerDistributionPanel.h>
 
 /**
  * The base for all commands. All atomic commands should subclass CommandBase.
@@ -24,9 +25,9 @@ public:
 	// Create a single static instance of all of your subsystems
 	static OI oi;
 	static DriveTrain drivetrain;
-	static Pneumatics pneumatics;
 	static Grabber grabber;
 	static Winch winch;
+	static std::unique_ptr<PowerDistributionPanel> pdp;
 };
 
 #endif  // COMMAND_BASE_H
