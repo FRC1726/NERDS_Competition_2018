@@ -11,10 +11,13 @@
 #include <string>
 #include <iostream>
 #include "Commands/InitClaw.h"
+#include "CommandGroups/AutoCommand.h"
 
 void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);
 	initClaw->Start();
+
+	autonomousCommand.reset(new AutoCommand());
 
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
@@ -70,9 +73,6 @@ void Robot::AutonomousInit(){
 	} */
 
 	//autonomousCommand.reset(chooser.GetSelected());
-	autonomousCommand = chooser.GetSelected().lock();
-
-
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();
 	}
