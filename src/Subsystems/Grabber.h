@@ -13,11 +13,16 @@ class Grabber : public Subsystem {
 public:
 	Grabber();
 	void InitDefaultCommand();
+
 	void SetMaxSpeed(double);
 	void SetPID(double, double, double, double);
 	void SetWrist(double);
+	void SimpleWristControl(double);
+	bool GetLimitSwitch();
+
 	DoubleSolenoid::Value getClaw();
 	void setClaw(DoubleSolenoid::Value);
+
 	DoubleSolenoid::Value getElevator();
 	void setElevator(DoubleSolenoid::Value);
 private:

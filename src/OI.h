@@ -14,6 +14,8 @@ private:
 	JoystickButton driver_b;
 	JoystickButton driver_x;
 	JoystickButton driver_y;
+	JoystickButton driver_LB;
+	JoystickButton driver_RB;
 };
 
 #endif  // OI_H
