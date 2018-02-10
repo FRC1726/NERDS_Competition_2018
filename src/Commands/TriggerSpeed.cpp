@@ -49,6 +49,8 @@ void TriggerSpeed::Interrupted() {
 void TriggerSpeed::getPreferences(){
 	maxSpeed = Preferences::GetInstance()->GetDouble("Wrist/Max Speed", 1);
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
+
+	grabber.SetMaxSpeed(maxSpeed);
 }
 
 void TriggerSpeed::checkKeys(){
