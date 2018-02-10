@@ -17,8 +17,12 @@ void Winch::InitDefaultCommand() {
 // Put methods for controlling this subsystem
 // here. Call these from Commands.
 
-void Winch::Release(){
-	release.Set(false);
+void Winch::setRelease(bool on){
+	release.Set(on);
+}
+
+bool Winch::getRelease(){
+	return release.Get();
 }
 
 void Winch::Reel(double speed){

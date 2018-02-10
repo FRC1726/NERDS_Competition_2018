@@ -8,7 +8,7 @@ ReleaseWinch::ReleaseWinch() {
 
 // Called just before this Command runs the first time
 void ReleaseWinch::Initialize() {
-	winch.Release();
+	winch.setRelease(!winch.getRelease());
 }
 
 // Called repeatedly when this Command is scheduled to run
