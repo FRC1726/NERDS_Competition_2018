@@ -16,6 +16,9 @@ void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);
 	initClaw->Start();
 
+	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
+	camera.SetResolution(640, 480);
+
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
 
