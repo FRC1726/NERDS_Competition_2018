@@ -17,6 +17,9 @@ void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);
 	initClaw->Start();
 
+	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
+	camera.SetResolution(640, 480);
+
 	initialPosition.AddDefault("Left", 1);
 	initialPosition.AddObject("Middle", 2);
 	initialPosition.AddObject("Right", 3);
