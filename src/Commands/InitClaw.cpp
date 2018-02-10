@@ -1,10 +1,13 @@
 #include <Commands/InitClaw.h>
+#include <smartdashboard/SmartDashboard.h>
 
 InitClaw::InitClaw() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 	checkKeys();
+	SetRunWhenDisabled(true);
+	SetInterruptible(false);
 }
 
 // Called just before this Command runs the first time
@@ -20,6 +23,7 @@ void InitClaw::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool InitClaw::IsFinished() {
+	SmartDashboard::PutBoolean("Limit Switch", grabber.GetLimitSwitch());
 	return grabber.GetLimitSwitch();
 }
 

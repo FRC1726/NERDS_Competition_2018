@@ -9,6 +9,7 @@
 #include "Commands/ToggleElevator.h"
 #include "Commands/ReleaseWinch.h"
 #include "Commands/ReelWinch.h"
+#include "Commands/InitClaw.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
@@ -25,7 +26,7 @@ OI::OI() :
 	driver_y.WhenPressed(new WristDown);
 	driver_b.WhenPressed(new ToggleElevator);
 	driver_RB.WhenPressed(new ReleaseWinch);
-	driver_LB.WhileHeld(new ReelWinch);
+	driver_LB.WhenPressed(new InitClaw);
 }
 
 double OI::getAxis(int axis){

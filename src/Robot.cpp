@@ -10,6 +10,8 @@
 #include "Commands/InitClaw.h"
 
 void Robot::RobotInit(){
+	initClaw.reset(new InitClaw);
+	initClaw->Start();
 
 	chooser.AddDefault("ForwardBack", std::make_shared<ForwardAndTurn>());
 	chooser.AddObject("Grab and Return", std::make_shared<GrabAndReturn>());
@@ -37,7 +39,6 @@ void Robot::RobotInit(){
  * the robot is disabled.
  */
 void Robot::DisabledInit(){
-
 }
 
 void Robot::DisabledPeriodic(){
