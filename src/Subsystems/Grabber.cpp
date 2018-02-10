@@ -20,6 +20,8 @@ Grabber::Grabber() : Subsystem("Grabber"),
 	wrist.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, WRIST_LOOP, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputForward(0, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputReverse(0, WRIST_TIMEOUT);
+
+	wrist.ConfigReverseSoftLimitEnable(true, WRIST_TIMEOUT);
 }
 
 void Grabber::InitDefaultCommand() {
@@ -43,7 +45,7 @@ void Grabber::SetPID(double f, double p, double i, double d){
 
 void Grabber::SetWrist(double target){
 	target = -((4096 / 120) * target);
-	SmartDashboard::PutNumber("Target", target);
+
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
 }
 
@@ -71,4 +73,8 @@ void Grabber::setElevator(DoubleSolenoid::Value state){
 	elevator.Set(state);
 }
 
+void Grabber::SetReverseLimit(int limit){
+	int target = -((4096 / 120) * limit);
+	wrist.ConfigReverseSoftLimitThreshold(target, WRIST_TIMEOUT);
+}
 
