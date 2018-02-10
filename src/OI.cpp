@@ -9,6 +9,7 @@
 #include "Commands/WristDown.h"
 #include "Commands/ToggleElevator.h"
 #include "Commands/ReleaseWinch.h"
+#include "Commands/InitClaw.h"
 #include "Commands/ReelUp.h"
 #include "Commands/ReelDown.h"
 
@@ -27,10 +28,10 @@ OI::OI() :
 	driver_y.WhenPressed(new WristDown);
 	driver_b.WhenPressed(new ToggleElevator);
 	driver_RB.WhenPressed(new ReleaseWinch);
+	driver_LB.WhenPressed(new InitClaw);
 
 	d_Down.WhileActive(new ReelDown);
 	d_Up.WhileActive(new ReelUp);
-
 }
 
 double OI::getAxis(int axis){

@@ -1,6 +1,7 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
 #include <SmartDashboard/smartdashboard.h>
+#include <ctre/phoenix/MotorControl/SensorCollection.h>
 #include "Commands/TriggerSpeed.h"
 
 Grabber::Grabber() : Subsystem("Grabber"),
@@ -10,6 +11,12 @@ Grabber::Grabber() : Subsystem("Grabber"),
 {
 	claw.Set(DoubleSolenoid::kReverse);
 	elevator.Set(DoubleSolenoid::kForward);
+
+	wrist.SetInverted(true);
+
+	wrist.ConfigForwardLimitSwitchSource(ctre::phoenix::motorcontrol::LimitSwitchSource_FeedbackConnector, ctre::phoenix::motorcontrol::LimitSwitchNormal_NormallyOpen, WRIST_TIMEOUT);
+	wrist.ConfigSetParameter(ctre::phoenix::ParamEnum::eClearPositionOnLimitF,1,0,0,WRIST_TIMEOUT);
+
 	wrist.ConfigSelectedFeedbackSensor(ctre::phoenix::motorcontrol::FeedbackDevice::CTRE_MagEncoder_Relative, WRIST_LOOP, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputForward(0, WRIST_TIMEOUT);
 	wrist.ConfigNominalOutputReverse(0, WRIST_TIMEOUT);
@@ -35,13 +42,17 @@ void Grabber::SetPID(double f, double p, double i, double d){
 }
 
 void Grabber::SetWrist(double target){
-	target = (4096 / 120) * target;
+	target = -((4096 / 120) * target);
 	SmartDashboard::PutNumber("Target", target);
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
 }
 
 void Grabber::SimpleWristControl(double spd){
 	wrist.Set(spd);
+}
+
+bool Grabber::GetLimitSwitch(){
+	return wrist.GetSensorCollection().IsFwdLimitSwitchClosed();
 }
 
 DoubleSolenoid::Value Grabber::getClaw(){

@@ -18,6 +18,7 @@ public:
 	void SetPID(double, double, double, double);
 	void SetWrist(double);
 	void SimpleWristControl(double);
+	bool GetLimitSwitch();
 
 	DoubleSolenoid::Value getClaw();
 	void setClaw(DoubleSolenoid::Value);
