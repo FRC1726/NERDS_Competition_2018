@@ -6,7 +6,7 @@
 
 class AutoCommand : public CommandGroup {
 public:
-	AutoCommand();
+	AutoCommand(int);
 private:
 	void getPreferences();
 	bool farTarget;

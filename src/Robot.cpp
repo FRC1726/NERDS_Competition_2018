@@ -61,7 +61,7 @@ void Robot::DisabledPeriodic(){
  * to the if-else structure below with additional strings & commands.
  */
 void Robot::AutonomousInit(){
-	autonomousCommand.reset(new AutoCommand());
+	autonomousCommand.reset(new AutoCommand(initialPosition.GetSelected()));
 
 	if (autonomousCommand.get() != nullptr) {
 		autonomousCommand->Start();
