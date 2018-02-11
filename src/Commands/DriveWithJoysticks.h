@@ -16,6 +16,7 @@ private:
 	double minSpeed;
 	double maxSpeed;
 	double deadzone;
+
 	double driveProfile(double);
 	void getPreferences();
 	void checkKeys();

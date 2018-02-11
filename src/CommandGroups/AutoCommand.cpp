@@ -1,18 +1,19 @@
 #include "AutoCommand.h"
+
 #include <Preferences.h>
 #include <DriverStation.h>
-
 #include <string>
 
 #include "Commands/DriveByDistance.h"
+#include "Commands/TurnByAngle.h"
 #include "Commands/WristDown.h"
 #include "Commands/WristUp.h"
-#include "Commands/TurnByAngle.h"
+#include "Commands/ToggleArm.h"
 #include "Commands/ToggleClaw.h"
-#include "Commands/ToggleElevator.h"
 
 AutoCommand::AutoCommand(int pos) {
 	initialPosition = pos;
+
 	std::string gameData;
 	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
@@ -26,19 +27,19 @@ AutoCommand::AutoCommand(int pos) {
 	}
 
 	if (initialPosition == 1 || initialPosition == 3){
-			if(switchTarget && !scale){
-				if(gameData[0] == near){
-					switchNear(initialPosition);
-				}else if(gameData[0] == far && farTarget){
-					switchFar(initialPosition);
-				}else{
-					baseline(initialPosition);
-				}
-			}else if(scale){
+			if(scale){
 				if(gameData[1] == near){
 					scaleNear(initialPosition);
 				}else if(gameData[1] == far && farTarget){
 					scaleFar(initialPosition);
+				}else{
+					baseline(initialPosition);
+				}
+			}else if(switchTarget){
+				if(gameData[0] == near){
+					switchNear(initialPosition);
+				}else if(gameData[0] == far && farTarget){
+					switchFar(initialPosition);
 				}else{
 					baseline(initialPosition);
 				}
@@ -60,7 +61,6 @@ void AutoCommand::getPreferences(){
 	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
 	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
 	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
-//	initialPosition = dynamic_cast<frc::SendableChooser<int>* >(SmartDashboard::GetData("Position"))->GetSelected();
 }
 
 void AutoCommand::scaleNear(int initialPosition){
@@ -74,7 +74,7 @@ void AutoCommand::scaleNear(int initialPosition){
 	AddSequential(new DriveByDistance(306.15));
 	AddSequential(new TurnByAngle(sign * 90));
 	AddSequential(new DriveByDistance(10));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristDown());
 	AddSequential(new ToggleClaw());
 
@@ -94,7 +94,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new TurnByAngle(sign * -90));
 	AddSequential(new DriveByDistance(69.15));
 	AddSequential(new TurnByAngle(sign * -90));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristDown());
 	AddSequential(new ToggleClaw());
 
@@ -135,12 +135,10 @@ void AutoCommand::baseline(int initialPosition){
 }
 
 void AutoCommand::scaleMiddle(char scale){
-	int sign;
+	int sign = -1;
 
 	if(scale == 'L'){
 		sign = 1;
-	}else{
-		sign = -1;
 	}
 
 	AddSequential(new DriveByDistance(19.5));
@@ -150,18 +148,16 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new DriveByDistance(185.97));
 	AddSequential(new TurnByAngle(sign * 90));
 	AddSequential(new DriveByDistance(12));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristDown());
 	AddSequential(new ToggleClaw());
 }
 
 void AutoCommand::switchMiddle(char switchPos){
-	int sign;
+	int sign = -1;
 
 	if(switchPos == 'L'){
 		sign = 1;
-	}else{
-		sign = -1;
 	}
 
 	AddSequential(new DriveByDistance(19.5));

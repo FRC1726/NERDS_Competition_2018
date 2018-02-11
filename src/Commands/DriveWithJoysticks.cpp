@@ -1,9 +1,9 @@
-#include <Commands/DriveWithJoysticks.h>
+#include "Commands/DriveWithJoysticks.h"
 #include "../RobotMap.h"
 
-DriveWithJoysticks::DriveWithJoysticks() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(chassis.get());
+#include <Preferences.h>
+
+DriveWithJoysticks::DriveWithJoysticks() : CommandBase ("Drive with Joys"){
 	Requires(&drivetrain);
 	checkKeys();
 }
