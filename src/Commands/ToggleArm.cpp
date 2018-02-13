@@ -6,10 +6,12 @@ ToggleArm::ToggleArm() : CommandBase("Toggle Arm"){
 
 // Called just before this Command runs the first time
 void ToggleArm::Initialize() {
-	if (grabber.getArm() == DoubleSolenoid::kForward || grabber.getArm() == DoubleSolenoid::kOff) {
-		grabber.setArm(DoubleSolenoid::kReverse);
-	}else{
-		grabber.setArm(DoubleSolenoid::kForward);
+	if(grabber.getLimitSwitch()){
+		if (grabber.getArm() == DoubleSolenoid::kForward || grabber.getArm() == DoubleSolenoid::kOff) {
+			grabber.setArm(DoubleSolenoid::kReverse);
+		}else{
+			grabber.setArm(DoubleSolenoid::kForward);
+		}
 	}
 }
 
