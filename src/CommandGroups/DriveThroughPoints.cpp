@@ -1,4 +1,6 @@
 #include "DriveThroughPoints.h"
+#include "Commands/TurntoAngle.h"
+#include "Commands/DriveByDistance.h"
 
 DriveThroughPoints::DriveThroughPoints(std::vector<std::pair<double, double> > pointVect) {
 	// Add Commands here:
@@ -19,6 +21,7 @@ DriveThroughPoints::DriveThroughPoints(std::vector<std::pair<double, double> > p
 	// arm.
 
 	for(auto point : pointVect){
-
+		AddSequential(new TurntoAngle(point.second));
+		AddSequential(new DriveByDistance(point.first));
 	}
 }
