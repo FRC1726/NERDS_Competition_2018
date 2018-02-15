@@ -11,13 +11,29 @@ DriveWithJoysticks::DriveWithJoysticks() {
 // Called just before this Command runs the first time
 void DriveWithJoysticks::Initialize() {
 	getPreferences();
+
+	currentSpd = 0;
 }
 
 // Called repeatedly when this Command is scheduled to run
 void DriveWithJoysticks::Execute() {
 	double speed = driveProfile(oi.getAxis(LEFT_Y));
 	double turn = driveProfile(oi.getAxis(RIGHT_X));
-	drivetrain.arcadeDrive(-speed, turn);
+	if(speed > 0 && currentSpd >= 0){
+		currentSpd = currentSpd + acceleration;
+		if(currentSpd > speed){
+			currentSpd = speed;
+		}
+	}else if(speed < 0 && currentSpd <= 0){
+		currentSpd = currentSpd - acceleration;
+		if(currentSpd < speed){
+			currentSpd = speed;
+		}
+	}else{
+		currentSpd = 0;
+	}
+
+	drivetrain.arcadeDrive(-currentSpd, turn);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -58,6 +74,7 @@ void DriveWithJoysticks::getPreferences() {
 	maxSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Max Speed", 1);
 	minSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Min Speed", 0.35);
 	deadzone = Preferences::GetInstance()->GetDouble("Joysticks/Deadzone", .025);
+	acceleration = Preferences::GetInstance()->GetDouble("Joysticks/acceleration", .025);
 }
 
 void DriveWithJoysticks::checkKeys() {
@@ -70,5 +87,8 @@ void DriveWithJoysticks::checkKeys() {
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Deadzone")) {
 		Preferences::GetInstance()->PutDouble("Joysticks/Deadzone", .025);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Acceleration")) {
+		Preferences::GetInstance()->PutDouble("Joysticks/acceleration", 1.0);
 	}
 }
