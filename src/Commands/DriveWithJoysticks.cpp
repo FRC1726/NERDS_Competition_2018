@@ -19,13 +19,21 @@ void DriveWithJoysticks::Initialize() {
 void DriveWithJoysticks::Execute() {
 	double speed = driveProfile(oi.getAxis(LEFT_Y));
 	double turn = driveProfile(oi.getAxis(RIGHT_X));
-	drivetrain.arcadeDrive(-speed, turn);
-	if(speed < 0){
-		currentSpd = currentSpd - acceleration;
-	}
-	else{
+	if(speed > 0 && currentSpd >= 0){
 		currentSpd = currentSpd + acceleration;
+		if(currentSpd > speed){
+			currentSpd = speed;
+		}
+	}else if(speed < 0 && currentSpd <= 0){
+		currentSpd = currentSpd - acceleration;
+		if(currentSpd < speed){
+			currentSpd = speed;
+		}
+	}else{
+		currentSpd = 0;
 	}
+
+	drivetrain.arcadeDrive(-currentSpd, turn);
 }
 
 // Make this return true when this Command no longer needs to run execute()
