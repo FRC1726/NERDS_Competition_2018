@@ -5,7 +5,6 @@
 #include <Timer.h>
 
 
-
 class TurnByAngle : public CommandBase {
 public:
 	TurnByAngle(double, double = 0);
