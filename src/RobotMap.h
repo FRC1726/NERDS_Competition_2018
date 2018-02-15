@@ -45,4 +45,7 @@ constexpr int WRIST_SLOT = 0;
 constexpr int WRIST_LOOP = 0;
 constexpr int WRIST_TIMEOUT = 10;
 
+//Robot Length
+constexpr double ROBOT_LENGTH = 23.82;
+
 #endif  // ROBOTMAP_H
