@@ -4,6 +4,7 @@
 #include "../CommandBase.h"
 #include <utility.h>
 
+#include <Timer.h>
 
 class KinematicTracking : public CommandBase {
 public:
@@ -16,8 +17,12 @@ public:
 private:
 	std::pair<double, double> currentPosition;
 	double currentAngle;
+	Timer timer;
+	double previousTime;
 
 	std::pair<double, double> calculateVector();
+
+	double getTime();
 };
 
 #endif  // KinematicTracking_H

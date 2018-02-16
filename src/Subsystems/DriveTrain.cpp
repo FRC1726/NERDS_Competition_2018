@@ -80,3 +80,11 @@ void DriveTrain::setPIDRange(double min,double max){
 bool DriveTrain::onTarget(){
 	return pidController.OnTarget();
 }
+
+double DriveTrain::getVelocity(encoderSide choice){
+	if (choice == kLeft){
+		return leftEncoder.GetRate();
+	}else if (choice == kRight ){
+		return rightEncoder.GetRate();
+	}
+}
