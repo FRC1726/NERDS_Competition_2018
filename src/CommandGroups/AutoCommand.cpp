@@ -176,4 +176,8 @@ void AutoCommand::switchMiddle(char switchPos){
 
 void AutoCommand::baselineMiddle(char switchPos){
 	AddSequential(new DriveByDistance(120.5));
+	AddSequential(new TurnByAngle(90));
+	AddSequential(new DriveByDistance(120.5));
+	AddSequential(new TurnByAngle(-90));
+	AddSequential(new DriveByDistance(120.5));
 }
