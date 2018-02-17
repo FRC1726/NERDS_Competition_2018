@@ -23,6 +23,7 @@ private:
 	void scaleMiddle(char);
 	void switchMiddle(char);
 	void baselineMiddle(char);
+	void checkKeys();
 };
 
 #endif  // AutoCommand_H

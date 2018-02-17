@@ -88,7 +88,7 @@ void DriveWithJoysticks::checkKeys() {
 	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Deadzone")) {
 		Preferences::GetInstance()->PutDouble("Joysticks/Deadzone", .025);
 	}
-	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Acceleration")) {
+	if (!Preferences::GetInstance()->ContainsKey("Joysticks/acceleration")) {
 		Preferences::GetInstance()->PutDouble("Joysticks/acceleration", 1.0);
 	}
 }
