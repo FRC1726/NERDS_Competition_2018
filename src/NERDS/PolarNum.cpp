@@ -25,6 +25,7 @@ PolarNum PolarNum::operator-(const PolarNum& other){
 PolarNum PolarNum::operator/(const PolarNum& other){
 	double mag = this->magnitude / other.magnitude;
 	double ang = this->angle - other.angle;
+	ang = ang * 3.14159 / 180;
 	PolarNum out(mag, ang);
 	return out;
 }
@@ -32,6 +33,7 @@ PolarNum PolarNum::operator/(const PolarNum& other){
 PolarNum PolarNum::operator*(const PolarNum& other){
 	double mag = this->magnitude * other.magnitude;
 	double ang = this->angle + other.angle;
+	ang = ang * 3.14159 / 180;
 	PolarNum out(mag, ang);
 	return out;
 }
