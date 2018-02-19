@@ -12,6 +12,7 @@ void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);//this resets initclaw so that it's in a known state?
 	initClaw->Start();
 
+
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
 	camera.SetResolution(640, 480);
 
