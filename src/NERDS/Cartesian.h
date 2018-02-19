@@ -7,7 +7,10 @@ class PolarNum;
 
 class Cartesian {
 public:
-	Cartesian(double, double);
+	Cartesian(double = 0, double = 0);
+
+	double getX();
+	double getY();
 
 	Cartesian operator+(const Cartesian&);
 	Cartesian operator-(const Cartesian&);

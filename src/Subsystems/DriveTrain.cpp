@@ -88,4 +88,6 @@ double DriveTrain::getVelocity(encoderSide choice){
 	}else if (choice == kRight ){
 		return rightEncoder.GetRate();
 	}
+
+	return 0;
 }

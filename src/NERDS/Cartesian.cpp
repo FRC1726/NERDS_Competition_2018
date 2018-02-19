@@ -36,7 +36,20 @@ Cartesian Cartesian::operator*(const Cartesian& other){
 
 PolarNum Cartesian::toPolar() const{
 	double mag = pow((pow(_x, 2) + pow(_y, 2)), 0.5);
-	double ang = atan(_y / _x);
+	double ang;
+	if(_x == 0 && _y == 0){
+		ang = 0;
+	}else{
+		ang = atan2(_y, _x);
+	}
 	PolarNum out(mag, ang * 180 / 3.14159);
 	return out;
+}
+
+double Cartesian::getX(){
+	return _x;
+}
+
+double Cartesian::getY(){
+	return _y;
 }

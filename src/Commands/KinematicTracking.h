@@ -4,23 +4,28 @@
 #include "../CommandBase.h"
 #include <utility.h>
 
+#include "NERDS/PolarNum.h"
+#include "NERDS/Cartesian.h"
+
 #include <Timer.h>
 
 class KinematicTracking : public CommandBase {
 public:
-	KinematicTracking(std::pair<double, double>, double);
+	KinematicTracking(PolarNum, double);
+	KinematicTracking(Cartesian, double);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
 private:
-	std::pair<double, double> currentPosition;
+	PolarNum currentPosition;
 	double currentAngle;
 	Timer timer;
 	double previousTime;
 
-	std::pair<double, double> calculateVector();
+	PolarNum calculateVector();
+	double calculateAngle();
 
 	double getTime();
 };
