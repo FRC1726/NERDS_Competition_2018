@@ -14,7 +14,7 @@
 #include "CommandGroups/AutoCommand.h"
 
 void Robot::RobotInit(){
-	initClaw.reset(new InitClaw);
+	initClaw.reset(new InitClaw);//this resets initclaw so that it's in a known state?
 	initClaw->Start();
 
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
@@ -43,8 +43,8 @@ void Robot::RobotInit(){
  * the robot is disabled.
  */
 void Robot::DisabledInit(){
+	CommandBase::winch.setRelease(false);//sets the Winch release to a known state
 }
-
 void Robot::DisabledPeriodic(){
 	frc::Scheduler::GetInstance()->Run();
 }
