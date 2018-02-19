@@ -12,7 +12,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	drive(leftController, rightController),
 	leftEncoder(LA_CHANNEL, LB_CHANNEL),
 	rightEncoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(SerialPort::Port::kUSB1),
+	gyro(),
 	pidWrite(),
 	pidController(0, 0, 0, &gyro, &pidWrite)
 {

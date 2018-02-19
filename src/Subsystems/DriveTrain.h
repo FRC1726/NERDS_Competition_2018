@@ -4,7 +4,7 @@
 #include <Commands/Subsystem.h>
 #include <Drive/DifferentialDrive.h>
 #include <Encoder.h>
-#include <AHRS.h>
+#include <SamTec/ADIS16448_IMU.h>
 #include <VictorSP.h>
 #include <PIDController.h>
 
@@ -42,7 +42,7 @@ private:
 	Encoder leftEncoder;
 	Encoder rightEncoder;
 
-	AHRS gyro;
+	ADIS16448_IMU gyro;
 
 	PidOut pidWrite;
 	PIDController pidController;

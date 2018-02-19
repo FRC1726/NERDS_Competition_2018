@@ -2,7 +2,8 @@
 
 #include <Commands/Scheduler.h>
 #include <Preferences.h>
-#include<SmartDashboard/SmartDashboard.h>
+#include <SmartDashboard/SmartDashboard.h>
+#include <CameraServer.h>
 
 #include "Commands/InitClaw.h"
 #include "CommandGroups/AutoCommand.h"
