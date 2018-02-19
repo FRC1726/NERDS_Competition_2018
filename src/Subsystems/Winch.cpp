@@ -5,7 +5,7 @@ Winch::Winch() : Subsystem("Winch"),
 	release(WINCH_RELEASE),
 	reel(WINCH_REEL)
 {
-	release.Set(true);
+	release.Set(false);
 }
 
 void Winch::InitDefaultCommand() {
