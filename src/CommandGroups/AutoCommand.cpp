@@ -1,20 +1,21 @@
 #include "AutoCommand.h"
+
 #include <Preferences.h>
 #include <DriverStation.h>
-
 #include <string>
 
 #include "Commands/DriveByDistance.h"
+#include "Commands/TurnByAngle.h"
 #include "Commands/WristDown.h"
 #include "Commands/WristUp.h"
-#include "Commands/TurnByAngle.h"
+#include "Commands/ToggleArm.h"
 #include "Commands/ToggleClaw.h"
-#include "Commands/ToggleElevator.h"
 
 AutoCommand::AutoCommand(int pos) {
 	checkKeys();
 
 	initialPosition = pos;
+
 	std::string gameData;
 	gameData = frc::DriverStation::GetInstance().GetGameSpecificMessage();
 
@@ -28,19 +29,19 @@ AutoCommand::AutoCommand(int pos) {
 	}
 
 	if (initialPosition == 1 || initialPosition == 3){
-			if(switchTarget && !scale){
-				if(gameData[0] == near){
-					switchNear(initialPosition);
-				}else if(gameData[0] == far && farTarget){
-					switchFar(initialPosition);
-				}else{
-					baseline(initialPosition);
-				}
-			}else if(scale){
+			if(scale){
 				if(gameData[1] == near){
 					scaleNear(initialPosition);
 				}else if(gameData[1] == far && farTarget){
 					scaleFar(initialPosition);
+				}else{
+					baseline(initialPosition);
+				}
+			}else if(switchTarget){
+				if(gameData[0] == near){
+					switchNear(initialPosition);
+				}else if(gameData[0] == far && farTarget){
+					switchFar(initialPosition);
 				}else{
 					baseline(initialPosition);
 				}
@@ -62,7 +63,6 @@ void AutoCommand::getPreferences(){
 	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
 	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
 	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
-//	initialPosition = dynamic_cast<frc::SendableChooser<int>* >(SmartDashboard::GetData("Position"))->GetSelected();
 }
 
 void AutoCommand::scaleNear(int initialPosition){
@@ -75,6 +75,7 @@ void AutoCommand::scaleNear(int initialPosition){
 	if(initialPosition == 1){
 		sign = 1;
 	}
+
 
 	AddSequential(new DriveByDistance(D1));
 	AddSequential(new TurnByAngle(sign * T1));
@@ -157,6 +158,8 @@ void AutoCommand::baseline(int initialPosition){
 }
 
 void AutoCommand::scaleMiddle(char scale){
+	int sign = -1;
+
 	double D1 = Preferences::GetInstance()->GetDouble("scaleMiddle/Drive By Distance 1", 19.5);
 	double D2 = Preferences::GetInstance()->GetDouble("scaleMiddle/Drive By Distance 2", 91.5);
 	double D3 = Preferences::GetInstance()->GetDouble("scaleMiddle/Drive By Distance 3", 186);
@@ -169,8 +172,6 @@ void AutoCommand::scaleMiddle(char scale){
 
 	if(scale == 'L'){
 		sign = 1;
-	}else{
-		sign = -1;
 	}
 
 	AddSequential(new DriveByDistance(D1));
@@ -186,6 +187,8 @@ void AutoCommand::scaleMiddle(char scale){
 }
 
 void AutoCommand::switchMiddle(char switchPos){
+	int sign = -1;
+
 	double D1 = Preferences::GetInstance()->GetDouble("switchMiddle/Drive By Distance 1", 19.5);
 	double D2 = Preferences::GetInstance()->GetDouble("switchMiddle/Drive By Distance 2", 91.5);
 	double D3 = Preferences::GetInstance()->GetDouble("switchMiddle/Drive By Distance 3", 19.5);
@@ -197,8 +200,6 @@ void AutoCommand::switchMiddle(char switchPos){
 
 	if(switchPos == 'L'){
 		sign = 1;
-	}else{
-		sign = -1;
 	}
 
 	AddSequential(new DriveByDistance(D1));

@@ -1,8 +1,6 @@
-#include <Commands/ToggleClaw.h>
+#include "Commands/ToggleClaw.h"
 
-ToggleClaw::ToggleClaw() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(Robot::chassis.get());
+ToggleClaw::ToggleClaw() : CommandBase("Toggle Claw") {
 	Requires(&grabber);
 }
 
