@@ -14,10 +14,10 @@ public:
 	int getPOV();
 private:
 	Joystick driver;
-	JoystickButton driver_a;
-	JoystickButton driver_b;
-	JoystickButton driver_x;
-	JoystickButton driver_y;
+	JoystickButton driver_A;
+	JoystickButton driver_B;
+	JoystickButton driver_X;
+	JoystickButton driver_Y;
 	JoystickButton driver_LB;
 	JoystickButton driver_RB;
 

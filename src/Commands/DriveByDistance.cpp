@@ -1,9 +1,8 @@
-#include <Commands/DriveByDistance.h>
-#include "../RobotMap.h"
+#include "Commands/DriveByDistance.h"
 
 #include <Preferences.h>
 
-DriveByDistance::DriveByDistance(double target_in, double timeOut) : CommandBase("DriveStraight") {
+DriveByDistance::DriveByDistance(double target_in, double timeOut) : CommandBase("Drive By Distance") {
 	Requires(&drivetrain);
 	checkKeys();
 
