@@ -3,14 +3,22 @@
 
 #include <utility>
 
+class Cartesian;
+
 class PolarNum {
 public:
 	PolarNum(double, double);
+
 	PolarNum operator+(const PolarNum&);
+	PolarNum operator-(const PolarNum&);
+	PolarNum operator/(const PolarNum&);
+	PolarNum operator*(const PolarNum&);
+
+	Cartesian toCartesian() const;
 private:
 	double magnitude;
 	double angle;
-	std::pair<double, double> PolarToCartesian(double, double);
+
 	PolarNum CartesianToPolar(double, double);
 };
 
