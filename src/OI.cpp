@@ -1,25 +1,34 @@
+#include <Commands/DriveByDistance.h>
+#include <Commands/ReelUp.h>
+#include <Commands/ToggleClaw.h>
+#include <Commands/TurnByAngle.h>
 #include "OI.h"
 #include "RobotMap.h"
 
-#include "Commands/ToggleArm.h"
-#include "Commands/ToggleClaw.h"
+#include "Commands/WristUp.h"
+#include "Commands/WristDown.h"
+#include "Commands/ToggleElevator.h"
 #include "Commands/ReleaseWinch.h"
+#include "Commands/InitClaw.h"
 #include "Commands/ReelUp.h"
 #include "Commands/ReelDown.h"
 
 OI::OI() :
 	driver(JOY_DRIVER),
-	driver_A(&driver, BUTTON_A),
-	driver_B(&driver, BUTTON_B),
-	driver_X(&driver, BUTTON_X),
-	driver_Y(&driver, BUTTON_Y),
-	driver_LB(&driver, LEFT_BUMP),
-	driver_RB(&driver, RIGHT_BUMP)
+	driver_a(&driver, BUTTON_A),
+	driver_b(&driver, BUTTON_B),
+	driver_x(&driver, BUTTON_X),
+	driver_y(&driver, BUTTON_Y),
+	driver_LB(&driver, LEFT_BUM),
+	driver_RB(&driver, RIGHT_BUM)
 {
 	// Process operator interface input here.
-	driver_A.WhenPressed(new ToggleClaw);
-	driver_B.WhenPressed(new ToggleArm);
+	driver_a.WhenPressed(new ToggleClaw);
+	driver_x.WhenPressed(new WristUp);
+	driver_y.WhenPressed(new WristDown);
+	driver_b.WhenPressed(new ToggleElevator);
 	driver_RB.WhenPressed(new ReleaseWinch);
+	driver_LB.WhenPressed(new InitClaw);
 
 	d_Down.WhileActive(new ReelDown);
 	d_Up.WhileActive(new ReelUp);

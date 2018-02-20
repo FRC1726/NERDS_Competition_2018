@@ -4,11 +4,11 @@
 #include <Commands/Subsystem.h>
 #include <Drive/DifferentialDrive.h>
 #include <Encoder.h>
-#include <SamTec/ADIS16448_IMU.h>
+#include <AHRS.h>
 #include <VictorSP.h>
 #include <PIDController.h>
-
 #include "NERDS/PidOut.h"
+
 
 class DriveTrain : public Subsystem {
 public:
@@ -42,7 +42,7 @@ private:
 	Encoder leftEncoder;
 	Encoder rightEncoder;
 
-	ADIS16448_IMU gyro;
+	AHRS gyro;
 
 	PidOut pidWrite;
 	PIDController pidController;

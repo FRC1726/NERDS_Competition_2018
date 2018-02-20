@@ -1,10 +1,9 @@
+#include <Commands/DriveWithJoysticks.h>
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-
-#include "Commands/DriveWithJoysticks.h"
-
 #include <SerialPort.h>
 #include <SmartDashboard/SmartDashboard.h>
+
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
@@ -12,7 +11,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	drive(leftController, rightController),
 	leftEncoder(LA_CHANNEL, LB_CHANNEL),
 	rightEncoder(RA_CHANNEL, RB_CHANNEL),
-	gyro(),
+	gyro(SerialPort::Port::kUSB1),
 	pidWrite(),
 	pidController(0, 0, 0, &gyro, &pidWrite)
 {
