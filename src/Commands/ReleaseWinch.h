@@ -1,5 +1,5 @@
-#ifndef ReleaseWinch_H
-#define ReleaseWinch_H
+#ifndef ReleaseAndReal_H
+#define ReleaseAndReal_H
 
 #include "../CommandBase.h"
 
@@ -13,4 +13,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // ReleaseWinch_H
+#endif  // ReleaseAndReal_H

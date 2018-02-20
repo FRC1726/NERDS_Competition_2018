@@ -1,20 +1,20 @@
-#ifndef RealWinch_H
-#define RealWinch_H
+#ifndef WristMiddle_H
+#define WristMiddle_H
 
 #include "../CommandBase.h"
 
-class ReelUp : public CommandBase {
+class WristMiddle : public CommandBase {
 public:
-	ReelUp();
+	WristMiddle();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
 	void End();
 	void Interrupted();
 private:
+	double angle;
 	void getPreferences();
 	void checkKeys();
-	double reelSpeed;
 };
 
-#endif  // RealWinch_H
+#endif  // WristMiddle_H

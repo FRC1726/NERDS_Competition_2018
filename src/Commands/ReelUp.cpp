@@ -1,8 +1,8 @@
-#include "Commands/ReelUp.h"
+#include <Commands/ReelUp.h>
 
-#include <Preferences.h>
-
-ReelUp::ReelUp() : CommandBase("Reel Up"){
+ReelUp::ReelUp() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&winch);
 	checkKeys();
 }
