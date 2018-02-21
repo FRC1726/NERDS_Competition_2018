@@ -3,12 +3,17 @@
 #include <Commands/Scheduler.h>
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
+#include<NERDS/PolarNum.h>
 
 #include "Commands/InitClaw.h"
 #include "CommandGroups/AutoCommand.h"
+#include "Commands/KinematicTracking.h"
 
 void Robot::RobotInit(){
-	initClaw.reset(new InitClaw);//this resets initclaw so that it's in a known state?
+	initClaw.reset(new InitClaw);
+	PolarNum initialPos;
+	tracking.reset(new KinematicTracking(initialPos, 0));
+
 	initClaw->Start();
 
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
@@ -52,6 +57,7 @@ void Robot::AutonomousPeriodic(){
 }
 
 void Robot::TeleopInit(){
+	tracking->Start();
 	//Stops the autonomous command once teleop is enabled. Remove this if you want the commands to continue to run
 	if (autonomousCommand != nullptr) {
 		autonomousCommand->Cancel();
