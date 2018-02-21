@@ -46,4 +46,10 @@ Cartesian PolarNum::toCartesian() const{
 	return out;
 }
 
+double PolarNum::getMagnitude(){
+	return magnitude;
+}
 
+double PolarNum::getAngle(){
+	return angle;
+}
