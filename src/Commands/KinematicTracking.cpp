@@ -59,9 +59,10 @@ void KinematicTracking::Interrupted() {
 PolarNum KinematicTracking::calculateVector() {
 	double velocityRight = drivetrain.getVelocity(DriveTrain::kRight);
 	double velocityLeft = drivetrain.getVelocity(DriveTrain::kLeft);
+	double time = getTime();
 	SmartDashboard::PutNumber("Tracking/Test/VR", velocityRight);
 	SmartDashboard::PutNumber("Tracking/Test/VL", velocityLeft);
-	double theta = ((velocityRight - velocityLeft) / ROBOT_LENGTH) * getTime();
+	double theta = ((velocityLeft - velocityRight) / ROBOT_LENGTH) * time;
 	double angle = theta / 2;
 	SmartDashboard::PutNumber("Tracking/Test/Theta", angle);
 	double turnRadius;
@@ -73,20 +74,20 @@ PolarNum KinematicTracking::calculateVector() {
 	SmartDashboard::PutNumber("Tracking/Test/TurnRadius", turnRadius);
 	double mag;
 	if(angle == 0){
-		mag = 0;
+		mag = velocityRight * time;
 	}else{
-		mag = turnRadius / sin(angle);
+		mag = turnRadius * sin(angle) * 2;
 	}
 	SmartDashboard::PutNumber("Tracking/Test/mag", mag);
 
-	PolarNum out(mag, angle * 180 / 3.14159);
+	PolarNum out(mag, -(angle * 180 / 3.14159));
 	return out;
 }
 
 double KinematicTracking::calculateAngle(){
 	double velocityRight = drivetrain.getVelocity(DriveTrain::kRight);
 	double velocityLeft = drivetrain.getVelocity(DriveTrain::kLeft);
-	double theta = ((velocityRight - velocityLeft) / ROBOT_LENGTH) * getTime();
+	double theta = ((velocityLeft - velocityRight) / ROBOT_LENGTH) * getTime();
 	return theta * 180 / 3.14159;
 }
 
