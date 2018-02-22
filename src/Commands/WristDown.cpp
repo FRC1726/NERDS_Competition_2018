@@ -1,8 +1,8 @@
 #include "WristDown.h"
 
-WristDown::WristDown() {
-	// Use Requires() here to declare subsystem dependencies
-	// eg. Requires(Robot::chassis.get());
+#include <Preferences.h>
+
+WristDown::WristDown() : CommandBase("Wrist Down"){
 	Requires(&grabber);
 	checkKeys();
 }
@@ -10,7 +10,7 @@ WristDown::WristDown() {
 // Called just before this Command runs the first time
 void WristDown::Initialize() {
 	getPreferences();
-	grabber.SetWrist(angle);
+	grabber.setWrist(angle);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -44,8 +44,8 @@ void WristDown::getPreferences(){
 
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
 
-	grabber.SetPID(f, p, i, d);
-	grabber.SetMaxSpeed(maxSpeed);
+	grabber.setPID(f, p, i, d);
+	grabber.setMaxSpeed(maxSpeed);
 }
 
 void WristDown::checkKeys(){

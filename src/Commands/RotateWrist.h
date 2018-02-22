@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class TriggerSpeed : public CommandBase {
+class RotateWrist : public CommandBase {
 public:
-	TriggerSpeed();
+	RotateWrist();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -14,6 +14,9 @@ public:
 private:
 	double angle;
 	double maxSpeed;
+
+	double driveProfile(double);
+
 	void getPreferences();
 	void checkKeys();
 };

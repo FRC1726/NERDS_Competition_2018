@@ -3,18 +3,12 @@
 #include <Commands/Scheduler.h>
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
-#include <DriverStation.h>
 
-#include "CommandBase.h"
-#include "CommandGroups/ForwardAndTurn.h"
-#include "CommandGroups/GrabAndReturn.h"
-#include <string>
-#include <iostream>
 #include "Commands/InitClaw.h"
 #include "CommandGroups/AutoCommand.h"
 
 void Robot::RobotInit(){
-	initClaw.reset(new InitClaw);
+	initClaw.reset(new InitClaw);//this resets initclaw so that it's in a known state?
 	initClaw->Start();
 
 
@@ -26,6 +20,7 @@ void Robot::RobotInit(){
 	initialPosition.AddObject("Right", 3);
 
 	SmartDashboard::PutData("Position", &initialPosition);
+
 	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
 		Preferences::GetInstance()->PutBoolean("FarTarget", false);
 	}
@@ -38,29 +33,13 @@ void Robot::RobotInit(){
 
 }
 
-/**
- * This function is called once each time the robot enters Disabled mode.
- * You can use it to reset any subsystem information you want to clear when
- * the robot is disabled.
- */
 void Robot::DisabledInit(){
+	CommandBase::winch.setRelease(false);//sets the Winch release to a known state
 }
-
 void Robot::DisabledPeriodic(){
 	frc::Scheduler::GetInstance()->Run();
 }
 
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable
- * chooser code works with the Java SmartDashboard. If you prefer the
- * LabVIEW Dashboard, remove all of the chooser code and uncomment the
- * GetString code to get the auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional commands to the
- * chooser code above (like the commented example) or additional comparisons
- * to the if-else structure below with additional strings & commands.
- */
 void Robot::AutonomousInit(){
 	autonomousCommand.reset(new AutoCommand(initialPosition.GetSelected()));
 
@@ -74,10 +53,7 @@ void Robot::AutonomousPeriodic(){
 }
 
 void Robot::TeleopInit(){
-	// This makes sure that the autonomous stops running when
-	// teleop starts running. If you want the autonomous to
-	// continue until interrupted by another command, remove
-	// this line or comment it out.
+	//Stops the autonomous command once teleop is enabled. Remove this if you want the commands to continue to run
 	if (autonomousCommand != nullptr) {
 		autonomousCommand->Cancel();
 	}

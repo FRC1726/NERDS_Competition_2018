@@ -4,19 +4,13 @@
 #include <string>
 #include <memory>
 #include <Commands/Command.h>
+#include <PowerDistributionPanel.h>
 
 #include "OI.h"
 #include "Subsystems/DriveTrain.h"
 #include "Subsystems/Grabber.h"
 #include "Subsystems/Winch.h"
-#include <PowerDistributionPanel.h>
 
-/**
- * The base for all commands. All atomic commands should subclass CommandBase.
- * CommandBase stores creates and stores each control system. To access a
- * subsystem elsewhere in your code in your code use
- * CommandBase::exampleSubsystem
- */
 class CommandBase: public frc::Command {
 public:
 	CommandBase(const std::string& name);
