@@ -16,6 +16,11 @@ public:
 	double getVelocityRatio();
 private:
 	PolarNum endPoint;
+
+	double maxVelocity;
+
+	void getPreferences();
+	void checkKeys();
 };
 
 #endif  // DriveOnCurve_H
