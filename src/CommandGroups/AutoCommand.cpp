@@ -81,7 +81,7 @@ void AutoCommand::scaleNear(int initialPosition){
 	AddSequential(new DriveByDistance(D1));
 	AddSequential(new TurnByAngle(sign * T1));
 	AddSequential(new DriveByDistance(D2));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristDown());
 	AddSequential(new ToggleClaw());
 
@@ -107,7 +107,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new TurnByAngle(sign * T2));
 	AddSequential(new DriveByDistance(D3));
 	AddSequential(new TurnByAngle(sign * T3));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristDown());
 	AddSequential(new ToggleClaw());
 
@@ -179,7 +179,7 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new DriveByDistance(D3));
 	AddSequential(new TurnByAngle(sign * T3));
 	AddSequential(new DriveByDistance(D4));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristDown());
 	AddSequential(new ToggleClaw());
 }
