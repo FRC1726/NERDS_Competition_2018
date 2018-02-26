@@ -2,6 +2,7 @@
 #include "../RobotMap.h"
 
 #include "Commands/DriveWithJoysticks.h"
+#include "NERDS/PidOut.h"
 
 #include <SerialPort.h>
 #include <SmartDashboard/SmartDashboard.h>
@@ -13,8 +14,7 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftEncoder(LA_CHANNEL, LB_CHANNEL),
 	rightEncoder(RA_CHANNEL, RB_CHANNEL),
 	gyro(SerialPort::Port::kUSB1),
-	pidWrite(),
-	pidController(0, 0, 0, &gyro, &pidWrite)
+	pidController(0, 0, 0, &gyro, new PidOut<void>())
 {
 	leftEncoder.SetReverseDirection(true);
 	leftEncoder.SetDistancePerPulse(3.1415/60);

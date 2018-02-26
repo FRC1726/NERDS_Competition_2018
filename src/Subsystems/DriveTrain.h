@@ -8,7 +8,6 @@
 #include <VictorSP.h>
 #include <PIDController.h>
 
-#include "NERDS/PidOut.h"
 
 class DriveTrain : public Subsystem {
 public:
@@ -44,7 +43,6 @@ private:
 
 	AHRS gyro;
 
-	PidOut pidWrite;
 	PIDController pidController;
 };
 
