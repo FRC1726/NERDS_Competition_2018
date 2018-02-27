@@ -15,6 +15,7 @@ public:
 	void setWrist(double);
 	void simpleWristControl(double);
 	bool getLimitSwitch();
+	double getWristAngle();
 	void SetReverseLimit(int);
 
 	DoubleSolenoid::Value getClaw();

@@ -31,11 +31,13 @@ void Grabber::InitDefaultCommand() {
 	SetDefaultCommand(new RotateWrist());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
 void Grabber::setMaxSpeed(double max){
 	wrist.ConfigPeakOutputForward(max, WRIST_TIMEOUT);
 	wrist.ConfigPeakOutputReverse(-max, WRIST_TIMEOUT);
+}
+double Grabber::getWristAngle(){
+	double WristAngle = wrist.GetSelectedSensorPosition(0);
+	return WristAngle / 1096 * 360;
 }
 void Grabber::setPID(double f, double p, double i, double d){
 	wrist.Config_kF(WRIST_LOOP, f, WRIST_TIMEOUT);
