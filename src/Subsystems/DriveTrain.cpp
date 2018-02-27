@@ -3,6 +3,7 @@
 
 #include "Commands/DriveWithJoysticks.h"
 #include "NERDS/PidOut.h"
+#include "NERDS/PidIn.h"
 
 #include <SerialPort.h>
 #include <SmartDashboard/SmartDashboard.h>
@@ -14,7 +15,9 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftEncoder(LA_CHANNEL, LB_CHANNEL),
 	rightEncoder(RA_CHANNEL, RB_CHANNEL),
 	gyro(SerialPort::Port::kUSB1),
-	pidController(0, 0, 0, &gyro, new PidOut<void>())
+	pidController(0, 0, 0, &gyro, new PidOut<void>()),
+	left(0,0,0, new PidIn(std::bind(leftEncoder.GetRate, &leftEncoder)), &leftController),
+	right(0,0,0, new PidIn(std::bind(rightEncoder.GetRate, &rightEncoder)), &rightController)
 {
 	leftEncoder.SetReverseDirection(true);
 	leftEncoder.SetDistancePerPulse(6 * 3.141592/1440);
@@ -23,6 +26,9 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	pidController.SetInputRange(-180, 180);
 	pidController.SetOutputRange(0,1);
 	pidController.SetContinuous(true);
+
+	left.SetOutputRange(-1,1);
+	right.SetOutputRange(-1,1);
 
 	SmartDashboard::PutData("DriveTrain/DifferentialDrive", &drive);
 	SmartDashboard::PutData("DriveTrain/Gyro", &gyro);
@@ -91,3 +97,35 @@ double DriveTrain::getVelocity(encoderSide choice){
 
 	return 0;
 }
+
+void DriveTrain::setLeftTarget(double target){
+	left.SetSetpoint(target);
+}
+
+void DriveTrain::setLeftPID(double p,double i,double d,double tolerance){
+	left.SetPID(p, i, d);
+	left.SetAbsoluteTolerance(tolerance);
+}
+
+void DriveTrain::setLeftEnabled(bool enabled){
+	left.SetEnabled(enabled);
+}
+bool DriveTrain::onTargetLeft(){
+	return left.OnTarget();
+}
+void DriveTrain::setRightTarget(double target){
+	right.SetSetpoint(target);
+}
+
+void DriveTrain::setRightPID(double p,double i,double d,double tolerance){
+	right.SetPID(p, i, d);
+	right.SetAbsoluteTolerance(tolerance);
+}
+
+void DriveTrain::setRightEnabled(bool enabled){
+	right.SetEnabled(enabled);
+}
+bool DriveTrain::onTargetRight(){
+	return right.OnTarget();
+}
+

@@ -4,10 +4,10 @@
 #include <functional>
 #include <PIDSource.h>
 
-class PidIn : public PIDOutput{
+class PidIn : public PIDSource{
 public:
 	PidIn(std::function<double()> func) : inputFunction(func) {}
-	double PIDGet() {return inputFunction()};
+	double PIDGet() {return inputFunction();}
 private:
 	std::function<double()> inputFunction;
 };

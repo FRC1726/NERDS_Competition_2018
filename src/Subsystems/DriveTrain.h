@@ -35,7 +35,15 @@ public:
 	void setPIDRange(double,double);
 	bool onTarget();
 
+	void setLeftPID(double, double, double, double);
+	void setLeftTarget(double);
+	void setLeftEnabled(bool);
+	bool onTargetLeft();
 
+	void setRightPID(double, double, double, double);
+	void setRightTarget(double);
+	void setRightEnabled(bool);
+	bool onTargetRight();
 private:
 	VictorSP leftController;
 	VictorSP rightController;
@@ -43,6 +51,10 @@ private:
 
 	Encoder leftEncoder;
 	Encoder rightEncoder;
+
+	PIDController left;
+	PIDController right;
+
 
 	AHRS gyro;
 
