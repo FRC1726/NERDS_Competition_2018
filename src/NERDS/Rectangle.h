@@ -2,10 +2,12 @@
 #define SRC_NERDS_RECTANGLE_H_
 
 #include "NERDS/Cartesian.h"
+#include <Obstacle.h>
 
-class Rectangle {
+class Rectangle : public Obstacle{
 public:
-	Rectangle(Cartesian, Cartesian);
+	Rectangle(Cartesian, double, double);
+	bool checkCollision(Obstacle);
 private:
 	Cartesian P1;
 	Cartesian P2;

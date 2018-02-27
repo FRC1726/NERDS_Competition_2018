@@ -1,14 +1,12 @@
 #include <NERDS/Rectangle.h>
 
+Rectangle::Rectangle(Cartesian origin, double length, double width) :
+	Obstacle(origin),
+	P1(_origin.getX()-width/2, _origin.getY()-length/2),
+	P2(_origin.getX()+width/2, _origin.getY()+length/2)
+{
 
-
-Rectangle::Rectangle(Cartesian corner1, Cartesian corner2) {
-	// TODO Auto-generated constructor stub
-
-	corner1 = P1;
-	corner2 = P2;
 }
-
-Cartesian Rectangle::P1(){
+checkCollision(Obstacle blockade){
 
 }
