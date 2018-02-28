@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class ToggleElevator : public CommandBase {
+class ToggleArm : public CommandBase {
 public:
-	ToggleElevator();
+	ToggleArm();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
