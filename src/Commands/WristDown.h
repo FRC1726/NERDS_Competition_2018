@@ -13,7 +13,6 @@ public:
 	void Interrupted();
 private:
 	double angle;
-
 	void getPreferences();
 	void checkKeys();
 };

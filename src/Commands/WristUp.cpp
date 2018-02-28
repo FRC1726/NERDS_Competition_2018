@@ -1,8 +1,8 @@
 #include "WristUp.h"
 
-#include <Preferences.h>
-
-WristUp::WristUp() : CommandBase("Wrist Up") {
+WristUp::WristUp() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 	checkKeys();
 }
@@ -10,7 +10,7 @@ WristUp::WristUp() : CommandBase("Wrist Up") {
 // Called just before this Command runs the first time
 void WristUp::Initialize() {
 	getPreferences();
-	grabber.setWrist(angle);
+	grabber.SetWrist(angle);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -46,8 +46,8 @@ void WristUp::getPreferences(){
 
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Up Angle", 1);
 
-	grabber.setPID(f, p, i, d);
-	grabber.setMaxSpeed(maxSpeed);
+	grabber.SetPID(f, p, i, d);
+	grabber.SetMaxSpeed(maxSpeed);
 }
 
 void WristUp::checkKeys(){

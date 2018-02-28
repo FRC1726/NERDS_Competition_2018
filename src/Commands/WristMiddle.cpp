@@ -1,6 +1,5 @@
 #include "WristMiddle.h"
 #include <Subsystems/Grabber.h>
-
 #include <Preferences.h>
 
 WristMiddle::WristMiddle() : CommandBase("Wrist Middle"){
@@ -11,7 +10,7 @@ WristMiddle::WristMiddle() : CommandBase("Wrist Middle"){
 // Called just before this Command runs the first time
 void WristMiddle::Initialize() {
 	getPreferences();
-	grabber.setWrist(angle);
+	grabber.SetWrist(angle);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -23,7 +22,8 @@ void WristMiddle::Execute() {
 bool WristMiddle::IsFinished() {
 	double wristRange = Preferences::GetInstance()->GetDouble("Wrist/Wrist Angle Range", 0.1);
 
-	return (grabber.getWristAngle() >= (angle - wristRange)) && (grabber.getWristAngle() <= (angle + wristRange));}
+	return (grabber.getWristAngle() >= (angle - wristRange)) && (grabber.getWristAngle() <= (angle + wristRange));
+}
 
 // Called once after isFinished returns true
 void WristMiddle::End() {
@@ -35,6 +35,7 @@ void WristMiddle::End() {
 void WristMiddle::Interrupted() {
 
 }
+
 void WristMiddle::getPreferences(){
 	double p = Preferences::GetInstance()->GetDouble("Wrist/P", 0.1);
 	double i = Preferences::GetInstance()->GetDouble("Wrist/I", 0.0);
@@ -43,11 +44,12 @@ void WristMiddle::getPreferences(){
 
 	double maxSpeed = Preferences::GetInstance()->GetDouble("Wrist/Max Speed", 1);
 
-	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Middle Angle", 1);
+	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Middle Angle", 120);
 
-	grabber.setPID(f, p, i, d);
-	grabber.setMaxSpeed(maxSpeed);
+	grabber.SetPID(f, p, i, d);
+	grabber.SetMaxSpeed(maxSpeed);
 }
+
 void WristMiddle::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/P")) {
 		Preferences::GetInstance()->PutDouble("Wrist/P", 0.1);
@@ -68,6 +70,6 @@ void WristMiddle::checkKeys(){
 		Preferences::GetInstance()->PutDouble("Wrist/Wrist Angle Range", 2.5);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Middle Angle")) {
-			Preferences::GetInstance()->PutDouble("Wrist/Wrist Middle Angle", 0.1);
-		}
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Middle Angle", 120);
+	}
 }
