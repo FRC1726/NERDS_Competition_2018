@@ -1,38 +1,37 @@
-#include <Commands/ToggleClaw.h>
+#include "ToggleElevator.h"
 
-ToggleClaw::ToggleClaw() {
+ToggleElevator::ToggleElevator() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 }
 
 // Called just before this Command runs the first time
-void ToggleClaw::Initialize() {
-	if (grabber.getClaw() == DoubleSolenoid::kForward || grabber.getClaw() == DoubleSolenoid::kOff) {
-		grabber.setClaw(DoubleSolenoid::kReverse);
+void ToggleElevator::Initialize() {
+	if (grabber.getElevator() == DoubleSolenoid::kForward || grabber.getElevator() == DoubleSolenoid::kOff) {
+		grabber.setElevator(DoubleSolenoid::kReverse);
 	}else{
-		 grabber.setClaw(DoubleSolenoid::kForward);
+		grabber.setElevator(DoubleSolenoid::kForward);
 	}
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ToggleClaw::Execute() {
+void ToggleElevator::Execute() {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ToggleClaw::IsFinished() {
+bool ToggleElevator::IsFinished() {
 	return true;
 }
 
 // Called once after isFinished returns true
-void ToggleClaw::End() {
+void ToggleElevator::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ToggleClaw::Interrupted() {
+void ToggleElevator::Interrupted() {
 
 }
-

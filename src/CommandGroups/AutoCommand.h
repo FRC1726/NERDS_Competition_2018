@@ -8,12 +8,11 @@ class AutoCommand : public CommandGroup {
 public:
 	AutoCommand(int);
 private:
+	void getPreferences();
 	bool farTarget;
 	bool scale;
 	bool switchTarget;
 	int initialPosition;
-
-	void getPreferences();
 
 	void scaleNear(int);
 	void scaleFar(int);
@@ -24,6 +23,7 @@ private:
 	void scaleMiddle(char);
 	void switchMiddle(char);
 	void baselineMiddle(char);
+	void checkKeys();
 };
 
 #endif  // AutoCommand_H
