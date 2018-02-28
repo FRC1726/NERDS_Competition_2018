@@ -21,7 +21,7 @@ void WristDown::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristDown::IsFinished() {
-	return grabber.getWristAngle() >= angle - 2.5 && grabber.getWristAngle() <= angle + 2.5 ;
+	return (grabber.getWristAngle() >= (angle - 2.5)) && (grabber.getWristAngle() <= (angle + 2.5)) ;
 }
 
 // Called once after isFinished returns true

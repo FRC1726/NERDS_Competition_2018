@@ -1,4 +1,5 @@
 #include <NERDS/Rectangle.h>
+#include "Cartesian.h"
 
 Rectangle::Rectangle(Cartesian origin, double length, double width) :
 	Obstacle(origin),
@@ -7,6 +8,6 @@ Rectangle::Rectangle(Cartesian origin, double length, double width) :
 {
 
 }
-checkCollision(Obstacle blockade){
+bool Rectangle::checkCollision(Obstacle& blockade){
 
 }
