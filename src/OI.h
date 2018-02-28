@@ -7,6 +7,8 @@
 #include "Triggers/Dpad_Down.h"
 #include "Triggers/Dpad_Up.h"
 
+#include "NERDS/PolarNum.h"
+
 class OI {
 public:
 	OI();
@@ -23,6 +25,7 @@ private:
 
 	Dpad_Down d_Down;
 	Dpad_Up d_Up;
+	PolarNum pos;
 };
 
 #endif  // OI_H

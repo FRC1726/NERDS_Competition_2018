@@ -14,10 +14,10 @@ DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	drive(leftController, rightController),
 	leftEncoder(LA_CHANNEL, LB_CHANNEL),
 	rightEncoder(RA_CHANNEL, RB_CHANNEL),
+	left(0,0,0, new PidIn(std::bind(&frc::Encoder::GetRate, &leftEncoder)), &leftController),
+	right(0,0,0, new PidIn(std::bind(&frc::Encoder::GetRate, &rightEncoder)), &rightController),
 	gyro(SerialPort::Port::kUSB1),
-	pidController(0, 0, 0, &gyro, new PidOut<void>()),
-	left(0,0,0, new PidIn(std::bind(leftEncoder.GetRate, &leftEncoder)), &leftController),
-	right(0,0,0, new PidIn(std::bind(rightEncoder.GetRate, &rightEncoder)), &rightController)
+	pidController(0, 0, 0, &gyro, new PidOut<void>())
 {
 	leftEncoder.SetReverseDirection(true);
 	leftEncoder.SetDistancePerPulse(6 * 3.141592/1440);
@@ -117,7 +117,7 @@ void DriveTrain::setRightTarget(double target){
 	right.SetSetpoint(target);
 }
 
-void DriveTrain::setRightPID(double p,double i,double d,double tolerance){
+void DriveTrain::setRightPID(double p, double i, double d, double tolerance){
 	right.SetPID(p, i, d);
 	right.SetAbsoluteTolerance(tolerance);
 }
@@ -128,4 +128,3 @@ void DriveTrain::setRightEnabled(bool enabled){
 bool DriveTrain::onTargetRight(){
 	return right.OnTarget();
 }
-
