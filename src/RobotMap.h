@@ -16,6 +16,8 @@ constexpr int BUTTON_X = 3;
 constexpr int BUTTON_Y = 4;
 constexpr int LEFT_BUMP = 5;
 constexpr int RIGHT_BUMP = 6;
+constexpr int BUTTON_SELECT = 7;
+constexpr int BUTTON_START = 8;
 
 //Axis IDs
 constexpr int LEFT_X = 0;
