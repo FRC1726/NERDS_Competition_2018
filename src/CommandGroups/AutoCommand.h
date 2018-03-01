@@ -14,6 +14,7 @@ private:
 	int initialPosition;
 
 	void getPreferences();
+	void checkKeys();
 
 	void scaleNear(int);
 	void scaleFar(int);
