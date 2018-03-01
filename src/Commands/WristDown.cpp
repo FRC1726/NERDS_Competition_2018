@@ -21,6 +21,8 @@ void WristDown::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristDown::IsFinished() {
+	SmartDashboard::PutNumber("Wrist Angle", grabber.getWristAngle());
+	SmartDashboard::PutNumber("Wrist Target", angle);
 	return (grabber.getWristAngle() >= (angle - 2.5)) && (grabber.getWristAngle() <= (angle + 2.5)) ;
 }
 

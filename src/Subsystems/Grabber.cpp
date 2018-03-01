@@ -37,7 +37,7 @@ void Grabber::setMaxSpeed(double max){
 }
 double Grabber::getWristAngle(){
 	double WristAngle = wrist.GetSelectedSensorPosition(0);
-	return WristAngle / 1096 * 360;
+	return -WristAngle / 4096 * 120;
 }
 void Grabber::setPID(double f, double p, double i, double d){
 	wrist.Config_kF(WRIST_LOOP, f, WRIST_TIMEOUT);
