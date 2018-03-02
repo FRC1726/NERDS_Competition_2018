@@ -21,9 +21,10 @@ void WristDown::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristDown::IsFinished() {
+	double wristRange = Preferences::GetInstance()->GetDouble("Wrist/Wrist Angle Range", 0.1);
 	SmartDashboard::PutNumber("Wrist Angle", grabber.getWristAngle());
 	SmartDashboard::PutNumber("Wrist Target", angle);
-	return (grabber.getWristAngle() >= (angle - 2.5)) && (grabber.getWristAngle() <= (angle + 2.5)) ;
+	return (grabber.getWristAngle() >= (angle - 2.5)) && (grabber.getWristAngle() <= (angle + wristRange));
 }
 
 // Called once after isFinished returns true
@@ -67,7 +68,7 @@ void WristDown::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
 	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Down Angle")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Wrist Down Angle", 0.0);
+	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Angle Range")) {
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Angle Range", 2.5);
 	}
 }

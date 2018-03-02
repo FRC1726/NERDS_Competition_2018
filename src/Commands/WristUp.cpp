@@ -20,7 +20,11 @@ void WristUp::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristUp::IsFinished() {
-	return true;
+	double wristRange = Preferences::GetInstance()->GetDouble("Wrist/Wrist Angle Range", 0.1);
+
+	SmartDashboard::PutNumber("Wrist Angle", grabber.getWristAngle());
+	SmartDashboard::PutNumber("Wrist Target", angle);
+	return (grabber.getWristAngle() >= (angle - 2.5)) && (grabber.getWristAngle() <= (angle + wristRange));
 }
 
 // Called once after isFinished returns true
@@ -66,5 +70,8 @@ void WristUp::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Up Angle")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Wrist Up Angle", 0.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Angle Range")) {
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Angle Range", 2.5);
 	}
 }
