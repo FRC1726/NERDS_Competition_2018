@@ -3,17 +3,23 @@
 #include <networktables/NetworkTableInstance.h>
 #include <Preferences.h>
 #include <vector>
+#include <SmartDashboard/SmartDashboard.h>
+#include <DriverStation.h>
 
 DeleteNetworkTables::DeleteNetworkTables() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
+	SmartDashboard::PutString("Prefs/Reset Path", "Paths/To/Key");
 }
 
 // Called just before this Command runs the first time
 void DeleteNetworkTables::Initialize() {
-	auto prefs = Preferences::GetInstance()->GetKeys();
-	for(std::string key : prefs){
+	std::string key = SmartDashboard::GetString("Prefs/Reset Path", "Paths/To/Key");
+
+	if(Preferences::GetInstance()->ContainsKey(key)){
 		Preferences::GetInstance()->Remove(key);
+	}else{
+		DriverStation::ReportWarning("PrEfErEncE doEs not Exist.");
 	}
 }
 
