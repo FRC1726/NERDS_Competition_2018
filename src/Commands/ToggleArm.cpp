@@ -1,17 +1,17 @@
 #include <Commands/ToggleArm.h>
 
-ToggleArm::ToggleArm() : CommandBase("Toggle Arm"){
+ToggleArm::ToggleArm() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 }
 
 // Called just before this Command runs the first time
 void ToggleArm::Initialize() {
-	if(grabber.getLimitSwitch()){
-		if(grabber.getArm() == DoubleSolenoid::kForward || grabber.getArm() == DoubleSolenoid::kOff) {
-			grabber.setArm(DoubleSolenoid::kReverse);
-		}else{
-			grabber.setArm(DoubleSolenoid::kForward);
-		}
+	if (grabber.getArm() == DoubleSolenoid::kForward || grabber.getArm() == DoubleSolenoid::kOff) {
+		grabber.setArm(DoubleSolenoid::kReverse);
+	}else{
+		grabber.setArm(DoubleSolenoid::kForward);
 	}
 }
 

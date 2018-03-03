@@ -1,6 +1,8 @@
-#include "Commands/ReleaseWinch.h"
+#include <Commands/ReleaseWinch.h>
 
-ReleaseWinch::ReleaseWinch() : CommandBase("Release Winch"){
+ReleaseWinch::ReleaseWinch() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&winch);
 }
 

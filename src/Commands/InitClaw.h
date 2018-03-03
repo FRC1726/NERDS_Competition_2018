@@ -1,5 +1,5 @@
-#ifndef InitClaw_H
-#define InitClaw_H
+#ifndef In_ItClaw_H
+#define In_ItClaw_H
 
 #include "../CommandBase.h"
 
@@ -13,9 +13,8 @@ public:
 	void Interrupted();
 
 private:
-	double maxSpeed;
-
 	void getPreferences();
 	void checkKeys();
+	double maxSpeed;
 };
-#endif  // InitClaw_H
+#endif  // In_ItClaw_H

@@ -1,66 +1,59 @@
-#include "Commands/RotateWrist.h"
+#include <Commands/WristWithJoysticks.h>
 #include "RobotMap.h"
 
-#include <Preferences.h>
-
-RotateWrist::RotateWrist() : CommandBase("Rotate Wrist") {
+WristWithJoysticks::WristWithJoysticks() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 	checkKeys();
 }
 
 // Called just before this Command runs the first time
-void RotateWrist::Initialize() {
+void WristWithJoysticks::Initialize() {
 	getPreferences();
 	grabber.SetReverseLimit(angle);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void RotateWrist::Execute() {
+void WristWithJoysticks::Execute() {
 	double RT = oi.getAxis(RIGHT_TRIG);
 	double LT = oi.getAxis(LEFT_TRIG);
 
-	double speed = driveProfile(RT - LT);
+	double speed = RT - LT;
 
-	grabber.simpleWristControl(speed);
+	if(speed > maxSpeed){
+		speed = maxSpeed;
+	}else if(speed < -maxSpeed){
+		speed = -maxSpeed;
+	}
+
+	grabber.SimpleWristControl(speed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool RotateWrist::IsFinished() {
+bool WristWithJoysticks::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void RotateWrist::End() {
-	grabber.simpleWristControl(0);
+void WristWithJoysticks::End() {
+	grabber.SimpleWristControl(0);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void RotateWrist::Interrupted() {
-	grabber.simpleWristControl(0);
+void WristWithJoysticks::Interrupted() {
+	grabber.SimpleWristControl(0);
 }
 
-double RotateWrist::driveProfile(double input) {
-	double out = maxSpeed * fabs(input);
-
-	if(input > 0){
-		return out;
-	}
-	if(input < 0){
-		return -out;
-	} else {
-		return 0;
-	}
-}
-
-void RotateWrist::getPreferences(){
+void WristWithJoysticks::getPreferences(){
 	maxSpeed = Preferences::GetInstance()->GetDouble("Wrist/Max Speed", 1);
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
 
-	grabber.setMaxSpeed(maxSpeed);
+	grabber.SetMaxSpeed(maxSpeed);
 }
 
-void RotateWrist::checkKeys(){
+void WristWithJoysticks::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
 	}
