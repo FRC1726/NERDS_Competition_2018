@@ -69,7 +69,7 @@ void AutoCommand::scaleNear(int initialPosition){
 	double timeout_D1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 1/Value", 306.15);
 	double timeout_D2 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 2/Value", 10);
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Turn 1/Value", 90);
-	double wait = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Toggle Arm/wait", 90);
+	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleNear/Toggle Arm/Wait", 90);
 
 
 	int sign = -1;
@@ -100,7 +100,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 1/Timeout", 90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 2/Timeout", -90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 3/Timeout", -90);
-	double wait = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Toggle Arm/wait", 90);
+	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleFar/Toggle Arm/Wait", 90);
 
 	int sign = -1;
 
@@ -190,7 +190,7 @@ void AutoCommand::scaleMiddle(char scale){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 1/Timeout", -90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 2/Timeout", 90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
-	double wait = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Toggle Arm/wait", 90);
+	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleMiddle/Toggle Arm/Wait", 90);
 
 	int sign = -1;
 
@@ -505,5 +505,15 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Turn 2/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Turn 2/Timeout", -90);
+	}
+	//Toggle Arm Wait
+	if (!Preferences::GetInstance()->ContainsKey("Auto/ScaleNear/Toggle Arm/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/ScaleNear/Toggle Arm/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/ScaleFar/Toggle Arm/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/ScaleFar/Toggle Arm/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/ScaleMiddle/Toggle Arm/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/ScaleMiddle/Toggle Arm/Wait", 19.5);
 	}
 }
