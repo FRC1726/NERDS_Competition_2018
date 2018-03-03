@@ -11,6 +11,7 @@
 
 #include "Commands/WristUp.h"
 #include "Commands/TurnByAngle.h"
+#include "Commands/Wait.h"
 #include "Commands/ToggleClaw.h"
 
 AutoCommand::AutoCommand(int pos) {
@@ -68,6 +69,8 @@ void AutoCommand::scaleNear(int initialPosition){
 	double timeout_D1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 1/Value", 306.15);
 	double timeout_D2 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 2/Value", 10);
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Turn 1/Value", 90);
+	double wait = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Toggle Arm/wait", 90);
+
 
 	int sign = -1;
 
@@ -79,9 +82,9 @@ void AutoCommand::scaleNear(int initialPosition){
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new ToggleArm());
+	AddSequential(new nerd::Wait(wait));
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
-
 }
 
 void AutoCommand::scaleFar(int initialPosition){
@@ -97,6 +100,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 1/Timeout", 90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 2/Timeout", -90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 3/Timeout", -90);
+	double wait = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Toggle Arm/wait", 90);
 
 	int sign = -1;
 
@@ -111,6 +115,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new ToggleArm());
+	AddSequential(new nerd::Wait(wait));
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
@@ -185,6 +190,7 @@ void AutoCommand::scaleMiddle(char scale){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 1/Timeout", -90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 2/Timeout", 90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
+	double wait = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Toggle Arm/wait", 90);
 
 	int sign = -1;
 
@@ -200,6 +206,7 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new DriveByDistance(D4, timeout_D4));
 	AddSequential(new ToggleArm());
+	AddSequential(new nerd::Wait(wait));
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
