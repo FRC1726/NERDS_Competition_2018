@@ -22,9 +22,7 @@ void WristUp::Execute() {
 bool WristUp::IsFinished() {
 	double wristRange = Preferences::GetInstance()->GetDouble("Wrist/Wrist Angle Range", 0.1);
 
-	SmartDashboard::PutNumber("Wrist Angle", grabber.getWristAngle());
-	SmartDashboard::PutNumber("Wrist Target", angle);
-	return (grabber.getWristAngle() >= (angle - 2.5)) && (grabber.getWristAngle() <= (angle + wristRange));
+	return (grabber.getWristAngle() >= (angle - wristRange)) && (grabber.getWristAngle() <= (angle + wristRange));
 }
 
 // Called once after isFinished returns true
