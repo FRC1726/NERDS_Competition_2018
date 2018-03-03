@@ -1,7 +1,7 @@
-#include "TriggerSpeed.h"
+#include <Commands/WristWithJoysticks.h>
 #include "RobotMap.h"
 
-TriggerSpeed::TriggerSpeed() {
+WristWithJoysticks::WristWithJoysticks() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
@@ -9,13 +9,13 @@ TriggerSpeed::TriggerSpeed() {
 }
 
 // Called just before this Command runs the first time
-void TriggerSpeed::Initialize() {
+void WristWithJoysticks::Initialize() {
 	getPreferences();
 	grabber.SetReverseLimit(angle);
 }
 
 // Called repeatedly when this Command is scheduled to run
-void TriggerSpeed::Execute() {
+void WristWithJoysticks::Execute() {
 	double RT = oi.getAxis(RIGHT_TRIG);
 	double LT = oi.getAxis(LEFT_TRIG);
 
@@ -31,29 +31,29 @@ void TriggerSpeed::Execute() {
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool TriggerSpeed::IsFinished() {
+bool WristWithJoysticks::IsFinished() {
 	return false;
 }
 
 // Called once after isFinished returns true
-void TriggerSpeed::End() {
+void WristWithJoysticks::End() {
 	grabber.SimpleWristControl(0);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void TriggerSpeed::Interrupted() {
+void WristWithJoysticks::Interrupted() {
 	grabber.SimpleWristControl(0);
 }
 
-void TriggerSpeed::getPreferences(){
+void WristWithJoysticks::getPreferences(){
 	maxSpeed = Preferences::GetInstance()->GetDouble("Wrist/Max Speed", 1);
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
 
 	grabber.SetMaxSpeed(maxSpeed);
 }
 
-void TriggerSpeed::checkKeys(){
+void WristWithJoysticks::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
 	}

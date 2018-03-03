@@ -13,18 +13,20 @@ private:
 	bool switchTarget;
 	int initialPosition;
 
-	void getPreferences();
-	void checkKeys();
-
 	void scaleNear(int);
 	void scaleFar(int);
+
 	void switchNear(int);
 	void switchFar(int);
+
 	void baseline(int);
 
 	void scaleMiddle(char);
 	void switchMiddle(char);
 	void baselineMiddle(char);
+
+	void getPreferences();
+	void checkKeys();
 };
 
 #endif  // AutoCommand_H

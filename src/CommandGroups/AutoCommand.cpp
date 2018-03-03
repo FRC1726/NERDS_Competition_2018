@@ -1,3 +1,4 @@
+#include <Commands/ToggleArm.h>
 #include "AutoCommand.h"
 #include <Preferences.h>
 #include <DriverStation.h>
@@ -11,7 +12,6 @@
 #include "Commands/WristUp.h"
 #include "Commands/TurnByAngle.h"
 #include "Commands/ToggleClaw.h"
-#include "Commands/ToggleElevator.h"
 
 AutoCommand::AutoCommand(int pos) {
 	checkKeys();
@@ -61,13 +61,6 @@ AutoCommand::AutoCommand(int pos) {
 	}
 }
 
-void AutoCommand::getPreferences(){
-	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
-	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
-	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
-//	initialPosition = dynamic_cast<frc::SendableChooser<int>* >(SmartDashboard::GetData("Position"))->GetSelected();
-}
-
 void AutoCommand::scaleNear(int initialPosition){
 	double D1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 1/Value", 306.15);
 	double D2 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 2/Value", 10);
@@ -85,7 +78,7 @@ void AutoCommand::scaleNear(int initialPosition){
 	AddSequential(new DriveByDistance(D1, timeout_D1));
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
 	AddSequential(new DriveByDistance(D2, timeout_D2));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 
@@ -117,7 +110,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
@@ -193,12 +186,10 @@ void AutoCommand::scaleMiddle(char scale){
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 2/Timeout", 90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
 
-	int sign;
+	int sign = -1;
 
 	if(scale == 'L'){
 		sign = 1;
-	}else{
-		sign = -1;
 	}
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
@@ -208,7 +199,7 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new DriveByDistance(D4, timeout_D4));
-	AddSequential(new ToggleElevator());
+	AddSequential(new ToggleArm());
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
@@ -227,12 +218,10 @@ void AutoCommand::switchMiddle(char switchPos){
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 2/Timeout", 90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 3/Timeout", 90);
 
-	int sign;
+	int sign = -1;
 
 	if(switchPos == 'L'){
 		sign = 1;
-	}else{
-		sign = -1;
 	}
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
@@ -264,7 +253,14 @@ void AutoCommand::baselineMiddle(char switchPos){
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 }
 
+void AutoCommand::getPreferences(){
+	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
+	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
+	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
+}
+
 void AutoCommand::checkKeys(){
+	//Scale Near Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 1/Value", 306.15);
 	}
@@ -274,6 +270,18 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Value", 90);
 	}
+	//Scale Near Timeouts
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 1/Timeout")) {
+			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 1/Timeout", 306.15);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 2/Timeout", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Timeout", 90);
+	}
+
+	//Scale Far Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 1/Value", 250);
 	}
@@ -292,6 +300,27 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 3/Value", -90);
 	}
+	//Scale Far Timeouts
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 1/Timeout", 250);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 2/Timeout", 192);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 3/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 3", 69.15);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 1/Timeout", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 2/Timeout", -90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 3/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 3/Timeout", -90);
+	}
+
+	//Switch Near Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 1/Value", 140.5);
 	}
@@ -301,6 +330,18 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 1/Value", 90);
 	}
+	//Switch Near Timeouts
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 1/Timeout", 140.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 2/Timeout", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 1/Timeout", 90);
+	}
+
+	//Switch Far Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 1/Value", 84);
 	}
@@ -316,9 +357,33 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 2/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 2/Value", -90);
 	}
+	//Switch Far Timeouts
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 1/Timeout", 84);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 2/Timeout", 148);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 3/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 3/Timeout", 30);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 1/Timeout", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 2/Timeout", -90);
+	}
+
+	//Baseline Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/baseline/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/baseline/Drive By Distance 1/Value", 120.5);
 	}
+	//Baseline Timeouts
+	if (!Preferences::GetInstance()->ContainsKey("Auto/baseline/Drive By Distance 1/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/baseline/Drive By Distance 1/Timeout", 120.5);
+	}
+
+	//Scale Middle Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 1/Value", 19.5);
 	}
@@ -340,93 +405,7 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 3/Value", 90);
 	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 1/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 1/Value", 19.5);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 2/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 2/Value", 91.5);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 3/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 3/Value", 19.5);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 1/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 1/Value", -90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 2/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 2/Value", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 3/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 3/Value", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 1/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 1", 19.5);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 2/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 2/Value", 91.50);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 3/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 3/Value", 19.5);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Turn 1/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Turn 1/Value", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Turn 2/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Turn 2/Value", -90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 1/Timeout")) {
-			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 1/Timeout", 306.15);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 2/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 2/Timeout", 10);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Timeout", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 1/Timeout", 250);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 2/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 2/Timeout", 192);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 3/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 3", 69.15);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 1/Timeout", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 2/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 2/Timeout", -90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 3/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 3/Timeout", -90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 1/Timeout", 140.5);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 2/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 2/Timeout", 12);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 1/Timeout", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 1/Timeout", 84);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 2/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 2/Timeout", 148);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 3/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 3/Timeout", 30);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 1/Timeout", 90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 2/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 2/Timeout", -90);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/baseline/Drive By Distance 1/Timeout")) {
-		Preferences::GetInstance()->PutDouble("Auto/baseline/Drive By Distance 1/Timeout", 120.5);
-	}
+	//Scale Middle Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 1/Timeout", 19.5);
 	}
@@ -448,6 +427,27 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
 	}
+
+	//Switch Middle Values
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 1/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 1/Value", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 2/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 2/Value", 91.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 3/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 3/Value", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 1/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 1/Value", -90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 2/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 2/Value", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 3/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 3/Value", 90);
+	}
+	//Switch Middle Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 1/Timeout", 19.5);
 	}
@@ -466,6 +466,24 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 3/Timeout", 90);
 	}
+
+	//Baseline Middle Values
+	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 1/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 1", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 2/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 2/Value", 91.50);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 3/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 3/Value", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Turn 1/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Turn 1/Value", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Turn 2/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Turn 2/Value", -90);
+	}
+	//Baseline Middle Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 1/Timeout", 19.5);
 	}

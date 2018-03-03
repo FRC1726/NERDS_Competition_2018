@@ -13,19 +13,21 @@ class Grabber : public Subsystem {
 public:
 	Grabber();
 	void InitDefaultCommand();
+
 	void SetMaxSpeed(double);
-	double getWristAngle();
 	void SetPID(double, double, double, double);
+	double getWristAngle();
 	void SetWrist(double);
 	void SimpleWristControl(double);
+
 	bool GetLimitSwitch();
 	void SetReverseLimit(int);
 
 	DoubleSolenoid::Value getClaw();
 	void setClaw(DoubleSolenoid::Value);
 
-	DoubleSolenoid::Value getElevator();
-	void setElevator(DoubleSolenoid::Value);
+	DoubleSolenoid::Value getArm();
+	void setArm(DoubleSolenoid::Value);
 private:
 	 ctre::phoenix::motorcontrol::can::WPI_TalonSRX wrist;
 

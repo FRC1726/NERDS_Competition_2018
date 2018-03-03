@@ -2,7 +2,7 @@
 #include "../RobotMap.h"
 #include <SmartDashboard/SmartDashboard.h>
 #include <ctre/phoenix/MotorControl/SensorCollection.h>
-#include "Commands/TriggerSpeed.h"
+#include <Commands/WristWithJoysticks.h>
 
 Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
@@ -25,21 +25,12 @@ Grabber::Grabber() : Subsystem("Grabber"),
 }
 
 void Grabber::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new TriggerSpeed());
+	SetDefaultCommand(new WristWithJoysticks());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
 void Grabber::SetMaxSpeed(double max){
 	wrist.ConfigPeakOutputForward(max, WRIST_TIMEOUT);
 	wrist.ConfigPeakOutputReverse(-max, WRIST_TIMEOUT);
-}
-
-double Grabber::getWristAngle(){
-	double WristAngle = wrist.GetSelectedSensorPosition(0);
-	return -WristAngle / 4096 * 120;
 }
 
 void Grabber::SetPID(double f, double p, double i, double d){
@@ -47,6 +38,11 @@ void Grabber::SetPID(double f, double p, double i, double d){
 	wrist.Config_kP(WRIST_LOOP, p, WRIST_TIMEOUT);
 	wrist.Config_kI(WRIST_LOOP, i, WRIST_TIMEOUT);
 	wrist.Config_kD(WRIST_LOOP, d, WRIST_TIMEOUT);
+}
+
+double Grabber::getWristAngle(){
+	double WristAngle = wrist.GetSelectedSensorPosition(0);
+	return -WristAngle / 4096 * 120;
 }
 
 void Grabber::SetWrist(double target){
@@ -71,11 +67,11 @@ void Grabber::setClaw(DoubleSolenoid::Value state){
 	claw.Set(state);
 }
 
-DoubleSolenoid::Value Grabber::getElevator(){
+DoubleSolenoid::Value Grabber::getArm(){
 	return elevator.Get();
 }
 
-void Grabber::setElevator(DoubleSolenoid::Value state){
+void Grabber::setArm(DoubleSolenoid::Value state){
 	elevator.Set(state);
 }
 

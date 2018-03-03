@@ -1,37 +1,37 @@
-#include "ToggleElevator.h"
+#include <Commands/ToggleArm.h>
 
-ToggleElevator::ToggleElevator() {
+ToggleArm::ToggleArm() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 }
 
 // Called just before this Command runs the first time
-void ToggleElevator::Initialize() {
-	if (grabber.getElevator() == DoubleSolenoid::kForward || grabber.getElevator() == DoubleSolenoid::kOff) {
-		grabber.setElevator(DoubleSolenoid::kReverse);
+void ToggleArm::Initialize() {
+	if (grabber.getArm() == DoubleSolenoid::kForward || grabber.getArm() == DoubleSolenoid::kOff) {
+		grabber.setArm(DoubleSolenoid::kReverse);
 	}else{
-		grabber.setElevator(DoubleSolenoid::kForward);
+		grabber.setArm(DoubleSolenoid::kForward);
 	}
 }
 
 // Called repeatedly when this Command is scheduled to run
-void ToggleElevator::Execute() {
+void ToggleArm::Execute() {
 
 }
 
 // Make this return true when this Command no longer needs to run execute()
-bool ToggleElevator::IsFinished() {
+bool ToggleArm::IsFinished() {
 	return true;
 }
 
 // Called once after isFinished returns true
-void ToggleElevator::End() {
+void ToggleArm::End() {
 
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
-void ToggleElevator::Interrupted() {
+void ToggleArm::Interrupted() {
 
 }

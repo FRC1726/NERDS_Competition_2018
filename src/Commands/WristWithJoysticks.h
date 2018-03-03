@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class TriggerSpeed : public CommandBase {
+class WristWithJoysticks : public CommandBase {
 public:
-	TriggerSpeed();
+	WristWithJoysticks();
 	void Initialize();
 	void Execute();
 	bool IsFinished();

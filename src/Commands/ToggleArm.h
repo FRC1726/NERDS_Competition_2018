@@ -1,11 +1,11 @@
-#ifndef TurntoAngle_H
-#define TurntoAngle_H
+#ifndef ToggleArm_H
+#define ToggleArm_H
 
 #include "../CommandBase.h"
 
-class TurntoAngle : public CommandBase {
+class ToggleArm : public CommandBase {
 public:
-	TurntoAngle();
+	ToggleArm();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -13,4 +13,4 @@ public:
 	void Interrupted();
 };
 
-#endif  // TurntoAngle_H
+#endif  // ToggleArm_H

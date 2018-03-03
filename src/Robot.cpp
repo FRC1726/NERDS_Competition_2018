@@ -4,25 +4,17 @@
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
 
-#include<NERDS/PolarNum.h>
 #include <DriverStation.h>
 
 
 #include "CommandBase.h"
-#include "CommandGroups/ForwardAndTurn.h"
-#include "CommandGroups/GrabAndReturn.h"
 #include <string>
 #include <iostream>
 #include "Commands/InitClaw.h"
 #include "CommandGroups/AutoCommand.h"
-#include "Commands/KinematicTracking.h"
 
 void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);
-
-	PolarNum initialPos;
-	tracking.reset(new KinematicTracking(initialPos, 0));
-
 	initClaw->Start();
 
 
@@ -82,7 +74,6 @@ void Robot::AutonomousPeriodic(){
 }
 
 void Robot::TeleopInit(){
-	tracking->Start();
 	//Stops the autonomous command once teleop is enabled. Remove this if you want the commands to continue to run
 	// This makes sure that the autonomous stops running when
 	// teleop starts running. If you want the autonomous to
