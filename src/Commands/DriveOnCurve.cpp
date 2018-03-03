@@ -74,7 +74,7 @@ double DriveOnCurve::getVelocityRatio(){
 		r = m / (2 * sin(a));
 	}
 	double ratio = (ROBOT_LENGTH + 2 *  r) / (ROBOT_LENGTH - 2 * r);
-	return ratio;
+	return fabs(ratio);
 }
 
 void DriveOnCurve::getPreferences() {
