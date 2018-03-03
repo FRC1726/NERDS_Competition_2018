@@ -7,7 +7,7 @@
 
 #include "Commands/DriveByDistance.h"
 #include "Commands/TurnByAngle.h"
-#include "Commands/WristDown.h"
+#include "Commands/WristMiddle.h"
 #include "Commands/WristUp.h"
 #include "Commands/ToggleArm.h"
 #include "Commands/ToggleClaw.h"
@@ -83,7 +83,7 @@ void AutoCommand::scaleNear(int initialPosition){
 	AddSequential(new DriveByDistance(D2));
 
 	AddSequential(new ToggleArm());
-	AddSequential(new WristDown());
+	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 
 }
@@ -109,7 +109,7 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new DriveByDistance(D3));
 	AddSequential(new TurnByAngle(sign * T3));
 	AddSequential(new ToggleArm());
-	AddSequential(new WristDown());
+	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 
 }
@@ -128,7 +128,7 @@ void AutoCommand::switchNear(int initialPosition){
 	AddSequential(new DriveByDistance(D1));
 	AddSequential(new TurnByAngle(sign * T1));
 	AddSequential(new DriveByDistance(D2));
-	AddSequential(new WristDown());
+	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
 
@@ -150,7 +150,7 @@ void AutoCommand::switchFar(int initialPosition){
 	AddSequential(new DriveByDistance(D2));
 	AddSequential(new TurnByAngle(sign * -T2));
 	AddSequential(new DriveByDistance(D3));
-	AddSequential(new WristDown());
+	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
 
@@ -181,7 +181,7 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new TurnByAngle(sign * T3));
 	AddSequential(new DriveByDistance(D4));
 	AddSequential(new ToggleArm());
-	AddSequential(new WristDown());
+	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
 
@@ -205,7 +205,7 @@ void AutoCommand::switchMiddle(char switchPos){
 	AddSequential(new TurnByAngle(sign * T2));
 	AddSequential(new DriveByDistance(D3));
 	AddSequential(new TurnByAngle(sign * T3));
-	AddSequential(new WristDown());
+	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
 
