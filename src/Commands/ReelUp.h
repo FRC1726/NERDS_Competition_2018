@@ -12,10 +12,9 @@ public:
 	void End();
 	void Interrupted();
 private:
-	double reelSpeed;
-
 	void getPreferences();
 	void checkKeys();
+	double reelSpeed;
 };
 
 #endif  // RealWinch_H

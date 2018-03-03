@@ -6,6 +6,7 @@ constexpr int DRIVE_LEFT = 0;
 constexpr int DRIVE_RIGHT = 1;
 constexpr int WINCH_REEL = 2;
 
+
 //Joystick Ports
 constexpr int JOY_DRIVER = 0;
 
@@ -14,8 +15,8 @@ constexpr int BUTTON_A = 1;
 constexpr int BUTTON_B = 2;
 constexpr int BUTTON_X = 3;
 constexpr int BUTTON_Y = 4;
-constexpr int LEFT_BUMP = 5;
-constexpr int RIGHT_BUMP = 6;
+constexpr int LEFT_BUM = 5;
+constexpr int RIGHT_BUM = 6;
 
 //Axis IDs
 constexpr int LEFT_X = 0;
@@ -43,5 +44,8 @@ constexpr int WRIST_ID = 2;
 constexpr int WRIST_SLOT = 0;
 constexpr int WRIST_LOOP = 0;
 constexpr int WRIST_TIMEOUT = 10;
+
+//Robot Length
+constexpr double ROBOT_LENGTH = 23.82;
 
 #endif  // ROBOTMAP_H

@@ -1,11 +1,13 @@
-#ifndef ToggleArm_H
-#define ToggleArm_H
+#ifndef Wait_H
+#define Wait_H
 
 #include "../CommandBase.h"
+namespace nerd{
 
-class ToggleArm : public CommandBase {
+
+class Wait : public CommandBase {
 public:
-	ToggleArm();
+	Wait(double);
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -13,4 +15,6 @@ public:
 	void Interrupted();
 };
 
-#endif  // ToggleArm_H
+}
+
+#endif  // Wait_H

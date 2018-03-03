@@ -7,8 +7,8 @@
 #include <AHRS.h>
 #include <VictorSP.h>
 #include <PIDController.h>
-
 #include "NERDS/PidOut.h"
+
 
 class DriveTrain : public Subsystem {
 public:
@@ -23,6 +23,7 @@ public:
 	void arcadeDrive(double, double);
 	void Stop();
 	double getEncoderValue(encoderSide);
+	double getVelocity(encoderSide);
 
 	//Gyro
 	double getAngle();
@@ -34,6 +35,8 @@ public:
 	void setEnabled(bool);
 	void setPIDRange(double,double);
 	bool onTarget();
+
+
 private:
 	VictorSP leftController;
 	VictorSP rightController;

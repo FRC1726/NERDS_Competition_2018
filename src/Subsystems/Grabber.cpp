@@ -1,17 +1,16 @@
 #include "Grabber.h"
 #include "../RobotMap.h"
-
-#include "Commands/RotateWrist.h"
-
+#include <SmartDashboard/SmartDashboard.h>
 #include <ctre/phoenix/MotorControl/SensorCollection.h>
+#include <Commands/WristWithJoysticks.h>
 
 Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
 	claw(CLAW_FORWARD, CLAW_BACKWARD),
-	arm(ELEVATOR_FORWARD, ELEVATOR_BACKWARD)
+	elevator(ELEVATOR_FORWARD, ELEVATOR_BACKWARD)
 {
 	claw.Set(DoubleSolenoid::kReverse);
-	arm.Set(DoubleSolenoid::kForward);
+	elevator.Set(DoubleSolenoid::kForward);
 
 	wrist.SetInverted(true);
 
@@ -26,35 +25,37 @@ Grabber::Grabber() : Subsystem("Grabber"),
 }
 
 void Grabber::InitDefaultCommand() {
-	// Set the default command for a subsystem here.
-	// SetDefaultCommand(new MySpecialCommand());
-	SetDefaultCommand(new RotateWrist());
+	SetDefaultCommand(new WristWithJoysticks());
 }
 
-// Put methods for controlling this subsystem
-// here. Call these from Commands.
-void Grabber::setMaxSpeed(double max){
+void Grabber::SetMaxSpeed(double max){
 	wrist.ConfigPeakOutputForward(max, WRIST_TIMEOUT);
 	wrist.ConfigPeakOutputReverse(-max, WRIST_TIMEOUT);
 }
-void Grabber::setPID(double f, double p, double i, double d){
+
+void Grabber::SetPID(double f, double p, double i, double d){
 	wrist.Config_kF(WRIST_LOOP, f, WRIST_TIMEOUT);
 	wrist.Config_kP(WRIST_LOOP, p, WRIST_TIMEOUT);
 	wrist.Config_kI(WRIST_LOOP, i, WRIST_TIMEOUT);
 	wrist.Config_kD(WRIST_LOOP, d, WRIST_TIMEOUT);
 }
 
-void Grabber::setWrist(double target){
+double Grabber::getWristAngle(){
+	double WristAngle = wrist.GetSelectedSensorPosition(0);
+	return -WristAngle / 4096 * 120;
+}
+
+void Grabber::SetWrist(double target){
 	target = -((4096 / 120) * target);
 
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
 }
 
-void Grabber::simpleWristControl(double spd){
+void Grabber::SimpleWristControl(double spd){
 	wrist.Set(spd);
 }
 
-bool Grabber::getLimitSwitch(){
+bool Grabber::GetLimitSwitch(){
 	return wrist.GetSensorCollection().IsFwdLimitSwitchClosed();
 }
 
@@ -67,11 +68,11 @@ void Grabber::setClaw(DoubleSolenoid::Value state){
 }
 
 DoubleSolenoid::Value Grabber::getArm(){
-	return arm.Get();
+	return elevator.Get();
 }
 
 void Grabber::setArm(DoubleSolenoid::Value state){
-	arm.Set(state);
+	elevator.Set(state);
 }
 
 void Grabber::SetReverseLimit(int limit){
