@@ -80,9 +80,9 @@ void AutoCommand::scaleNear(int initialPosition){
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
-	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new ToggleArm());
 	AddSequential(new nerd::Wait(wait));
+	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
@@ -112,10 +112,10 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
-	AddSequential(new DriveByDistance(D3, timeout_D3));
-	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new ToggleArm());
 	AddSequential(new nerd::Wait(wait));
+	AddSequential(new DriveByDistance(D3, timeout_D3));
+	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
@@ -202,11 +202,11 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
+	AddSequential(new ToggleArm());
+	AddSequential(new nerd::Wait(wait));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new DriveByDistance(D4, timeout_D4));
-	AddSequential(new ToggleArm());
-	AddSequential(new nerd::Wait(wait));
 	AddSequential(new WristMiddle());
 	AddSequential(new ToggleClaw());
 }
