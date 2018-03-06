@@ -1,8 +1,9 @@
-#include "Commands/TurnByAngle.h"
+#include <Commands/TurnByAngle.h>
+#include "RobotMap.h"
 
 #include <Preferences.h>
 
-TurnByAngle::TurnByAngle(double angle, double timeOut) : CommandBase("Turn By Angle"){
+TurnByAngle::TurnByAngle(double angle, double timeOut) {
 	Requires(&drivetrain);
 	checkKeys();
 
@@ -18,6 +19,7 @@ TurnByAngle::TurnByAngle(double angle, double timeOut) : CommandBase("Turn By An
 void TurnByAngle::Initialize() {
 	getPreferences();
 	targetAngle = makeContinuous(drivetrain.getAngle() + turnAngle);
+	SmartDashboard::PutNumber("Target Angle", targetAngle);
 
 	drivetrain.setPIDRange(-maxSpeed, maxSpeed);
 	drivetrain.SetPIDTarget(targetAngle);
@@ -27,6 +29,8 @@ void TurnByAngle::Initialize() {
 // Called repeatedly when this Command is scheduled to run
 void TurnByAngle::Execute() {
 	double speed = drivetrain.getPIDOutput();
+	SmartDashboard::PutNumber("Speed", speed);
+	SmartDashboard::PutBoolean("On Target", drivetrain.onTarget());
 
 	if(speed < minSpeed && speed > 0){
 		speed = minSpeed;

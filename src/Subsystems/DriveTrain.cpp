@@ -1,10 +1,9 @@
+#include <Commands/DriveWithJoysticks.h>
 #include "DriveTrain.h"
 #include "../RobotMap.h"
-
-#include "Commands/DriveWithJoysticks.h"
-
 #include <SerialPort.h>
 #include <SmartDashboard/SmartDashboard.h>
+
 
 DriveTrain::DriveTrain() : Subsystem("DriveTrain"),
 	leftController(DRIVE_LEFT),
@@ -80,4 +79,14 @@ void DriveTrain::setPIDRange(double min,double max){
 }
 bool DriveTrain::onTarget(){
 	return pidController.OnTarget();
+}
+
+double DriveTrain::getVelocity(encoderSide choice){
+	if (choice == kLeft){
+		return leftEncoder.GetRate();
+	}else if (choice == kRight ){
+		return rightEncoder.GetRate();
+	}
+
+	return 0;
 }

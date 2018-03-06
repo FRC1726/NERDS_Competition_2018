@@ -1,8 +1,8 @@
 #include "ReelDown.h"
 
-#include <Preferences.h>
-
-ReelDown::ReelDown() : CommandBase("Reel Down") {
+ReelDown::ReelDown() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&winch);
 	checkKeys();
 }

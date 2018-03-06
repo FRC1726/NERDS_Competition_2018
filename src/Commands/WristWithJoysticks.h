@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class RotateWrist : public CommandBase {
+class WristWithJoysticks : public CommandBase {
 public:
-	RotateWrist();
+	WristWithJoysticks();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -14,9 +14,6 @@ public:
 private:
 	double angle;
 	double maxSpeed;
-
-	double driveProfile(double);
-
 	void getPreferences();
 	void checkKeys();
 };
