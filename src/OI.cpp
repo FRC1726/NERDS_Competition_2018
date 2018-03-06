@@ -28,8 +28,7 @@ OI::OI() :
 	driver_Y.WhenPressed(new DeleteNetworkTables);
 	driver_RB.WhenPressed(new ReleaseWinch);
 
-	driver_SELECT.WhileActive(new DeleteNetworkTables);
-	driver_START.WhileActive(new DeleteNetworkTables);
+
 
 	d_Down.WhileActive(new ReelDown);
 	d_Up.WhileActive(new ReelUp);
@@ -69,6 +68,5 @@ bool OI::getButtonState(int Select){
 	default:
 		std::cout << "Something Went Wrong..." << std::endl;
 		return false;
-
 	}
 }
