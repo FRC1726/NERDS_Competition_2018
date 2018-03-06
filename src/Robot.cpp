@@ -35,6 +35,10 @@ void Robot::RobotInit(){
 	if(!Preferences::GetInstance()->ContainsKey("Switch")){
 		Preferences::GetInstance()->PutBoolean("Switch", false);
 	}
+	Preferences::GetInstance()->PutBoolean("Junk", false);
+	Preferences::GetInstance()->PutBoolean("Junk2", false);
+	Preferences::GetInstance()->PutBoolean("Junk3", false);
+	Preferences::GetInstance()->PutBoolean("Junk4", false);
 
 }
 
