@@ -18,6 +18,7 @@ public:
 	void SetPID(double, double, double, double);
 	double getWristAngle();
 	void SetWrist(double);
+	double wristSetPoint();
 	void SimpleWristControl(double);
 
 	bool GetLimitSwitch();
@@ -33,7 +34,7 @@ private:
 
 	 DoubleSolenoid claw;
 	 DoubleSolenoid elevator;
-
+	 double setPointAngle;
 };
 
 #endif  // Grabber_H

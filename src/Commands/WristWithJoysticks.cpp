@@ -19,15 +19,9 @@ void WristWithJoysticks::Execute() {
 	double RT = oi.getAxis(RIGHT_TRIG);
 	double LT = oi.getAxis(LEFT_TRIG);
 
-	double speed = RT - LT;
+	double speed = movementProfile(RT - LT);
 
-	if(speed > maxSpeed){
-		speed = maxSpeed;
-	}else if(speed < -maxSpeed){
-		speed = -maxSpeed;
-	}
-
-	grabber.SimpleWristControl(speed);
+	grabber.SetWrist(grabber.wristSetPoint() + speed);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -49,15 +43,36 @@ void WristWithJoysticks::Interrupted() {
 void WristWithJoysticks::getPreferences(){
 	maxSpeed = Preferences::GetInstance()->GetDouble("Wrist/Max Speed", 1);
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
+	deadzone = Preferences::GetInstance()->GetDouble("Wrist/Deadzone", 0.025);
 
 	grabber.SetMaxSpeed(maxSpeed);
 }
 
 void WristWithJoysticks::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
+		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 1);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Down Angle")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Wrist Down Angle", 0.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Wrist/Deadzone")) {
+			Preferences::GetInstance()->PutDouble("Wrist/Deadszone", 0.025);
+	}
+}
+
+double WristWithJoysticks::movementProfile(double input) {
+	if(fabs(input) <= deadzone){
+			return 0;
+		}
+
+	double out = (maxSpeed) * fabs(input);
+
+	if(input > 0){
+		return out;
+	}
+	if(input < 0){
+		return -out;
+	} else {
+		return 0;
 	}
 }

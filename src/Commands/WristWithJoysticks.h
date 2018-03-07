@@ -14,8 +14,10 @@ public:
 private:
 	double angle;
 	double maxSpeed;
+	double deadzone;
 	void getPreferences();
 	void checkKeys();
+	double movementProfile(double);
 };
 
 #endif  // TriggerSpeed_H
