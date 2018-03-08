@@ -17,6 +17,7 @@ private:
 	double maxSpeed;
 	double minSpeed;
 	double accelDistance;
+	double decelDistance;
 	double tolerance;
 
 	double leftInitial;
