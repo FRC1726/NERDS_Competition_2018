@@ -1,4 +1,5 @@
 #include <Commands/DriveByDistance.h>
+#include <Commands/InitWrist.h>
 #include <Commands/ReelUp.h>
 #include <Commands/ToggleArm.h>
 #include <Commands/ToggleClaw.h>
@@ -12,7 +13,6 @@
 #include "Commands/WristMiddle.h"
 #include "Commands/WristDown.h"
 #include "Commands/ReleaseWinch.h"
-#include "Commands/InitClaw.h"
 #include "Commands/ReelUp.h"
 #include "Commands/ReelDown.h"
 #include "Commands/DeleteNetworkTables.h"

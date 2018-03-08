@@ -1,3 +1,4 @@
+#include <Commands/InitWrist.h>
 #include "Robot.h"
 
 #include <Commands/Scheduler.h>
@@ -10,12 +11,11 @@
 #include "CommandBase.h"
 #include <string>
 #include <iostream>
-#include "Commands/InitClaw.h"
 #include "CommandGroups/AutoCommand.h"
 
 void Robot::RobotInit(){
-	initClaw.reset(new InitClaw);
-	initClaw->Start();
+	//initClaw.reset(new InitWrist);
+	//initClaw->Start();
 
 
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();

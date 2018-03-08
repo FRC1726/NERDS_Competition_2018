@@ -3,9 +3,9 @@
 
 #include "../CommandBase.h"
 
-class InitClaw : public CommandBase {
+class InitWrist : public CommandBase {
 public:
-	InitClaw();
+	InitWrist();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
