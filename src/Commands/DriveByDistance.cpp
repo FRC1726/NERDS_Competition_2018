@@ -99,7 +99,7 @@ double DriveByDistance::driveProfile(double distance) {
 	}
 
 	double initialAccel = (maxSpeed - minSpeed) * (fabs(distance)/accelDistance) + minSpeed;
-	double endAccel = (maxSpeed - minSpeed) * (fabs(targetDistance - distance)/accelDistance) + minSpeed;
+	double endAccel = (maxSpeed - minSpeed) * (fabs(targetDistance - distance)/decelDistance) + minSpeed;
 
 	double speed;
 
@@ -129,6 +129,7 @@ void DriveByDistance::getPreferences() {
 	maxSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Max Speed", 1);
 	minSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Min Speed", 0.35);
 	accelDistance = Preferences::GetInstance()->GetDouble("Auto Drive/Accel Distance", 12);
+	decelDistance = Preferences::GetInstances()->GetDouble("Auto Drive/Decel Distance", 12);
 
 	//Timer
 	time = Preferences::GetInstance()->GetDouble("Auto Drive/Target Timer", 2.0);
@@ -161,6 +162,9 @@ void DriveByDistance::checkKeys() {
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Accel Distance")) {
 		Preferences::GetInstance()->PutDouble("Auto Drive/Accel Distance", 12.0);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Decel Distance")) {
+		Preferences::GetInstance()->PutDouble("Auto Drive/Decel Distance", 12.0);
 	}
 
 	//Timer
