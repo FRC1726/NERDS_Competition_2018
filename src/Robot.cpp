@@ -26,20 +26,22 @@ void Robot::RobotInit(){
 	initialPosition.AddObject("Right", 3);
 
 	SmartDashboard::PutData("Position", &initialPosition);
-	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
-		Preferences::GetInstance()->PutBoolean("FarTarget", false);
+	if(!Preferences::GetInstance()->ContainsKey("Scale Far")){
+		Preferences::GetInstance()->PutBoolean("Scale Far", false);
 	}
 	if(!Preferences::GetInstance()->ContainsKey("Scale")){
 		Preferences::GetInstance()->PutBoolean("Scale", false);
 	}
+	if(!Preferences::GetInstance()->ContainsKey("Scale Far")){
+		Preferences::GetInstance()->PutBoolean("Scale Far", false);
+	}
+
 	if(!Preferences::GetInstance()->ContainsKey("Switch")){
 		Preferences::GetInstance()->PutBoolean("Switch", false);
 	}
-	Preferences::GetInstance()->PutBoolean("Junk", false);
-	Preferences::GetInstance()->PutBoolean("Junk2", false);
-	Preferences::GetInstance()->PutBoolean("Junk3", false);
-	Preferences::GetInstance()->PutBoolean("Junk4", false);
-
+	if(!Preferences::GetInstance()->ContainsKey("Switch Far")){
+		Preferences::GetInstance()->PutBoolean("Switch Far", false);
+	}
 }
 
 /**
