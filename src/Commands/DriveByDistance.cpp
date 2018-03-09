@@ -129,7 +129,7 @@ void DriveByDistance::getPreferences() {
 	maxSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Max Speed", 1);
 	minSpeed = Preferences::GetInstance()->GetDouble("Auto Drive/Min Speed", 0.35);
 	accelDistance = Preferences::GetInstance()->GetDouble("Auto Drive/Accel Distance", 12);
-	decelDistance = Preferences::GetInstances()->GetDouble("Auto Drive/Decel Distance", 12);
+	decelDistance = Preferences::GetInstance()->GetDouble("Auto Drive/Decel Distance", 12);
 
 	//Timer
 	time = Preferences::GetInstance()->GetDouble("Auto Drive/Target Timer", 2.0);
