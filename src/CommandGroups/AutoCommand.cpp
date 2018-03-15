@@ -10,6 +10,8 @@
 #include "Commands/AutoWrist.h"
 #include "Commands/Wait.h"
 #include "Commands/ToggleClaw.h"
+#include "Commands/WristUp.h"
+#include "Commands/WristDown.h"
 
 AutoCommand::AutoCommand(int pos) {
 	checkKeys();
@@ -66,9 +68,21 @@ void AutoCommand::scaleNear(int initialPosition){
 	double timeout_D1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 1/Value", 306.15);
 	double timeout_D2 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 2/Value", 10);
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Turn 1/Value", 90);
-	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleNear/Toggle Arm/Wait", 90);
+	double armWait = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Toggle Arm/Wait", 90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/scale/Scale Wrist Angle", 90);
 
+	double clawWait = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Toggle Claw/Wait", 90);
+
+	double D3 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 3/Value", 10);
+	double D4 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 4/Value", 10);
+	double D5 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 5/Value", 10);
+
+	double timeout_D3 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 3/Value", 10);
+	double timeout_D4 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 4/Value", 10);
+	double timeout_D5 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Drive By Distance 5/Value", 10);
+
+	double T2 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Turn 2/Value", 90);
+	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleNear/Turn 2/Value", 90);
 	int sign = -1;
 
 	if(initialPosition == 1){
@@ -77,11 +91,25 @@ void AutoCommand::scaleNear(int initialPosition){
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
 	AddSequential(new ToggleArm());
-	AddSequential(new nerd::Wait(wait));
+	AddSequential(new nerd::Wait(armWait));
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new AutoWrist(autoWrist));
 	AddSequential(new ToggleClaw());
+	//two cube auto starts here
+	if(Preferences::GetInstance()->GetDouble("TwoCube", false)){
+	AddSequential(new nerd::Wait(clawWait));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	AddSequential(new DriveByDistance(D3, timeout_D3));
+	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
+	AddSequential(new DriveByDistance(D4, timeout_D4));
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
+	AddSequential(new DriveByDistance(D5, timeout_D5));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	}
 }
 
 void AutoCommand::scaleFar(int initialPosition){
@@ -97,9 +125,20 @@ void AutoCommand::scaleFar(int initialPosition){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 1/Timeout", 90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 2/Timeout", -90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 3/Timeout", -90);
-	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleFar/Toggle Arm/Wait", 90);
+	double armWait = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Toggle Arm/Wait", 90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/scale/Scale Wrist Angle", 90);
 
+	double clawWait = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Toggle Claw/Wait", 90);
+
+	double D4 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Drive By Distance 4/Value", 10);
+	double D5 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Drive By Distance 5/Value", 10);
+	double D6 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Drive By Distance 6/Value", 10);
+	double timeout_D4 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Drive By Distance 4/Timeout", 10);
+	double timeout_D5 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Drive By Distance 5/Timeout", 10);
+	double timeout_D6 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Drive By Distance 6/Timeout", 10);
+
+	double T4 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 4/Value", -90);
+	double timeout_T4 = Preferences::GetInstance()->GetDouble("Auto/scaleFar/Turn 4/Timeout", -90);
 	int sign = -1;
 
 	if(initialPosition == 1){
@@ -110,12 +149,25 @@ void AutoCommand::scaleFar(int initialPosition){
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new ToggleArm());
-	AddSequential(new nerd::Wait(wait));
+	AddSequential(new nerd::Wait(armWait));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new AutoWrist(autoWrist));
 	AddSequential(new ToggleClaw());
+	if(Preferences::GetInstance()->GetDouble("TwoCube", false)){
+	AddSequential(new nerd::Wait(clawWait));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	AddSequential(new DriveByDistance(D4, timeout_D4));
+	AddSequential(new TurnByAngle(sign * T4, timeout_T4));
+	AddSequential(new DriveByDistance(D5, timeout_D5));
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
+	AddSequential(new DriveByDistance(D6, timeout_D6));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	}
 }
 
 void AutoCommand::switchNear(int initialPosition){
@@ -127,6 +179,28 @@ void AutoCommand::switchNear(int initialPosition){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 1/Timeout", 90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/switch/Switch Wrist Angle", 90);
 
+	double D3 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 3/Value", -12);
+	double D4 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 4/Value", 10);
+	double D5 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 5/Value", 10);
+	double D6 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 6/Value", 10);
+	double D7 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 7/Value", 10);
+
+	double timeout_D3 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 3/Timeout", 12);
+	double timeout_D4 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 4/Timeout", 20);
+	double timeout_D5 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 5/Timeout", 20);
+	double timeout_D6 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 6/Timeout", 10);
+	double timeout_D7 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Drive By Distance 7/Timeout", 10);
+
+	double T2 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 2/Value", -90);
+	double T3 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 3/Value", 90);
+	double T4 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 4/Value", 90);
+
+	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 2/Timeout", 90);
+	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 3/Timeout", 90);
+	double timeout_T4 = Preferences::GetInstance()->GetDouble("Auto/switchNear/Turn 4/Timeout", 90);
+
+	double clawWait = Preferences::GetInstance()->GetDouble("Auto/switchNear/Toggle Claw/Wait", 90);
+
 	int sign = -1;
 
 	if(initialPosition == 1){
@@ -138,6 +212,24 @@ void AutoCommand::switchNear(int initialPosition){
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new AutoWrist(autoWrist));
 	AddSequential(new ToggleClaw());
+	//two cube starts here
+	if (Preferences::GetInstance()->GetDouble("TwoCube", false)){
+	AddSequential(new nerd::Wait(clawWait));//gives time for claw to toggle
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	AddSequential(new DriveByDistance(D3, timeout_D3));
+	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
+	AddSequential(new DriveByDistance(D4, timeout_D4));
+	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
+	AddSequential(new DriveByDistance(D5, timeout_D5));
+	AddSequential(new TurnByAngle(sign * T4, timeout_T4));
+	AddSequential(new DriveByDistance(D6, timeout_D6));
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
+	AddSequential(new DriveByDistance(D7,timeout_D7));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	}
 }
 
 void AutoCommand::switchFar(int initialPosition){
@@ -153,6 +245,17 @@ void AutoCommand::switchFar(int initialPosition){
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Turn 2/Timeout", -90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/switch/Switch Wrist Angle", 90);
 
+	double clawWait = Preferences::GetInstance()->GetDouble("Auto/switchFar/Toggle Claw/Wait", 90);
+
+	double D4 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Drive By Distance 4/Value", 10);
+	double D5 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Drive By Distance 5/Value", 10);
+	double D6 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Drive By Distance 6/Value", 10);
+	double timeout_D4 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Drive By Distance 4/Timeout", 10);
+	double timeout_D5 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Drive By Distance 5/Timeout", 10);
+	double timeout_D6 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Drive By Distance 6/Timeout", 10);
+
+	double T3 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Turn 3/Value", 90);
+	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/switchFar/Turn 3/Timeout", 90);
 	int sign = -1;
 
 	if(initialPosition == 1){
@@ -166,6 +269,20 @@ void AutoCommand::switchFar(int initialPosition){
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new AutoWrist(autoWrist));
 	AddSequential(new ToggleClaw());
+	//two cube auto starts here
+	if(Preferences::GetInstance()->GetDouble("TwoCube", false)){
+	AddSequential(new nerd::Wait(clawWait));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	AddSequential(new DriveByDistance(D4, timeout_D4));
+	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
+	AddSequential(new DriveByDistance(D5, timeout_D5));
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
+	AddSequential(new DriveByDistance(D6, timeout_D6));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	}
 }
 
 void AutoCommand::baseline(int initialPosition){
@@ -190,9 +307,19 @@ void AutoCommand::scaleMiddle(char scale){
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 1/Timeout", -90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 2/Timeout", 90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
-	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleMiddle/Toggle Arm/Wait", 90);
+	double armWait = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Toggle Arm/Wait", 90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/scale/Scale Wrist Angle", 90);
 
+	double clawWait = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Toggle Claw/Wait", 90);
+
+
+	double D5 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Drive By Distance 5/Value", 10);
+	double D6 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Drive By Distance 6/Value", 10);
+	double timeout_D5 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Drive By Distance 5/Timeout", 10);
+	double timeout_D6 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Drive By Distance 6/Timeout", 10);
+
+	double T4 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 4/Value", 90);
+	double timeout_T4 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 4/Timeout", -90);
 	int sign = -1;
 
 	if(scale == 'L'){
@@ -204,12 +331,28 @@ void AutoCommand::scaleMiddle(char scale){
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
 	AddSequential(new ToggleArm());
-	AddSequential(new nerd::Wait(wait));
+	AddSequential(new nerd::Wait(armWait));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new DriveByDistance(D4, timeout_D4));
 	AddSequential(new AutoWrist(autoWrist));
 	AddSequential(new ToggleClaw());
+	//two cube auto starts here
+	if(Preferences::GetInstance()->GetDouble("TwoCube", false)){
+	AddSequential(new nerd::Wait(clawWait));
+	AddSequential(new ToggleClaw);
+	AddSequential(new WristUp);
+	AddSequential(new TurnByAngle(sign * T4, timeout_T4));
+	AddSequential(new ToggleArm());
+	AddSequential(new nerd::Wait(armWait));
+	AddSequential(new DriveByDistance(D5, timeout_D5));
+	AddSequential(new WristDown);
+	AddSequential(new ToggleClaw);
+	AddSequential(new DriveByDistance(D6, timeout_D6));
+	AddSequential(new ToggleClaw);
+	AddSequential(new WristUp);
+	}
+
 }
 
 void AutoCommand::switchMiddle(char switchPos){
@@ -218,15 +361,26 @@ void AutoCommand::switchMiddle(char switchPos){
 	double D3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 3/Value", 19.5);
 	double T1 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 1/Value", -90);
 	double T2 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 2/Value", 90);
-	double T3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 3/Value", 90);
+
 	double timeout_D1 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 1/Timeout", 19.5);
 	double timeout_D2 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 2/Timeout", 91.5);
 	double timeout_D3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 3/Timeout", 19.5);
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 1/Timeout", -90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 2/Timeout", 90);
-	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 3/Timeout", 90);
+
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/switch/Switch Wrist Angle", 90);
 
+	double D4 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 4/Value", 10);
+	double D5 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 5/Value", 10);
+	double D6 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 6/Value", 10);
+	double timeout_D4 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 4/Timeout", 10);
+	double timeout_D5 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 5/Timeout", 10);
+	double timeout_D6 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Drive By Distance 6/Timeout", 10);
+
+	double T3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 3/Value", 90);
+	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 3/Timeout", 90);
+
+	double ClawWait = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Toggle Claw/Wait", 90);
 	int sign = -1;
 
 	if(switchPos == 'L'){
@@ -238,9 +392,23 @@ void AutoCommand::switchMiddle(char switchPos){
 	AddSequential(new DriveByDistance(D2, timeout_D2));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
-	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
 	AddSequential(new AutoWrist(autoWrist));
 	AddSequential(new ToggleClaw());
+	//two cube auto starts here
+	if (Preferences::GetInstance()->GetDouble("TwoCube", false)){
+	AddSequential(new nerd::Wait(ClawWait));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+	AddSequential(new DriveByDistance(D4, timeout_D4));
+	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
+	AddSequential(new DriveByDistance(D5, timeout_D5));
+	AddSequential(new WristDown());
+	AddSequential(new ToggleClaw());
+	AddSequential(new DriveByDistance(D6, timeout_D6));
+	AddSequential(new ToggleClaw());
+	AddSequential(new WristUp());
+
+	}
 }
 
 void AutoCommand::baselineMiddle(char switchPos){
@@ -276,9 +444,21 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 2/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 2/Value", 10);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 3/Value")) {
+			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 3/Value", 10);
+		}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 4/Value")) {
+			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 4/Value", 10);
+		}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 5/Value")) {
+			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 5/Value", 10);
+		}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Value", 90);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 2/Value")) {
+			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 2/Value", 90);
+		}
 	//Scale Near Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 1/Timeout")) {
 			Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 1/Timeout", 306.15);
@@ -286,8 +466,20 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 2/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 2/Timeout", 10);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 3/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 3/Timeout", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 4/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 4/Timeout", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Drive By Distance 5/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Drive By Distance 5/Timeout", 10);
+	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Timeout", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Turn 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 2/Timeout", 90);
 	}
 
 	//Scale Far Values
@@ -300,6 +492,15 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 3/Value", 69.15);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 4/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 5/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 5/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 6/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 6/Value", 10);
+	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 1/Value", 90);
 	}
@@ -308,6 +509,9 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 3/Value", -90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 4/Value", -90);
 	}
 	//Scale Far Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Timeout")) {
@@ -319,6 +523,15 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 3", 69.15);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 4/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 4", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 5/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 5", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 6/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 6", 10);
+	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 1/Timeout", 90);
 	}
@@ -327,6 +540,9 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 3/Timeout", -90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Turn 4/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Turn 4/Timeout", -90);
 	}
 
 	//Switch Near Values
@@ -339,6 +555,32 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 1/Value", 90);
 	}
+
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 3/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 3/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 4/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 5/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 5/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 6/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 6/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 7/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 7/Value", 10);
+	}
+
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 2/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 2/Value", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 3/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 3/Value", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 4/Value", 90);
+	}
 	//Switch Near Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 1/Timeout", 140.5);
@@ -348,6 +590,29 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 1/Timeout", 90);
+	}
+
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 3/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 3/Timeout", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 4/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 4/Timeout", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 5/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 5/Timeout", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 6/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 6/Timeout", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Drive By Distance 7/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Drive By Distance 7/Timeout", 12);
+	}
+
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 2/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 2/Timeout", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Turn 3/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Turn 3/Timeout", 90);
 	}
 
 	//Switch Far Values
@@ -360,11 +625,24 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 3/Value", 30);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 4/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 5/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 5/Value", 10);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 6/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 6/Value", 10);
+	}
+
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 1/Value", 90);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 2/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 2/Value", -90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 3/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 3/Value", -90);
 	}
 	//Switch Far Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 1/Timeout")) {
@@ -376,12 +654,24 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 3/Timeout", 30);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 4/Timeout")) {
+			Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 4/Timeout", 10);
+		}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 5/Timeout")) {
+			Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 5/Timeout", 10);
+		}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Drive By Distance 6/Timeout")) {
+			Preferences::GetInstance()->PutDouble("Auto/switchFar/Drive By Distance 6/Timeout", 10);
+		}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 1/Timeout", 90);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 2/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 2/Timeout", -90);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Turn 3/Timeout")) {
+			Preferences::GetInstance()->PutDouble("Auto/switchFar/Turn 3/Timeout", -90);
+		}
 
 	//Baseline Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/baseline/Drive By Distance 1/Value")) {
@@ -405,6 +695,12 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 4/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 4/Value", 12);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 5/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 5/Value", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 6/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 6/Value", 12);
+	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 1/Value", -90);
 	}
@@ -413,6 +709,9 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 3/Value", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 4/Value", 90);
 	}
 	//Scale Middle Timeouts
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 1/Timeout")) {
@@ -427,6 +726,12 @@ void AutoCommand::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 4/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 4/Timeout", 12);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 5/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 5/Timeout", 12);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Drive By Distance 6/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Drive By Distance 6/Timeout", 12);
+	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 1/Timeout", -90);
 	}
@@ -435,6 +740,9 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Turn 4/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Turn 4/Timeout", 90);
 	}
 
 	//Switch Middle Values
@@ -446,6 +754,15 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 3/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 3/Value", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 4/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 4/Value", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 5/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 5/Value", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 6/Value")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 6/Value", 19.5);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 1/Value", -90);
@@ -465,6 +782,15 @@ void AutoCommand::checkKeys(){
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 3/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 3/Timeout", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 4/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 4/Timeout", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 5/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 5/Timeout", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Drive By Distance 6/Timeout")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Drive By Distance 6/Timeout", 19.5);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Turn 1/Timeout")) {
 		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Turn 1/Timeout", -90);
@@ -509,14 +835,33 @@ void AutoCommand::checkKeys(){
 		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Turn 2/Timeout", -90);
 	}
 	//Toggle Arm Wait
-	if (!Preferences::GetInstance()->ContainsKey("Auto/ScaleNear/Toggle Arm/Wait")) {
-		Preferences::GetInstance()->PutDouble("Auto/ScaleNear/Toggle Arm/Wait", 19.5);
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Toggle Arm/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Toggle Arm/Wait", 19.5);
 	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/ScaleFar/Toggle Arm/Wait")) {
-		Preferences::GetInstance()->PutDouble("Auto/ScaleFar/Toggle Arm/Wait", 19.5);
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Toggle Arm/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Toggle Arm/Wait", 19.5);
 	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto/ScaleMiddle/Toggle Arm/Wait")) {
-		Preferences::GetInstance()->PutDouble("Auto/ScaleMiddle/Toggle Arm/Wait", 19.5);
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Toggle Arm/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Toggle Arm/Wait", 19.5);
+	}
+	//Toggle claw Wait
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchNear/Toggle Claw/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchNear/Toggle Claw/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchFar/Toggle Claw/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchFar/Toggle Claw/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/switchMiddle/Toggle Claw/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/switchMiddle/Toggle Claw/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleNear/Toggle Claw/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Toggle Claw/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Toggle Claw/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Toggle Claw/Wait", 19.5);
+	}
+	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleMiddle/Toggle Claw/Wait")) {
+		Preferences::GetInstance()->PutDouble("Auto/scaleMiddle/Toggle Claw/Wait", 19.5);
 	}
 	//Scale Wrist Angle
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scale/Scale Wrist Angle")) {
