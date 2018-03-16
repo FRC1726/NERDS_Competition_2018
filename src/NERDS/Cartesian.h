@@ -16,6 +16,7 @@ public:
 	Cartesian operator-(const Cartesian&);
 	Cartesian operator/(const Cartesian&);
 	Cartesian operator*(const Cartesian&);
+	bool operator==(const Cartesian&);
 
 	PolarNum toPolar() const;
 private:

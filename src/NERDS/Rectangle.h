@@ -9,7 +9,7 @@ public:
 	Rectangle(Cartesian, double, double);
 	Rectangle(Cartesian, Cartesian);
 	//bool checkCollision(Obstacle);
-	void findPathinGrid(double, int&, int&, std::vector<std::vector<int> >&);
+	void findPathingGrid(double, int&, int&, std::vector<std::vector<int> >&);
 private:
 	Cartesian P1;
 	Cartesian P2;

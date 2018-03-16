@@ -9,7 +9,7 @@ public:
 	Obstacle(Cartesian);
 	Obstacle(double, double);
 //	virtual bool checkCollision() = 0;
-	virtual void findPathinGrid(double, std::vector<std::vector<int> >, int&, int&) = 0;
+	virtual void findPathingGrid(double, int&, int&, std::vector<std::vector<int> >&) = 0;
 protected:
 	Cartesian _origin;
 };

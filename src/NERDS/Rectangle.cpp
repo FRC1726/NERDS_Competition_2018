@@ -18,13 +18,12 @@ Rectangle::Rectangle(Cartesian a, Cartesian b) :
 
 }
 
-void Rectangle::findPathinGrid(double precision, int& x, int& y, std::vector<std::vector<int> > &grid){
+void Rectangle::findPathingGrid(double precision, int& x, int& y, std::vector<std::vector<int> > &grid){
 	int length = floor((P2.getX() + P1.getX()) / precision);
 	int width = floor((P2.getY() + P1.getY()) / precision);
 	std::vector<std::vector<int> > pathingGrid(width, std::vector<int>(length, 0) );
 	grid = pathingGrid;
 	x = floor(P1.getX() / precision);
 	y = floor(P1.getY() / precision);
-
 }
 

@@ -4,17 +4,24 @@
 #include <vector>
 #include "NERDS/Obstacle.h"
 #include <memory>
+#include "PolarNum.h"
+#include "Cartesian.h"
 
 class PlotMap {
 public:
-	PlotMap(Cartesian, Cartesian);
-	PlotMap(Cartesian);
+	PlotMap(double, double, double);
 	void addObstacle(Obstacle*);
+	std::vector<PolarNum> generatePath(Cartesian, Cartesian);
 private:
-	Cartesian min;
-	Cartesian max;
+	double _length;
+	double _height;
+	double _precision;
+
+	std::vector<std::vector<int> > _pathingGrid;
 	std::vector<std::unique_ptr<Obstacle> > obstacles;
-	std::vector<std::vector<int> > generateGrid(double);
+
+	bool isValid(Cartesian);
+	bool isBlocked(Cartesian);
 };
 
 #endif /* SRC_NERDS_PLOTMAP_H_ */

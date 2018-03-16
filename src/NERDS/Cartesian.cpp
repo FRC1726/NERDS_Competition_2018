@@ -34,6 +34,13 @@ Cartesian Cartesian::operator*(const Cartesian& other){
 	return out.toCartesian();
 }
 
+bool Cartesian::operator==(const Cartesian& other){
+	bool x = this->_x == other._x;
+	bool y = this->_y == other._y;
+
+	return x && y;
+}
+
 PolarNum Cartesian::toPolar() const{
 	double mag = pow((pow(_x, 2) + pow(_y, 2)), 0.5);
 	double ang;
