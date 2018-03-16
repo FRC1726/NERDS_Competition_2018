@@ -6,3 +6,10 @@ Obstacle::Obstacle(Cartesian origin) :
 
 }
 
+Obstacle::Obstacle(double x, double y) :
+	_origin(x, y)
+{
+
+}
+
+

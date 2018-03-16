@@ -2,12 +2,14 @@
 #define SRC_NERDS_RECTANGLE_H_
 
 #include "NERDS/Cartesian.h"
-#include <Obstacle.h>
+#include "NERDS/Obstacle.h"
 
 class Rectangle : public Obstacle{
 public:
 	Rectangle(Cartesian, double, double);
-	bool checkCollision(Obstacle);
+	Rectangle(Cartesian, Cartesian);
+	//bool checkCollision(Obstacle);
+	void findPathinGrid(double, int&, int&, std::vector<std::vector<int> >&);
 private:
 	Cartesian P1;
 	Cartesian P2;

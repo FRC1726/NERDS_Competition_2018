@@ -1,4 +1,6 @@
 #include <NERDS/Rectangle.h>
+#include <vector>
+#include <cmath>
 
 Rectangle::Rectangle(Cartesian origin, double length, double width) :
 	Obstacle(origin),
@@ -7,6 +9,22 @@ Rectangle::Rectangle(Cartesian origin, double length, double width) :
 {
 
 }
-checkCollision(Obstacle blockade){
+
+Rectangle::Rectangle(Cartesian a, Cartesian b) :
+	Obstacle((a.getX() + b.getX()) / 2,(a.getY() + b.getY()) / 2),
+	P1(a),
+	P2(b)
+{
 
 }
+
+void Rectangle::findPathinGrid(double precision, int& x, int& y, std::vector<std::vector<int> > &grid){
+	int length = floor((P2.getX() + P1.getX()) / precision);
+	int width = floor((P2.getY() + P1.getY()) / precision);
+	std::vector<std::vector<int> > pathingGrid(width, std::vector<int>(length, 0) );
+	grid = pathingGrid;
+	x = floor(P1.getX() / precision);
+	y = floor(P1.getY() / precision);
+
+}
+
