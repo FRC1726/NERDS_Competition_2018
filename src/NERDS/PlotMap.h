@@ -20,8 +20,8 @@ private:
 	std::vector<std::vector<int> > _pathingGrid;
 	std::vector<std::unique_ptr<Obstacle> > obstacles;
 
-	bool isValid(Cartesian);
-	bool isBlocked(Cartesian);
+	bool isValid(int, int);
+	bool isBlocked(int, int);
 };
 
 #endif /* SRC_NERDS_PLOTMAP_H_ */

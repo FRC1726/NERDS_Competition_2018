@@ -1,6 +1,7 @@
 #include <NERDS/PlotMap.h>
 #include <cmath>
 #include <DriverStation.h>
+#include <set>
 
 PlotMap::PlotMap(double length, double height, double precision) :
 	_length(length),
@@ -28,28 +29,28 @@ void PlotMap::addObstacle(Obstacle* obstacle){
 
 std::vector<PolarNum> PlotMap::generatePath(Cartesian source, Cartesian destination){
 	int source_x = floor(source.getX() / _precision);
-	int source_y = floor(source.getX() / _precision);
-	int destination_x = floor(source.getX() / _precision);
-	int _y = floor(source.getX() / _precision);
+	int source_y = floor(source.getY() / _precision);
+	int destination_x = floor(destination.getX() / _precision);
+	int destination_y = floor(destination.getY() / _precision);
 
 	std::vector<PolarNum> movementPath;
 
-	if(!isValid(source)){
+	if(!isValid(source_x, source_y)){
 		DriverStation::ReportWarning("Source Is Out Of Bounds!!!");
 		return movementPath;
 	}
 
-	if(!isValid(destination)){
+	if(!isValid(destination_x, destination_y)){
 		DriverStation::ReportWarning("Destination Is Out Of Bounds!!!");
 		return movementPath;
 	}
 
-	if(isBlocked(source)){
+	if(isBlocked(source_x, source_y)){
 		DriverStation::ReportWarning("Source Is Blocked!!!");
 		return movementPath;
 	}
 
-	if(isBlocked(destination)){
+	if(isBlocked(destination_x, destination_y)){
 		DriverStation::ReportWarning("Destination Is Blocked!!!");
 		return movementPath;
 	}
@@ -59,21 +60,34 @@ std::vector<PolarNum> PlotMap::generatePath(Cartesian source, Cartesian destinat
 		return movementPath;
 	}
 
-	bool closedList[_pathingGrid.size()][_pathingGrid[0].size()];
+	bool closedList[_pathingGrid.size()][_pathingGrid[0].size()] = {false};
+	std::set<std::pair<double, std::pair<int, int> > > openList;
+	openList.insert(std::make_pair(0.0, std::make_pair(source_x, source_y)));
 
-	for()
+	while(!openList.empty()){
+		auto point = *openList.begin();
+		openList.erase(openList.begin());
+
+		int x = openList.second.first;
+		int y = openList.second.second;
+		closedList[x][y];
+
+		double g, h, f;
+
+		for(int i = -1; i <= 1; i++){
+			for(int j = -1; int j <= 1; j++){
+				if(isValid(x + i, y + j) && (i != 0 || j != 0)){
+
+				}
+			}
+		}
+	}
 }
 
-bool PlotMap::isValid(Cartesian point){
-	bool x = point.getX() <= _length && point.getX() >= 0;
-	bool y = point.getY() <= _height && point.getY() >= 0;
-
-	return x && y;
+bool PlotMap::isValid(int x, int y){
+	return x < _pathingGrid.size() && y < _pathingGrid[0].size();
 }
 
-bool PlotMap::isBlocked(Cartesian point){
-	int x = floor(point.getX() / _precision);
-	int y = floor(point.getY() / _precision);
-
+bool PlotMap::isBlocked(int x, int y){
 	return _pathingGrid[x][y] == 0;
 }
