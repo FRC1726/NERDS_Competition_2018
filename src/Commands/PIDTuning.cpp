@@ -1,6 +1,6 @@
 #include "PIDTuning.h"
 #include <Preferences.h>
-
+#include "CommandBase.h"
 
 PIDTuning::PIDTuning() {
 	// Use Requires() here to declare subsystem dependencies
@@ -11,13 +11,13 @@ PIDTuning::PIDTuning() {
 void PIDTuning::Initialize() {
 	p = 0;
 	getPreferences();
-	drivetrain.setPID(0, 0, 0, tolerance);
+	CommandBase::drivetrain.setPID(0, 0, 0, tolerance);
 }
 
 // Called repeatedly when this Command is scheduled to run
 void PIDTuning::Execute() {
 	p += increment;
-	drivetrain.getAngle();
+	CommandBase::drivetrain.getAngle();
 
 
 }
@@ -38,8 +38,8 @@ void PIDTuning::Interrupted() {
 
 }
 
-void PIDTuning::findStableOscillation(){
-	double angle = drivetrain.getAngle();
+bool PIDTuning::findStableOscillation(){
+	double angle = CommandBase::drivetrain.getAngle();
 
 	if(angle >= previousAngle){
 		potentialPeak = true;
@@ -48,12 +48,24 @@ void PIDTuning::findStableOscillation(){
 		potentialPeak = false;
 	}
 
+	double error = PIDTuning::findPeakError();
+	if(error >= 0 && error <= tolerance){
+		return true;
+	}else{
+		return false;
+	}
+
 }
 
 double PIDTuning::findPeakError(){
-	if(peaks.size() != peaksToCompare){
+	if(peaks.size() <= peaksToCompare){
 		return -1;
 	}
+	double minPeak = *std::min_element(peaks.begin(),peaks.end());
+	double maxPeak = *std::max_element(peaks.begin(),peaks.end());
+	double peakError = ((maxPeak - minPeak)/maxPeak) * 100;
+	return peakError;
+
 }
 
 void PIDTuning::getPreferences() {

@@ -15,7 +15,7 @@ public:
 private:
 	void checkKeys();
 	void getPreferences();
-	void findStableOscillation();
+	bool findStableOscillation();
 	double findPeakError();
 
 	double time;
@@ -29,7 +29,7 @@ private:
 	double previousAngle;
 	bool potentialPeak;
 
-	vector<double> peaks;
+	std::vector<double> peaks;
 
 	int peaksToCompare;
 };
