@@ -26,21 +26,18 @@ void Robot::RobotInit(){
 	initialPosition.AddObject("Right", 3);
 
 	SmartDashboard::PutData("Position", &initialPosition);
-	if(!Preferences::GetInstance()->ContainsKey("Scale Far")){
-		Preferences::GetInstance()->PutBoolean("Scale Far", false);
+	if(!Preferences::GetInstance()->ContainsKey("Far Scale")){
+		Preferences::GetInstance()->PutBoolean("Far Scale", false);
 	}
 	if(!Preferences::GetInstance()->ContainsKey("Scale")){
 		Preferences::GetInstance()->PutBoolean("Scale", false);
-	}
-	if(!Preferences::GetInstance()->ContainsKey("Scale Far")){
-		Preferences::GetInstance()->PutBoolean("Scale Far", false);
 	}
 
 	if(!Preferences::GetInstance()->ContainsKey("Switch")){
 		Preferences::GetInstance()->PutBoolean("Switch", false);
 	}
-	if(!Preferences::GetInstance()->ContainsKey("Switch Far")){
-		Preferences::GetInstance()->PutBoolean("Switch Far", false);
+	if(!Preferences::GetInstance()->ContainsKey("Far Switch")){
+		Preferences::GetInstance()->PutBoolean("Far Switch", false);
 	}
 }
 

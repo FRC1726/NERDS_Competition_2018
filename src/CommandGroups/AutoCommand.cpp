@@ -265,10 +265,10 @@ void AutoCommand::baselineMiddle(char switchPos){
 }
 
 void AutoCommand::getPreferences(){
-	scaleTargetFar = Preferences::GetInstance()->GetBoolean("Scale Far", false);
+	scaleTargetFar = Preferences::GetInstance()->GetBoolean("Far Scale", false);
 	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
 	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
-	switchTargetFar = Preferences::GetInstance()->GetBoolean("Switch Far", false);
+	switchTargetFar = Preferences::GetInstance()->GetBoolean("Far Switch", false);
 }
 
 void AutoCommand::checkKeys(){
@@ -293,7 +293,7 @@ void AutoCommand::checkKeys(){
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Timeout", 90);
 	}
 
-	//Scale Far Values
+	// Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 1/Value", 250);
 	}
