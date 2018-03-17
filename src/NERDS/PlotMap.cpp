@@ -36,27 +36,27 @@ std::vector<PolarNum> PlotMap::generatePath(Cartesian source, Cartesian destinat
 	std::vector<PolarNum> movementPath;
 
 	if(!isValid(source_x, source_y)){
-		DriverStation::ReportWarning("Source Is Out Of Bounds!!!");
+		DriverStation::ReportWarning("Source Is Out Of Bounds!!!\n");
 		return movementPath;
 	}
 
 	if(!isValid(destination_x, destination_y)){
-		DriverStation::ReportWarning("Destination Is Out Of Bounds!!!");
+		DriverStation::ReportWarning("Destination Is Out Of Bounds!!!\n");
 		return movementPath;
 	}
 
 	if(isBlocked(source_x, source_y)){
-		DriverStation::ReportWarning("Source Is Blocked!!!");
+		DriverStation::ReportWarning("Source Is Blocked!!!\n");
 		return movementPath;
 	}
 
 	if(isBlocked(destination_x, destination_y)){
-		DriverStation::ReportWarning("Destination Is Blocked!!!");
+		DriverStation::ReportWarning("Destination Is Blocked!!!\n");
 		return movementPath;
 	}
 
 	if(source == destination){
-		DriverStation::ReportWarning("Already At Destination!!!");
+		DriverStation::ReportWarning("Already At Destination!!!\n");
 		return movementPath;
 	}
 
