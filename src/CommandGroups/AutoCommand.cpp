@@ -29,30 +29,32 @@ AutoCommand::AutoCommand(int pos) {
 	}
 
 	if (initialPosition == 1 || initialPosition == 3){
-			if(switchTarget && !scale){
-				if(gameData[0] == near){
-					switchNear(initialPosition);
-				}else if(gameData[0] == far && farTarget){
-					switchFar(initialPosition);
-				}else{
-					baseline(initialPosition);
-				}
-			}else if(scale){
-				if(gameData[1] == near){
-					scaleNear(initialPosition);
-				}else if(gameData[1] == far && farTarget){
-					scaleFar(initialPosition);
-				}else{
-					baseline(initialPosition);
-				}
-			}else{
-				baseline(initialPosition);
+		if(switchTarget){
+			if(gameData[0] == near){
+				switchNear(initialPosition);
+				return;
+			}else if(gameData[0] == far && switchTargetFar){
+				switchFar(initialPosition);
+				return;
 			}
-	}else{
+		}
 		if(scale){
-			scaleMiddle(gameData[1]);
-		}else if(switchTarget){
+			if(gameData[1] == near){
+				scaleNear(initialPosition);
+				return;
+			}else if(gameData[1] == far && switchTargetFar){
+				scaleFar(initialPosition);
+				return;
+			}
+		}
+		baseline(initialPosition);
+		return;
+	}else{
+
+		if(switchTarget){
 			switchMiddle(gameData[0]);
+		}else if(scale){
+			scaleMiddle(gameData[1]);
 		}else{
 			baselineMiddle(gameData[0]);
 		}
@@ -263,9 +265,10 @@ void AutoCommand::baselineMiddle(char switchPos){
 }
 
 void AutoCommand::getPreferences(){
-	farTarget = Preferences::GetInstance()->GetBoolean("FarTarget", false);
+	scaleTargetFar = Preferences::GetInstance()->GetBoolean("Far Scale", false);
 	scale = Preferences::GetInstance()->GetBoolean("Scale", false);
 	switchTarget = Preferences::GetInstance()->GetBoolean("Switch", false);
+	switchTargetFar = Preferences::GetInstance()->GetBoolean("Far Switch", false);
 }
 
 void AutoCommand::checkKeys(){
@@ -290,7 +293,7 @@ void AutoCommand::checkKeys(){
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Timeout", 90);
 	}
 
-	//Scale Far Values
+	// Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 1/Value", 250);
 	}

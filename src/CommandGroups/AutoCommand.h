@@ -8,9 +8,10 @@ class AutoCommand : public CommandGroup {
 public:
 	AutoCommand(int);
 private:
-	bool farTarget;
+	bool scaleTargetFar;
 	bool scale;
 	bool switchTarget;
+	bool switchTargetFar;
 	int initialPosition;
 
 	void scaleNear(int);
