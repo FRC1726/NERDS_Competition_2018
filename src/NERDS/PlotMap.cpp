@@ -61,7 +61,9 @@ std::vector<PolarNum> PlotMap::generatePath(Cartesian source, Cartesian destinat
 	}
 
 	bool closedList[_pathingGrid.size()][_pathingGrid[0].size()] = {false};
+
 	std::set<std::pair<double, std::pair<int, int> > > openList;
+
 	openList.insert(std::make_pair(0.0, std::make_pair(source_x, source_y)));
 
 	while(!openList.empty()){
