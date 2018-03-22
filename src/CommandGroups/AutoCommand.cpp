@@ -194,16 +194,18 @@ void AutoCommand::scaleMiddle(char scale){
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/scaleMiddle/Turn 3/Timeout", 90);
 	double wait = Preferences::GetInstance()->GetDouble("Auto/ScaleMiddle/Toggle Arm/Wait", 90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/scale/Scale Wrist Angle", 90);
+	double rightOffset = Preferences::GetInstance()->GetDouble("Auto/Right Offset", 0);
 
 	int sign = -1;
 
 	if(scale == 'L'){
 		sign = 1;
+		rightOffset = -rightOffset;
 	}
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
-	AddSequential(new DriveByDistance(D2, timeout_D2));
+	AddSequential(new DriveByDistance(D2 - rightOffset, timeout_D2));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
 	AddSequential(new ToggleArm());
 	AddSequential(new nerd::Wait(wait));
@@ -228,16 +230,18 @@ void AutoCommand::switchMiddle(char switchPos){
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 2/Timeout", 90);
 	double timeout_T3 = Preferences::GetInstance()->GetDouble("Auto/switchMiddle/Turn 3/Timeout", 90);
 	double autoWrist = Preferences::GetInstance()->GetDouble("Auto/switch/Switch Wrist Angle", 90);
+	double rightOffset = Preferences::GetInstance()->GetDouble("Auto/Right Offset", 0);
 
 	int sign = -1;
 
 	if(switchPos == 'L'){
 		sign = 1;
+		rightOffset = -rightOffset;
 	}
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
 	AddSequential(new TurnByAngle(sign * T1, timeout_T1));
-	AddSequential(new DriveByDistance(D2, timeout_D2));
+	AddSequential(new DriveByDistance(D2 - rightOffset, timeout_D2));
 	AddSequential(new TurnByAngle(sign * T2, timeout_T2));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 	AddSequential(new TurnByAngle(sign * T3, timeout_T3));
@@ -256,10 +260,11 @@ void AutoCommand::baselineMiddle(char switchPos){
 	double timeout_D3 = Preferences::GetInstance()->GetDouble("Auto/baselineMiddle/Drive By Distance 3/Timeout", 19.5);
 	double timeout_T1 = Preferences::GetInstance()->GetDouble("Auto/baselineMiddle/Turn 1/Timeout", 90);
 	double timeout_T2 = Preferences::GetInstance()->GetDouble("Auto/baselineMiddle/Turn 2/Timeout", -90);
+	double rightOffset = Preferences::GetInstance()->GetDouble("Auto/Right Offset", 0);
 
 	AddSequential(new DriveByDistance(D1, timeout_D1));
 	AddSequential(new TurnByAngle(T1, timeout_T1));
-	AddSequential(new DriveByDistance(D2, timeout_D2));
+	AddSequential(new DriveByDistance(D2 - rightOffset, timeout_D2));
 	AddSequential(new TurnByAngle(T2, timeout_T2));
 	AddSequential(new DriveByDistance(D3, timeout_D3));
 }
@@ -481,7 +486,7 @@ void AutoCommand::checkKeys(){
 
 	//Baseline Middle Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 1/Value")) {
-		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 1", 19.5);
+		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 1/Value", 19.5);
 	}
 	if (!Preferences::GetInstance()->ContainsKey("Auto/baselineMiddle/Drive By Distance 2/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/baselineMiddle/Drive By Distance 2/Value", 91.50);
@@ -528,5 +533,9 @@ void AutoCommand::checkKeys(){
 	//Switch Wrist Angle
 	if (!Preferences::GetInstance()->ContainsKey("Auto/switch/Switch Wrist Angle")) {
 		Preferences::GetInstance()->PutDouble("Auto/switch/Switch Wrist Angle", 10);
+	}
+	//Right Offset
+	if (!Preferences::GetInstance()->ContainsKey("Auto/Right Offset")) {
+		Preferences::GetInstance()->PutDouble("Auto/Right Offset", 0);
 	}
 }
