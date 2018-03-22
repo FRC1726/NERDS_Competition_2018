@@ -22,6 +22,8 @@ private:
 
 	bool isValid(int, int);
 	bool isBlocked(int, int);
+
+	double computeMovementCost();
 };
 
 #endif /* SRC_NERDS_PLOTMAP_H_ */
