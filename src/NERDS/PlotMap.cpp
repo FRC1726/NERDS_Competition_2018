@@ -70,14 +70,19 @@ std::vector<PolarNum> PlotMap::generatePath(Cartesian source, Cartesian destinat
 
 		int x = openList.second.first;
 		int y = openList.second.second;
-		closedList[x][y];
+		closedList[x][y] = true;
 
 		double g, h, f;
 
 		for(int i = -1; i <= 1; i++){
-			for(int j = -1; int j <= 1; j++){
-				if(isValid(x + i, y + j) && (i != 0 || j != 0)){
+			for(int j = -1; j <= 1; j++){// basically iterates through adjacent squares
+				if(isValid(x + i, y + j) && !closedList[x + i][y + i]){
+					//compute movement cost
+					// add to open list (as long as it's not on the closed list)
+					double moveCost = PlotMap::computeMovementCost(); //will calculate movement cost when i figure out what it takes
+					openList.insert(std::make_pair(moveCost, std::make_pair(x, y)));//adds cost and position too open list
 
+					}
 				}
 			}
 		}
@@ -90,4 +95,8 @@ bool PlotMap::isValid(int x, int y){
 
 bool PlotMap::isBlocked(int x, int y){
 	return _pathingGrid[x][y] == 0;
+}
+
+double PlotMap::computeMovementCost(int, int){
+
 }
