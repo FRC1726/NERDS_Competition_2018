@@ -6,7 +6,7 @@ InitWrist::InitWrist() {
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 	checkKeys();
-	SetRunWhenDisabled(true);
+	SetRunWhenDisabled(false);
 	SetInterruptible(false);
 }
 
