@@ -29,13 +29,13 @@ bool InitWrist::IsFinished() {
 
 // Called once after isFinished returns true
 void InitWrist::End() {
-	grabber.SimpleWristControl(0);
+	//grabber.SimpleWristControl(0);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void InitWrist::Interrupted() {
-	grabber.SimpleWristControl(0);
+	//grabber.SimpleWristControl(0);
 }
 
 void InitWrist::getPreferences(){

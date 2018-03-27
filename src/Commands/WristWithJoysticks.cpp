@@ -21,7 +21,20 @@ void WristWithJoysticks::Execute() {
 
 	double speed = movementProfile(RT - LT);
 
-	grabber.SetWrist(grabber.wristSetPoint() + speed);
+
+	double newAngle= grabber.wristSetPoint() + speed;
+
+	if(newAngle > angle) {
+		newAngle = angle;
+	}
+	if(newAngle < 0) {
+			newAngle = 0;
+	}
+
+	SmartDashboard::PutNumber("Wrist Setpoint", newAngle);
+
+
+	grabber.SetWrist(newAngle);
 }
 
 // Make this return true when this Command no longer needs to run execute()
@@ -31,13 +44,13 @@ bool WristWithJoysticks::IsFinished() {
 
 // Called once after isFinished returns true
 void WristWithJoysticks::End() {
-	grabber.SimpleWristControl(0);
+	//grabber.SimpleWristControl(0);
 }
 
 // Called when another command which requires one or more of the same
 // subsystems is scheduled to run
 void WristWithJoysticks::Interrupted() {
-	grabber.SimpleWristControl(0);
+	//grabber.SimpleWristControl(0);
 }
 
 void WristWithJoysticks::getPreferences(){
@@ -45,7 +58,14 @@ void WristWithJoysticks::getPreferences(){
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
 	deadzone = Preferences::GetInstance()->GetDouble("Wrist/Deadzone", 0.025);
 
-	grabber.SetMaxSpeed(maxSpeed);
+	double p = Preferences::GetInstance()->GetDouble("Wrist/P", 0.1);
+	double i = Preferences::GetInstance()->GetDouble("Wrist/I", 0.0);
+	double d = Preferences::GetInstance()->GetDouble("Wrist/D", 0.0);
+	double f = Preferences::GetInstance()->GetDouble("Wrist/F", 0.0);
+
+	grabber.SetPID(f, p, i, d);
+
+	grabber.SetMaxSpeed(1);
 }
 
 void WristWithJoysticks::checkKeys(){
