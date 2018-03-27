@@ -7,7 +7,8 @@
 Grabber::Grabber() : Subsystem("Grabber"),
 	wrist(WRIST_ID),
 	claw(CLAW_FORWARD, CLAW_BACKWARD),
-	elevator(ELEVATOR_FORWARD, ELEVATOR_BACKWARD)
+	elevator(ELEVATOR_FORWARD, ELEVATOR_BACKWARD),
+	setPointAngle(0)
 {
 	claw.Set(DoubleSolenoid::kReverse);
 	elevator.Set(DoubleSolenoid::kForward);
@@ -46,9 +47,14 @@ double Grabber::getWristAngle(){
 }
 
 void Grabber::SetWrist(double target){
+	setPointAngle = target;
 	target = -((4096 / 120) * target);
 
 	wrist.Set(ctre::phoenix::motorcontrol::ControlMode::Position, target);
+}
+
+double Grabber::wristSetPoint(){
+	return setPointAngle;
 }
 
 void Grabber::SimpleWristControl(double spd){

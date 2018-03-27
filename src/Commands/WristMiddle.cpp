@@ -46,7 +46,7 @@ void WristMiddle::getPreferences(){
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Middle Angle", 120);
 
 	grabber.SetPID(f, p, i, d);
-	grabber.SetMaxSpeed(maxSpeed);
+	grabber.SetMaxSpeed(1);
 }
 
 void WristMiddle::checkKeys(){
