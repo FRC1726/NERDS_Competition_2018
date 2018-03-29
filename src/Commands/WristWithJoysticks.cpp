@@ -21,8 +21,9 @@ void WristWithJoysticks::Execute() {
 
 	double speed = movementProfile(RT - LT);
 
+	double currentAngle = grabber.wristSetPoint();
 
-	double newAngle= grabber.wristSetPoint() + speed;
+	double newAngle = grabber.wristSetPoint() + speed;
 
 	if(newAngle > angle) {
 		newAngle = angle;
@@ -32,7 +33,7 @@ void WristWithJoysticks::Execute() {
 	}
 
 	SmartDashboard::PutNumber("Wrist Setpoint", newAngle);
-
+	SmartDashboard::PutNumber("Wrist Angle", currentAngle);
 
 	grabber.SetWrist(newAngle);
 }

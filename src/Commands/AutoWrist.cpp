@@ -68,4 +68,7 @@ void AutoWrist::checkKeys() {
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Angle Range")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Wrist Angle Range", 2.5);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Current Angle")) {
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Current Angle", 2.5);
+	}
 }

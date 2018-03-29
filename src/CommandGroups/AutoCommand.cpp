@@ -298,7 +298,7 @@ void AutoCommand::checkKeys(){
 		Preferences::GetInstance()->PutDouble("Auto/scaleNear/Turn 1/Timeout", 90);
 	}
 
-	// Values
+	// Scale Far Values
 	if (!Preferences::GetInstance()->ContainsKey("Auto/scaleFar/Drive By Distance 1/Value")) {
 		Preferences::GetInstance()->PutDouble("Auto/scaleFar/Drive By Distance 1/Value", 250);
 	}
