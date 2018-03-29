@@ -46,7 +46,7 @@ double Grabber::getWristAngle(){
 	return -WristAngle / 4096 * 120;
 }
 
-void Grabber::SetWrist(double target){
+void Grabber::SetWrist(int target){
 	setPointAngle = target;
 	target = -((4096 / 120) * target);
 

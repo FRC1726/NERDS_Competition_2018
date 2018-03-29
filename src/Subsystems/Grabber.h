@@ -17,7 +17,7 @@ public:
 	void SetMaxSpeed(double);
 	void SetPID(double, double, double, double);
 	double getWristAngle();
-	void SetWrist(double);
+	void SetWrist(int);
 	double wristSetPoint();
 	void SimpleWristControl(double);
 
