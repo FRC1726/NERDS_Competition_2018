@@ -12,6 +12,7 @@ NodeMap::NodeMap() {
 	_nodes.push_back(_currentNode);
 
 	//Create map layout here
+
 }
 
 NodeMap::~NodeMap() {
