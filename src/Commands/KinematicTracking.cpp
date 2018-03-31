@@ -4,7 +4,7 @@
 #include <SmartDashboard/SmartDashboard.h>
 
 
-KinematicTracking::KinematicTracking(PolarNum position, double angle){
+KinematicTracking::KinematicTracking(Polar position, double angle){
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	currentPosition = position;
@@ -27,7 +27,7 @@ void KinematicTracking::Initialize() {
 
 // Called repeatedly when this Command is scheduled to run
 void KinematicTracking::Execute() {
-	PolarNum posChange = calculateVector();
+	Polar posChange = calculateVector();
 	SmartDashboard::PutNumber("Tracking/Test/PosChangeX", posChange.toCartesian().getX());
 	SmartDashboard::PutNumber("Tracking/Test/PosChangeY", posChange.toCartesian().getY());
 	currentPosition = currentPosition + posChange;
@@ -56,7 +56,7 @@ void KinematicTracking::Interrupted() {
 	timer.Reset();
 }
 
-PolarNum KinematicTracking::calculateVector() {
+Polar KinematicTracking::calculateVector() {
 	double velocityRight = drivetrain.getVelocity(DriveTrain::kRight);
 	double velocityLeft = drivetrain.getVelocity(DriveTrain::kLeft);
 	SmartDashboard::PutNumber("Tracking/Test/VR", velocityRight);
@@ -79,7 +79,7 @@ PolarNum KinematicTracking::calculateVector() {
 	}
 	SmartDashboard::PutNumber("Tracking/Test/mag", mag);
 
-	PolarNum out(mag, angle * 180 / 3.14159);
+	Polar out(mag, angle * 180 / 3.14159);
 	return out;
 }
 

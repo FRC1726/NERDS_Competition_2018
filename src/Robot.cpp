@@ -1,17 +1,16 @@
 #include "Robot.h"
 
 #include <Commands/Scheduler.h>
+#include <NERDS/Polar.h>
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
-#include<NERDS/PolarNum.h>
-
 #include "Commands/InitClaw.h"
 #include "CommandGroups/AutoCommand.h"
 #include "Commands/KinematicTracking.h"
 
 void Robot::RobotInit(){
 	initClaw.reset(new InitClaw);
-	PolarNum initialPos;
+	Polar initialPos;
 	tracking.reset(new KinematicTracking(initialPos, 0));
 
 	initClaw->Start();

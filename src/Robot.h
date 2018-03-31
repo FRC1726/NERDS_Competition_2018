@@ -5,6 +5,7 @@
 #include <Commands/Command.h>
 #include <IterativeRobot.h>
 #include <SmartDashboard/SendableChooser.h>
+#include <NERDS/NodeMap.h>
 
 class Robot: public frc::IterativeRobot {
 public:
@@ -21,6 +22,8 @@ private:
 	std::shared_ptr<Command> tracking;
 	std::shared_ptr<Command> autonomousCommand;
 	frc::SendableChooser<int> initialPosition;
+
+	static NodeMap map;
 };
 
 #endif //ROBOT_H

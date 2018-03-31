@@ -1,6 +1,8 @@
 #ifndef SRC_NERDS_OBSTACLE_H_
 #define SRC_NERDS_OBSTACLE_H_
 
+#include <NERDS/Cartesian.h>
+
 class Obstacle {
 public:
 	Obstacle(Cartesian);

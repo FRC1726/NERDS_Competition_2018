@@ -3,7 +3,7 @@
 
 #include <utility>
 
-class PolarNum;
+class Polar;
 
 class Cartesian {
 public:
@@ -17,7 +17,7 @@ public:
 	Cartesian operator/(const Cartesian&);
 	Cartesian operator*(const Cartesian&);
 
-	PolarNum toPolar() const;
+	Polar toPolar() const;
 private:
 	double _x;
 	double _y;

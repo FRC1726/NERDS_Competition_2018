@@ -1,17 +1,17 @@
 #ifndef KinematicTracking_H
 #define KinematicTracking_H
 
+#include <NERDS/Polar.h>
 #include "../CommandBase.h"
-#include <utility.h>
+#include <utility>
 
-#include "NERDS/PolarNum.h"
 #include "NERDS/Cartesian.h"
 
 #include <Timer.h>
 
 class KinematicTracking : public CommandBase {
 public:
-	KinematicTracking(PolarNum, double);
+	KinematicTracking(Polar, double);
 	KinematicTracking(Cartesian, double);
 	void Initialize();
 	void Execute();
@@ -19,12 +19,12 @@ public:
 	void End();
 	void Interrupted();
 private:
-	PolarNum currentPosition;
+	Polar currentPosition;
 	double currentAngle;
 	Timer timer;
 	double previousTime;
 
-	PolarNum calculateVector();
+	Polar calculateVector();
 	double calculateAngle();
 
 	double getTime();
