@@ -15,6 +15,9 @@ public:
 	Polar operator*(const Polar&);
 
 	Cartesian toCartesian() const;
+
+	double getAngle();
+	double getMagnitude();
 private:
 	double magnitude;
 	double angle;

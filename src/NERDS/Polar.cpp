@@ -45,4 +45,10 @@ Cartesian Polar::toCartesian() const{
 	return out;
 }
 
+double Polar::getAngle(){
+	return angle * 180 / 3.14159;
+}
 
+double Polar::getMagnitude(){
+	return magnitude;
+}
