@@ -2,15 +2,15 @@
 
 #include <algorithm>
 #include <cmath>
-#include <utility>
 #include <set>
 
+struct CompareNodes{
+	Node* operator()(Node* lhs, Node* rhs){
+		return lhs->getCost() < rhs->getCost() ? lhs : rhs;
+	}
+};
+
 NodeMap::NodeMap() {
-	//Default Position (Mid)
-	_currentNode = new Node(1, 1);
-
-	_nodes.push_back(_currentNode);
-
 	//Create map layout here
 
 }
@@ -21,11 +21,6 @@ NodeMap::~NodeMap() {
 		for(auto node : nodesCopy){
 			delete node;
 		}
-}
-
-std::vector<Polar> NodeMap::generatePath(Cartesian target) {
-	Cartesian source = _currentNode->getCoordinates();
-	return generatePath(source, target);
 }
 
 std::vector<Polar> NodeMap::generatePath(Cartesian source, Cartesian target){
@@ -49,17 +44,11 @@ std::vector<Polar> NodeMap::generatePath(Cartesian source, Cartesian target){
 		end = nextNode;
 	}
 
+	path.push_back(currentPosition - source.toPolar());
+
 	std::reverse(path.begin(), path.end());
 
 	return path;
-}
-
-void NodeMap::setPosition(Cartesian position){
-	_currentNode = findClosestNode(position);
-}
-
-Cartesian NodeMap::getPosition(){
-	return _currentNode->getCoordinates();
 }
 
 Node* NodeMap::findClosestNode(Cartesian position){
@@ -88,15 +77,17 @@ Node* NodeMap::findClosestNode(Cartesian position){
 }
 
 Node* NodeMap::findPath(Node* source, Node* target){
-	std::set<std::pair<double, Node*> > openList;
+	std::set<Node*, CompareNodes> openList;
 	std::vector<Node*> closedList;
 
-	openList.insert(std::make_pair<double, Node*&>(0, source));
+	source->setCost(0);
+
+	openList.insert(source);
 
 	Node* currentNode;
 
 	while(!openList.empty()){
-		currentNode = openList.begin()->second;
+		currentNode = *(openList.begin());
 
 		if(currentNode == target){
 			return currentNode;
@@ -106,13 +97,27 @@ Node* NodeMap::findPath(Node* source, Node* target){
 		closedList.push_back(currentNode);
 
 		for(auto connection : currentNode->getConnections()){
-			auto closedIterator = std::find(closedList.begin(), closedList.end(), connection);
-			if(closedIterator != closedList.end()){
+			if(std::find(closedList.begin(), closedList.end(), connection) != closedList.end()){
 				continue;
 			}
 
-			connection->setParent(currentNode);
-			openList.insert(std::make_pair<double, Node*&>(connection->computeCost(currentNode, target), connection));
+			double cost = connection->computeCost(currentNode, target);
+
+			if(openList.find(connection) != openList.end()){
+
+				if(cost < connection->getCost()){
+					connection->setCost(cost);
+					connection->setParent(currentNode);
+
+					openList.erase(connection);
+					openList.insert(connection);
+				}
+			}else{
+				connection->setCost(cost);
+				connection->setParent(currentNode);
+
+				openList.insert(connection);
+			}
 		}
 	}
 

@@ -7,6 +7,7 @@ Node::Node(double x, double y, double cost) :
 	_x(x),
 	_y(y),
 	_costMultiplier(cost),
+	_cost(0),
 	_parent()
 {
 
@@ -48,12 +49,24 @@ bool Node::removeConnection(Node* connection)
 	return false;
 }
 
-double Node::computeCost(const Node* connection, const Node* target)
+double Node::computeCost(Node* connection, Node* target)
 {
 	double connectionDistance = sqrt(pow(connection->_x - this->_x, 2) + pow(connection->_y - this->_y, 2));
+	connectionDistance *= _costMultiplier;
+
 	double targetDistance = sqrt(pow(target->_x - connection->_x, 2) + pow(target->_y - connection->_y, 2));
 
-	return (connectionDistance + targetDistance) * _costMultiplier;
+	double previousPath = connection->getCost();
+
+	return connectionDistance + targetDistance + previousPath;
+}
+
+void Node::setCost(double cost){
+	_cost = cost;
+}
+
+double Node::getCost(){
+	return _cost;
 }
 
 void Node::setParent(Node* parent)

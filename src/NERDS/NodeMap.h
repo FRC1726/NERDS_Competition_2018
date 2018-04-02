@@ -11,14 +11,9 @@ public:
 	NodeMap();
 	~NodeMap();
 
-	std::vector<Polar> generatePath(Cartesian);
 	std::vector<Polar> generatePath(Cartesian, Cartesian);
-
-	void setPosition(Cartesian);
-	Cartesian getPosition();
 private:
 	std::vector<Node*> _nodes;
-	Node* _currentNode;
 
 	Node* findClosestNode(Cartesian);
 	Node* findPath(Node*, Node*);

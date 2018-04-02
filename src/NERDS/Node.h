@@ -18,11 +18,16 @@ public:
 	std::vector<Node*> getConnections();
 
 	Cartesian getCoordinates();
-	double computeCost(const Node*, const Node*);
+	double computeCost(Node*, Node*);
+
+	void setCost(double);
+	double getCost();
 
 private:
 	double _x, _y;
 	double _costMultiplier;
+
+	double _cost;
 
 	std::vector<Node*> _connections;
 	Node* _parent;
