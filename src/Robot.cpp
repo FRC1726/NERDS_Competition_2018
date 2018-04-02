@@ -1,19 +1,21 @@
+#include <Commands/InitWrist.h>
 #include "Robot.h"
 
 #include <Commands/Scheduler.h>
 #include <NERDS/Polar.h>
 #include <Preferences.h>
 #include<SmartDashboard/SmartDashboard.h>
-#include "Commands/InitClaw.h"
+
+#include <DriverStation.h>
+
+#include "CommandBase.h"
+#include <string>
+#include <iostream>
 #include "CommandGroups/AutoCommand.h"
-#include "Commands/KinematicTracking.h"
 
 void Robot::RobotInit(){
-	initClaw.reset(new InitClaw);
-	Polar initialPos;
-	tracking.reset(new KinematicTracking(initialPos, 0));
-
-	initClaw->Start();
+	//initClaw.reset(new InitWrist);
+	//initClaw->Start();
 
 	auto camera = CameraServer::GetInstance()->StartAutomaticCapture();
 	camera.SetResolution(640, 480);
@@ -23,26 +25,44 @@ void Robot::RobotInit(){
 	initialPosition.AddObject("Right", 3);
 
 	SmartDashboard::PutData("Position", &initialPosition);
-
-	if(!Preferences::GetInstance()->ContainsKey("FarTarget")){
-		Preferences::GetInstance()->PutBoolean("FarTarget", false);
+	if(!Preferences::GetInstance()->ContainsKey("Far Scale")){
+		Preferences::GetInstance()->PutBoolean("Far Scale", false);
 	}
 	if(!Preferences::GetInstance()->ContainsKey("Scale")){
 		Preferences::GetInstance()->PutBoolean("Scale", false);
 	}
+
 	if(!Preferences::GetInstance()->ContainsKey("Switch")){
 		Preferences::GetInstance()->PutBoolean("Switch", false);
 	}
-
+	if(!Preferences::GetInstance()->ContainsKey("Far Switch")){
+		Preferences::GetInstance()->PutBoolean("Far Switch", false);
+	}
 }
 
+/**
+ * This function is called once each time the robot enters Disabled mode.
+ * You can use it to reset any subsystem information you want to clear when
+ * the robot is disabled.
+ */
 void Robot::DisabledInit(){
-	CommandBase::winch.setRelease(false);//sets the Winch release to a known state
 }
+
 void Robot::DisabledPeriodic(){
 	frc::Scheduler::GetInstance()->Run();
 }
 
+/**
+ * This autonomous (along with the chooser code above) shows how to select
+ * between different autonomous modes using the dashboard. The sendable
+ * chooser code works with the Java SmartDashboard. If you prefer the
+ * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+ * GetString code to get the auto name from the text box below the Gyro.
+ *
+ * You can add additional auto modes by adding additional commands to the
+ * chooser code above (like the commented example) or additional comparisons
+ * to the if-else structure below with additional strings & commands.
+ */
 void Robot::AutonomousInit(){
 	autonomousCommand.reset(new AutoCommand(initialPosition.GetSelected()));
 
@@ -56,8 +76,11 @@ void Robot::AutonomousPeriodic(){
 }
 
 void Robot::TeleopInit(){
-	tracking->Start();
 	//Stops the autonomous command once teleop is enabled. Remove this if you want the commands to continue to run
+	// This makes sure that the autonomous stops running when
+	// teleop starts running. If you want the autonomous to
+	// continue until interrupted by another command, remove
+	// this line or comment it out.
 	if (autonomousCommand != nullptr) {
 		autonomousCommand->Cancel();
 	}

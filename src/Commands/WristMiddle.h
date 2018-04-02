@@ -1,11 +1,11 @@
-#ifndef WristUp_H
-#define WristUp_H
+#ifndef WristMiddle_H
+#define WristMiddle_H
 
 #include "../CommandBase.h"
 
-class WristUp : public CommandBase {
+class WristMiddle : public CommandBase {
 public:
-	WristUp();
+	WristMiddle();
 	void Initialize();
 	void Execute();
 	bool IsFinished();
@@ -13,8 +13,9 @@ public:
 	void Interrupted();
 private:
 	double angle;
-	void getPreferences();
+
 	void checkKeys();
+	void getPreferences();
 };
 
-#endif  // WristUp_H
+#endif  // WristMiddle_H

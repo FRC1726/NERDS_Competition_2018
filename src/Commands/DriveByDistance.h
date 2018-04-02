@@ -2,7 +2,6 @@
 #define DriveByDistance_H
 
 #include <Timer.h>
-
 #include "../CommandBase.h"
 
 class DriveByDistance : public CommandBase {
@@ -18,6 +17,7 @@ private:
 	double maxSpeed;
 	double minSpeed;
 	double accelDistance;
+	double decelDistance;
 	double tolerance;
 
 	double leftInitial;

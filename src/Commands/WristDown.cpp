@@ -1,8 +1,9 @@
 #include "WristDown.h"
-
 #include <Preferences.h>
 
-WristDown::WristDown() : CommandBase("Wrist Down"){
+WristDown::WristDown() {
+	// Use Requires() here to declare subsystem dependencies
+	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
 	checkKeys();
 }
@@ -10,7 +11,7 @@ WristDown::WristDown() : CommandBase("Wrist Down"){
 // Called just before this Command runs the first time
 void WristDown::Initialize() {
 	getPreferences();
-	grabber.setWrist(angle);
+	grabber.SetWrist(angle);
 }
 
 // Called repeatedly when this Command is scheduled to run
@@ -20,7 +21,9 @@ void WristDown::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool WristDown::IsFinished() {
-	return true;
+	double wristRange = Preferences::GetInstance()->GetDouble("Wrist/Wrist Angle Range", 0.1);
+
+	return (grabber.getWristAngle() >= (angle - wristRange)) && (grabber.getWristAngle() <= (angle + wristRange));
 }
 
 // Called once after isFinished returns true
@@ -44,8 +47,8 @@ void WristDown::getPreferences(){
 
 	angle = Preferences::GetInstance()->GetDouble("Wrist/Wrist Down Angle", 1);
 
-	grabber.setPID(f, p, i, d);
-	grabber.setMaxSpeed(maxSpeed);
+	grabber.SetPID(f, p, i, d);
+	grabber.SetMaxSpeed(maxSpeed);
 }
 
 void WristDown::checkKeys(){
@@ -64,7 +67,10 @@ void WristDown::checkKeys(){
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
 		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
 	}
+	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Angle Range")) {
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Angle Range", 2.5);
+	}
 	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Down Angle")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Wrist Down Angle", 0.0);
+		Preferences::GetInstance()->PutDouble("Wrist/Wrist Down Angle", 0.1);
 	}
 }

@@ -2,19 +2,26 @@
 #define Grabber_H
 
 #include <Commands/Subsystem.h>
+
 #include <ctre/phoenix/MotorControl/CAN/WPI_TalonSRX.h>
+#include "RobotMap.h"
+
 #include <DoubleSolenoid.h>
+
 
 class Grabber : public Subsystem {
 public:
 	Grabber();
 	void InitDefaultCommand();
 
-	void setMaxSpeed(double);
-	void setPID(double, double, double, double);
-	void setWrist(double);
-	void simpleWristControl(double);
-	bool getLimitSwitch();
+	void SetMaxSpeed(double);
+	void SetPID(double, double, double, double);
+	double getWristAngle();
+	void SetWrist(double);
+	double wristSetPoint();
+	void SimpleWristControl(double);
+
+	bool GetLimitSwitch();
 	void SetReverseLimit(int);
 
 	DoubleSolenoid::Value getClaw();
@@ -26,8 +33,8 @@ private:
 	 ctre::phoenix::motorcontrol::can::WPI_TalonSRX wrist;
 
 	 DoubleSolenoid claw;
-	 DoubleSolenoid arm;
-
+	 DoubleSolenoid elevator;
+	 double setPointAngle;
 };
 
 #endif  // Grabber_H

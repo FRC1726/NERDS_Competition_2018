@@ -19,7 +19,6 @@ public:
 	void TestPeriodic() override;
 private:
 	std::shared_ptr<Command> initClaw;
-	std::shared_ptr<Command> tracking;
 	std::shared_ptr<Command> autonomousCommand;
 	frc::SendableChooser<int> initialPosition;
 
