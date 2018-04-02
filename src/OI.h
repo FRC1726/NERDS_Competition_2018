@@ -3,6 +3,8 @@
 
 #include <Joystick.h>
 #include <Buttons/JoystickButton.h>
+#include <vector>
+#include <NERDS/Polar.h>
 
 #include "Triggers/Dpad_Down.h"
 #include "Triggers/Dpad_Up.h"
@@ -23,6 +25,8 @@ private:
 
 	Dpad_Down d_Down;
 	Dpad_Up d_Up;
+
+	std::vector<Polar> path;
 };
 
 #endif  // OI_H

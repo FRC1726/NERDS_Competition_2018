@@ -7,6 +7,10 @@
 #include "Commands/ReelUp.h"
 #include "Commands/ReelDown.h"
 
+#include "CommandGroups/DriveThroughPath.h"
+#include "NERDS/NodeMap.h"
+#include "NERDS/Cartesian.h"
+
 OI::OI() :
 	driver(JOY_DRIVER),
 	driver_A(&driver, BUTTON_A),
@@ -23,6 +27,14 @@ OI::OI() :
 
 	d_Down.WhileActive(new ReelDown);
 	d_Up.WhileActive(new ReelUp);
+
+	Cartesian source(36,0);
+	Cartesian target(72,36);
+
+	NodeMap map;
+	path = map.generatePath(source, target);
+
+	SmartDashboard::PutData("Commands/Pathfinding", new DriveThroughPath(path));
 }
 
 double OI::getAxis(int axis){

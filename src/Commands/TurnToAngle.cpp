@@ -42,6 +42,8 @@ void TurnToAngle::Execute() {
 
 // Make this return true when this Command no longer needs to run execute()
 bool TurnToAngle::IsFinished() {
+	SmartDashboard::PutNumber("Pathfinding/TargetAngle", targetAngle);
+	SmartDashboard::PutNumber("Pathfinding/CurrentAngle", drivetrain.getAngle());
 	if(IsTimedOut()){
 		return true;
 	}

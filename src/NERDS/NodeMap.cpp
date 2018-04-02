@@ -12,7 +12,33 @@ struct CompareNodes{
 
 NodeMap::NodeMap() {
 	//Create map layout here
+	_nodes.push_back(new Node(0, 0)); //0
+	_nodes.push_back(new Node(36,0)); //1
+	_nodes.push_back(new Node(72, 0)); //2
+	_nodes.push_back(new Node(0, 36)); //3
+	_nodes.push_back(new Node(72, 36)); //4
+	_nodes.push_back(new Node(0, 72)); //5
+	_nodes.push_back(new Node(36, 72)); //6
+	_nodes.push_back(new Node(72, 72)); //7
 
+	_nodes[0]->addConnection(_nodes[1]);
+	_nodes[0]->addConnection(_nodes[3]);
+
+	//_nodes[1]->addConnection(_nodes[2]);
+	_nodes[1]->addConnection(_nodes[3]);
+	//_nodes[1]->addConnection(_nodes[4]);
+
+	_nodes[2]->addConnection(_nodes[4]);
+
+	_nodes[3]->addConnection(_nodes[5]);
+	_nodes[3]->addConnection(_nodes[6]);
+
+	_nodes[4]->addConnection(_nodes[6]);
+	_nodes[4]->addConnection(_nodes[7]);
+
+	_nodes[5]->addConnection(_nodes[6]);
+
+	_nodes[6]->addConnection(_nodes[7]);
 }
 
 NodeMap::~NodeMap() {
