@@ -66,7 +66,10 @@ bool DriveByDistance::IsFinished() {
 
 	double distanceToTarget = targetDistance - averageDistance;
 
-	if (fabs(distanceToTarget) < tolerance){
+	bool onDistance = fabs(distanceToTarget) < tolerance;
+	bool onAngle = drivetrain.onTarget();
+
+	if (onDistance && onAngle){
 		targetTimer.Start();
 		return targetTimer.HasPeriodPassed(time);
 	}else{
