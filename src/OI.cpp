@@ -16,6 +16,7 @@
 #include "Commands/ReelUp.h"
 #include "Commands/ReelDown.h"
 #include "Commands/DeleteNetworkTables.h"
+#include "Commands/CheckPreferences.h"
 
 
 OI::OI() :
@@ -39,6 +40,7 @@ OI::OI() :
 
 	//Dem Virtual Buttons! :)
 	SmartDashboard::PutData("Delete Network Tables", new DeleteNetworkTables);
+	SmartDashboard::PutData("Generate Preferences", new CheckPreferences);
 
 	SmartDashboard::PutData("Commands/Drive Straight", new DriveByDistance(120));
 	SmartDashboard::PutData("Commands/Turn By Angle", new TurnByAngle(90));

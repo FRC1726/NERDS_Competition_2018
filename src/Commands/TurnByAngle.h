@@ -25,7 +25,6 @@ private:
 	double time;
 
 	void getPreferences();
-	void checkKeys();
 	double makeContinuous(double);
 
 };

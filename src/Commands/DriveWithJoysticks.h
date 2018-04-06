@@ -20,7 +20,6 @@ private:
 	double currentSpd;
 	double driveProfile(double);
 	void getPreferences();
-	void checkKeys();
 };
 
 #endif  // DriveWithJoysticks_H

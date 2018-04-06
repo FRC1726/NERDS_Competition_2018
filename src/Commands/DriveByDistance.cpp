@@ -5,7 +5,6 @@
 
 DriveByDistance::DriveByDistance(double target_in, double timeOut) : CommandBase("DriveStraight") {
 	Requires(&drivetrain);
-	checkKeys();
 
 	if (timeOut > 0){
 		SetTimeout(timeOut);
@@ -133,42 +132,4 @@ void DriveByDistance::getPreferences() {
 
 	//Timer
 	time = Preferences::GetInstance()->GetDouble("Auto Drive/Target Timer", 2.0);
-}
-
-void DriveByDistance::checkKeys() {
-	//PID Values
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/P")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/P", 0.1);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/I")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/I", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/D")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/D", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Distance Tolerance")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Distance Tolerance", 1.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Angle Tolerance")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Angle Tolerance", 1.0);
-	}
-
-	//Drive Profile Values
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Max Speed", 1.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Min Speed")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Min Speed", 0.35);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Accel Distance")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Accel Distance", 12.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Decel Distance")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Decel Distance", 12.0);
-	}
-
-	//Timer
-	if (!Preferences::GetInstance()->ContainsKey("Auto Drive/Target Timer")) {
-		Preferences::GetInstance()->PutDouble("Auto Drive/Target Timer", 2.0);
-	}
 }

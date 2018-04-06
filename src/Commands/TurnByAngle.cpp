@@ -5,7 +5,6 @@
 
 TurnByAngle::TurnByAngle(double angle, double timeOut) {
 	Requires(&drivetrain);
-	checkKeys();
 
 	if (timeOut > 0){
 		SetTimeout(timeOut);
@@ -92,33 +91,6 @@ void TurnByAngle::getPreferences() {
 
 	//targetTime
 	time = Preferences::GetInstance()->GetDouble("Auto Turn/Target Time", 10);
-}
-
-void TurnByAngle::checkKeys() {
-	//PID Values
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/P")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/P", 0.1);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/I")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/I", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/D")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/D", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Angle Tolerance")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/Angle Tolerance", 1.0);
-	}
-
-	//Turn Speeds
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/Max Speed", 1);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Min Speed")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/Min Speed", 0.35);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Auto Turn/Target Time")) {
-		Preferences::GetInstance()->PutDouble("Auto Turn/Target Time", 10);
-	}
 }
 
 double TurnByAngle::makeContinuous(double input){

@@ -14,7 +14,6 @@ public:
 private:
 	double angle;
 
-	void checkKeys();
 	void getPreferences();
 };
 

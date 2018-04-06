@@ -5,7 +5,6 @@ DriveWithJoysticks::DriveWithJoysticks() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(chassis.get());
 	Requires(&drivetrain);
-	checkKeys();
 }
 
 // Called just before this Command runs the first time
@@ -75,20 +74,4 @@ void DriveWithJoysticks::getPreferences() {
 	minSpeed = Preferences::GetInstance()->GetDouble("Joysticks/Min Speed", 0.35);
 	deadzone = Preferences::GetInstance()->GetDouble("Joysticks/Deadzone", .025);
 	acceleration = Preferences::GetInstance()->GetDouble("Joysticks/acceleration", .025);
-}
-
-void DriveWithJoysticks::checkKeys() {
-	//Drive Profile Values
-	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Joysticks/Max Speed", 1.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Min Speed")) {
-		Preferences::GetInstance()->PutDouble("Joysticks/Min Speed", 0.35);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Joysticks/Deadzone")) {
-		Preferences::GetInstance()->PutDouble("Joysticks/Deadzone", .025);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Joysticks/acceleration")) {
-		Preferences::GetInstance()->PutDouble("Joysticks/acceleration", 1.0);
-	}
 }

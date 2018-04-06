@@ -5,7 +5,6 @@ InitWrist::InitWrist() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
-	checkKeys();
 	SetRunWhenDisabled(false);
 	SetInterruptible(false);
 }
@@ -40,10 +39,4 @@ void InitWrist::Interrupted() {
 
 void InitWrist::getPreferences(){
 	maxSpeed = Preferences::GetInstance()->GetDouble("Wrist/Max Speed", 1);
-}
-
-void InitWrist::checkKeys(){
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
-	}
 }

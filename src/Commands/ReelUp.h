@@ -13,7 +13,6 @@ public:
 	void Interrupted();
 private:
 	void getPreferences();
-	void checkKeys();
 	double reelSpeed;
 };
 

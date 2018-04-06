@@ -4,7 +4,6 @@ ReelDown::ReelDown() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&winch);
-	checkKeys();
 }
 
 // Called just before this Command runs the first time
@@ -35,10 +34,4 @@ void ReelDown::Interrupted() {
 
 void ReelDown::getPreferences(){
 	reelSpeed = Preferences::GetInstance()->GetDouble("Reel/Speed", 0.1);
-}
-
-void ReelDown::checkKeys(){
-	if (!Preferences::GetInstance()->ContainsKey("Reel/Speed")) {
-				Preferences::GetInstance()->PutDouble("Reel/Speed", 0.1);
-			}
 }

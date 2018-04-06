@@ -14,7 +14,6 @@ public:
 private:
 	double angle;
 	void getPreferences();
-	void checkKeys();
 };
 
 #endif  // WristUp_H

@@ -27,7 +27,6 @@ private:
 	void baselineMiddle(char);
 
 	void getPreferences();
-	void checkKeys();
 };
 
 #endif  // AutoCommand_H

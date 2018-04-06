@@ -30,7 +30,6 @@ private:
 
 	double driveProfile(double);
 	void getPreferences();
-	void checkKeys();
 };
 
 #endif  // DriveByDistance_H

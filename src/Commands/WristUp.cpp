@@ -5,7 +5,6 @@ WristUp::WristUp() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
-	checkKeys();
 }
 
 // Called just before this Command runs the first time
@@ -49,28 +48,4 @@ void WristUp::getPreferences(){
 
 	grabber.SetPID(f, p, i, d);
 	grabber.SetMaxSpeed(maxSpeed);
-}
-
-void WristUp::checkKeys(){
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/P")) {
-		Preferences::GetInstance()->PutDouble("Wrist/P", 0.1);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/I")) {
-		Preferences::GetInstance()->PutDouble("Wrist/I", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/D")) {
-		Preferences::GetInstance()->PutDouble("Wrist/D", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/F")) {
-		Preferences::GetInstance()->PutDouble("Wrist/F", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Up Angle")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Wrist Up Angle", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Angle Range")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Wrist Angle Range", 2.5);
-	}
 }

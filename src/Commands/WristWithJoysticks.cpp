@@ -5,7 +5,6 @@ WristWithJoysticks::WristWithJoysticks() {
 	// Use Requires() here to declare subsystem dependencies
 	// eg. Requires(Robot::chassis.get());
 	Requires(&grabber);
-	checkKeys();
 }
 
 // Called just before this Command runs the first time
@@ -66,18 +65,6 @@ void WristWithJoysticks::getPreferences(){
 	grabber.SetPID(f, p, i, d);
 
 	grabber.SetMaxSpeed(1);
-}
-
-void WristWithJoysticks::checkKeys(){
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Max Speed")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Max Speed", 1);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Wrist Down Angle")) {
-		Preferences::GetInstance()->PutDouble("Wrist/Wrist Down Angle", 0.0);
-	}
-	if (!Preferences::GetInstance()->ContainsKey("Wrist/Deadzone")) {
-			Preferences::GetInstance()->PutDouble("Wrist/Deadszone", 0.025);
-	}
 }
 
 double WristWithJoysticks::movementProfile(double input) {
